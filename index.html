@@ -1,0 +1,254 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1" > 
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link type="image/x-icon" rel="shortcut icon" href="./favicon.ico">
+  <link type="text/css" rel="stylesheet" href="js9support.css">
+  <link type="text/css" rel="stylesheet" href="js9.css">
+  <script type="text/javascript" src="js9prefs.js"></script>
+  <script type="text/javascript" src="js9support.min.js"></script>
+  <script type="text/javascript" src="js9.min.js"></script>
+  <script type="text/javascript" src="js9plugins.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <style type="text/css">
+      #centerdiv {
+      width: 512px;
+      margin-left: auto ;
+      margin-right: auto ;
+      }
+  </style>
+	
+	
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+     // google.charts.setOnLoadCallback(drawChart);
+	
+	var counter = 0;
+		 values = [
+          ['Time', 'Brightness'],
+
+        ]  
+      function drawChart() {
+		
+		  
+	//WE need to use .push to add the new data to the array.
+	//Rewrite this function
+	//we should be storing all data in 2 arrays dataBrightness[i] dataDate[i] and then drawing the graph once all 
+	//points have been found 
+	//Draw is not only drawing the graph but is also doing the math BAD!.
+	//Best option is to do the math and store the data in a single function <button onclick="storeValue()">storeValue</button>
+	//for i <= n plot dataBrightness[i]/dataDate[i] i++; n == lenght of the array dataBrightness/dataDate.
+	//also we need to set the bounds of the graph so the data is more clearly visable 
+	//this is why we want to wait to draw the graph untill we have all the needed data so we know the Max and Min values
+		
+		//values[counter][1] = (target.backgroundSubtractedResults[0].netCounts/((comp1.backgroundSubtractedResults[0].netCounts + comp2.backgroundSubtractedResults[0].netCounts)/2));
+	//values[counter][0] = datez[0].header.JD;
+		  
+
+		  values.push([datez[counter].header.JD, target.backgroundSubtractedResults[0].netCounts/((comp1.backgroundSubtractedResults[0].netCounts + comp2.backgroundSubtractedResults[0].netCounts)/2)])
+		
+		  
+
+		  
+		  
+		  
+
+		  
+	
+		  
+	
+		  
+        var stats = google.visualization.arrayToDataTable(values);
+
+        var options = {
+          title: 'Time vs. Brightness',
+          hAxis: {title: 'Time', minValue: datez[counter].header.JD, maxValue: datez[counter].header.JD},// time range should depend on our data EX: (dataDate.min -1) (dataDate.max +1)
+          vAxis: {title: 'Brightness', minValue: 1.4, maxValue: 1.6},// brightness range should depend on our data EX: (dataBrightness.min -1) //(dataBrightness.max +1)
+          legend: 'none'
+        };
+		counter++;
+
+
+        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+
+        chart.draw(stats, options);
+      }
+    </script>
+	
+	
+  <title>test</title>
+</head>
+<body>
+	<div id="chart_div" style="width: 900px; height: 500px;"></div>
+<h1>test</h1>
+
+<p>The onclick event is used to trigger a function when an element is clicked on.</p>
+
+<p>Click the button to trigger a function that will output "Hello World" in a p element with id="demo".</p>
+
+ 
+<button onclick="addRegion()">AddRegion</button>
+<button onclick="getBackground()">GetBackground</button>
+<button onclick="bscountsTargetStar()">bscountsTargetStar</button>
+<button onclick="bscountsCompStar1()">bscountsCompStar1</button>
+<button onclick="bscountsCompStar2()">bscountsCompStar2</button>
+<button onclick="drawChart()">DrawChart</button>
+
+
+<p id="demo"></p>
+
+<script>
+	function dateDebug()
+	{
+		datez = JS9.GetDisplayData();
+		console.log(datez[0].header.JD);
+		console.log(JS9.GetDisplayData());
+	}
+	
+	
+	i=0;
+	function bscountsTargetStar()
+	{
+		getRegion();
+		target = JSON.parse(JS9.CountsInRegions(region.wcsstr, background.wcsstr, {cmdswitches: "-j"}));
+	document.getElementById("demo").innerHTML = target.backgroundSubtractedResults[0].netCounts;
+			console.log(target.backgroundSubtractedResults[0].netCounts);
+		datez = JS9.GetDisplayData("selected");
+		console.log(datez[i].header.JD);
+		console.log(JS9.GetDisplayData());
+		//console.log(target.date);
+		//console.log(target);
+		i++;
+	}
+		function storeValue()
+	{
+		//DO the math here
+		//This function should store the date and brightness of our current target star in seperate arrays
+		//dataDate.push and dataBrightness.push
+		
+	}
+	
+	
+		function bscountsCompStar1()//stores our currently selected region as comp1 This can call getRegion() FIRST
+	{
+		getRegion();
+		comp1 = JSON.parse(JS9.CountsInRegions(region.wcsstr, background.wcsstr, {cmdswitches: "-j"}));
+	document.getElementById("demo").innerHTML = comp1.backgroundSubtractedResults[0].netCounts;
+			console.log(comp1.backgroundSubtractedResults[0].netCounts);
+		console.log(comp1.date);
+	}
+	
+			function bscountsCompStar2()//stores our currently selected region as comp2 This can call getRegion() FIRST
+	{
+		getRegion();
+		comp2 = JSON.parse(JS9.CountsInRegions(region.wcsstr, background.wcsstr, {cmdswitches: "-j"}));
+	document.getElementById("demo").innerHTML = comp2.backgroundSubtractedResults[0].netCounts;
+			console.log(comp2.backgroundSubtractedResults[0].netCounts);
+		console.log(comp2.date);
+	}
+
+
+	function getRegion() //samples selected region YOU CAN HAVE THE BSCOUNTS functions call this FIRST.
+	{
+		region = JS9.GetRegions("selected")[0];
+		console.log(region.wcsstr);
+		 document.getElementById("demo").innerHTML = region.wcsstr;
+	}
+	
+		function addRegion() //create a circle obj with a fixed radius of 12. This is used as our sample area. CAN'T BE RESIZED
+	{
+		 JS9.AddRegions("circle",{radius: 12, resizable : false});
+		
+	}
+     
+		function getBackground() //samples the background used to compare the target star to "empty space"
+	{
+		background = JS9.GetRegions("all")[0];
+		console.log(background.wcsstr);
+		document.getElementById("demo").innerHTML = background.wcsstr;
+	}
+	
+	
+</script>
+
+    <div id="centerdiv">
+    <center><font size="+1"><b>JS9 Demo: the basics</b></font></center>    
+    <table cellspacing="15">
+    <tr valign="top">
+    <td>
+    FITS representation files:
+    <ul>
+    <li> <a href='javascript:JS9.Load("fits/casa.fits.gz", {scale:"log", parentFile:"fits/casa.fits"});'>CAS-A (Chandra)</a>
+    <li> <a href='javascript:JS9.Load("fits/3c273.fits.gz", {scale:"log", colormap:"heat", parentFile:"fits/3c273.fits"});'>3c273 (Chandra)</a>
+    <li> <a href='javascript:JS9.Load("fits/3c58.fits.gz", {scale:"log", colormap:"cool", parentFile:"fits/3c58.fits"});'>3c58 (Chandra)</a>
+    </ul>
+    </td>
+    <td>
+    FITS images and binary tables:
+    <ul>
+    <li> <a href='javascript:JS9.Load("fits/snr.fits", {scale:"log", colormap:"heat"});'>CTB 109 (Einstein, small)</a>
+    <li> <a href='javascript:JS9.Load("fits/ngc1316.fits", {scale:"linear", colormap:"cool"});'>ngc1316 (AIPS, small)</a>
+    <li> <a href='javascript:JS9.Load("fits/ngkper.fits", {scale:"log"});'>gkper (Chandra, 7.6Mb)</a>
+    </ul>
+    </td>
+    </tr>
+    </table>
+    <div class="JS9Menubar"></div>
+    <div class="JS9Toolbar"></div>
+    <div class="JS9"></div>
+    <div style="margin-top: 2px;">
+    <div class="JS9Colorbar"></div>
+    </div>
+    </div>
+<p>
+<h4>JS9 Demos:</h4>
+<b>web page configuration:</b>
+<ul class="js9demo">
+<li><a href='js9basics.html'>the basics</a>
+<li><a href='js9sizes.html'>setting the size of the JS9 display</a>
+<li><a href='js9menustyles.html'>menubar styles</a>
+<li><a href='js9bespoke.html'>web page control</a>
+<li><a href='js9preload.html'>preloading images into JS9</a>
+</ul>
+<b>multiple displays:</b>
+<ul class="js9demo">
+<li><a href='js9multi.html'>multiple instances of JS9</a> 
+<li><a href='js9super.html'>control multiple displays with one menu</a>
+<li><a href='js9create.html'>creating a JS9 instance dynamically</a> 
+<li><a href='js9sync.html'>syncing images in multiple displays</a> 
+</ul>
+<b>plugins:</b>
+<ul class="js9demo">
+<li><a href='js9plugins.html'>adding plugins to JS9</a> 
+<li><a href='js9imexam.html'>the imexam plugin</a> 
+<li><a href='js9panzoom.html'>pan and zoom</a> 
+<li><a href='js9cat.html'>overlaying catalogs</a>
+<li><a href='js9dysel.html'>dynamic selection of displays</a> 
+</ul>
+<b>colors:</b>
+<ul class="js9demo">
+<li><a href='js9blend.html'>image blending</a> 
+<li><a href='js9rgb.html'>RGB composite images</a> 
+<li><a href='js9cmaps.html'>creating new colormaps</a>
+</ul>
+<b>data analysis:</b>
+<ul class="js9demo">
+<li><a href='js9analysis.html'>remote data analysis</a> 
+<li><a href='js9onchange.html'>running tasks when a region changes</a>
+</ul>
+<b>FITS support:</b>
+<ul class="js9demo">
+<li><a href='js9bitpix.html'>displaying different FITS datatypes</a> 
+<li><a href='js9large.html'>support for large FITS files</a>
+</ul>
+<b>not often needed:</b>
+<ul class="js9demo">
+<li><a href='js9allinone.html'>using the all-in-one files</a> 
+<li><a href='js9pngvsfits.html'>PNG representation files vs FITS files</a> 
+</ul>
+</body>
+</html>

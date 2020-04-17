@@ -1,0 +1,139 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+BUFLEN	tpos.c	23;"	d	line:23	file:
+COLOR_CHANNELS	tpos.c	38;"	d	line:38	file:
+DEF_EVTLIST	tpos.c	22;"	d	line:22	file:
+DEG2RAD	js9helper.h	67;"	d	line:67
+EMDIR	cimtest.c	10;"	d	line:10	file:
+EXTLIST	cimtest.c	20;"	d	line:20	file:
+EXTLIST	js9helper.h	70;"	d	line:70
+FITSFILE	js9helper.h	58;"	d	line:58
+FITSHEADER	js9helper.h	59;"	d	line:59
+FTYPE_FITS	js9helper.h	55;"	d	line:55
+FTYPE_PNG	js9helper.h	54;"	d	line:54
+FT_CARDLEN	tpos.c	5;"	d	line:5	file:
+FileContents	cimtest.c	/^char *FileContents(char *path, size_t *osize)$/;"	f	line:31
+Finfo	js9helper.h	/^} *Finfo, FinfoRec;$/;"	t	line:85	typeref:struct:finforec
+FinfoFree	js9helper.c	/^static int FinfoFree(char *fname)$/;"	f	line:283	file:
+FinfoGetCurrent	js9helper.c	/^static Finfo FinfoGetCurrent()$/;"	f	line:276	file:
+FinfoList	js9helper.c	/^static int FinfoList(FILE *fp)$/;"	f	line:76	file:
+FinfoListAdd	js9helper.c	/^static void FinfoListAdd (Finfo *head, Finfo finfo)$/;"	f	line:20	file:
+FinfoListDel	js9helper.c	/^static void FinfoListDel (Finfo *head, Finfo finfo)$/;"	f	line:34	file:
+FinfoLookup	js9helper.c	/^static Finfo FinfoLookup(char *fname)$/;"	f	line:54	file:
+FinfoNew	js9helper.c	/^static Finfo FinfoNew(char *fname)$/;"	f	line:118	file:
+FinfoRec	js9helper.h	/^} *Finfo, FinfoRec;$/;"	t	line:85	typeref:struct:finforec
+FinfoSetCurrent	js9helper.c	/^static Finfo FinfoSetCurrent(Finfo finfo)$/;"	f	line:263	file:
+HAVE_CFITSIO	js9helper.h	2;"	d	line:2
+HAVE_GETOPT_H	js9helper.h	7;"	d	line:7
+HAVE_MALLOC_H	js9helper.h	6;"	d	line:6
+HAVE_STDLIB_H	js9helper.h	5;"	d	line:5
+HAVE_STRING_H	js9helper.h	4;"	d	line:4
+HAVE_UNISTD_H	js9helper.h	3;"	d	line:3
+IMDIM	cimtest.c	21;"	d	line:21	file:
+JS9_ENDIAN	tpos.c	34;"	d	line:34	file:
+JS9_PROTOCOL	tpos.c	32;"	d	line:32	file:
+MAX_TEXT	tpos.c	42;"	d	line:42	file:
+MY_BIT_DEPTH	tpos.c	40;"	d	line:40	file:
+MY_PNG_COLOR_TYPE	tpos.c	36;"	d	line:36	file:
+NDIM	cimtest.c	22;"	d	line:22	file:
+NOFINFO	js9helper.h	50;"	d	line:50
+NOIMAGE	js9helper.h	51;"	d	line:51
+NONEW	js9helper.h	49;"	d	line:49
+Optinfo	tpos.c	/^} *Optinfo, OptinfoRec;$/;"	t	line:48	typeref:struct:optinforec	file:
+OptinfoRec	tpos.c	/^} *Optinfo, OptinfoRec;$/;"	t	line:48	typeref:struct:optinforec	file:
+PI	js9helper.h	66;"	d	line:66
+PNG_DEBUG	pngdisp.c	15;"	d	line:15	file:
+ProcessCmd	js9helper.c	/^static int ProcessCmd(char *cmd, char **args, int narg, int node, int tty)$/;"	f	line:566	file:
+RAD2DEG	js9helper.h	68;"	d	line:68
+SLEN	js9helper.c	305;"	d	line:305	file:
+SZ_LINE	js9helper.h	88;"	d	line:88
+WCS_DEGREES	js9helper.h	62;"	d	line:62
+WCS_RADIANS	js9helper.h	63;"	d	line:63
+WCS_SEXAGESIMAL	js9helper.h	64;"	d	line:64
+WRONGARGS	js9helper.h	47;"	d	line:47
+WRONGARGS2	js9helper.h	48;"	d	line:48
+_FinfoFree	js9helper.c	/^static int _FinfoFree(Finfo finfo)$/;"	f	line:92	file:
+abort_	pngdisp.c	/^void abort_(const char * s, ...)$/;"	f	line:18
+analysisTest	smoke.py	/^def analysisTest(j, file=None):$/;"	f	line:407
+binTest	smoke.py	/^def binTest(j, file=None):$/;"	f	line:134
+bit_depth	pngdisp.c	/^png_byte bit_depth;$/;"	v	line:33
+blendTest	smoke.py	/^def blendTest(j):$/;"	f	line:551
+blurTest	smoke.py	/^def blurTest(j, file=None):$/;"	f	line:353
+catalogTest	smoke.py	/^def catalogTest(j, file=None):$/;"	f	line:341
+channels	pngdisp.c	/^png_byte channels;$/;"	v	line:31
+closeDisplay	smoke.py	/^def closeDisplay(j):$/;"	f	line:54
+closeImage	smoke.py	/^def closeImage(j):$/;"	f	line:61
+color_type	pngdisp.c	/^png_byte color_type;$/;"	v	line:32
+colormapTest	smoke.py	/^def colormapTest(j, file=None):$/;"	f	line:249
+copyImageSection	js9helper.c	/^int copyImageSection(fitsfile *ifptr, fitsfile *ofptr,$/;"	f	line:475
+countsTest	smoke.py	/^def countsTest(j, file=None):$/;"	f	line:229
+cubeTest	smoke.py	/^def cubeTest(j, file=None):$/;"	f	line:393
+datapath	js9helper.c	/^static char *datapath=NULL;$/;"	v	line:17	file:
+displayMessage	smoke.py	/^def displayMessage(j, s):$/;"	f	line:46
+errchk	cimtest.c	/^void errchk(int status) {$/;"	f	line:24
+errchk	tpos.c	/^void errchk(int status) {$/;"	f	line:237
+extTest	smoke.py	/^def extTest(j, file=None):$/;"	f	line:425
+filterRGBTest	smoke.py	/^def filterRGBTest(j, file=None):$/;"	f	line:167
+finfocur	js9helper.c	/^static Finfo finfocur=NULL;$/;"	v	line:14	file:
+finfohead	js9helper.c	/^static Finfo finfohead=NULL;$/;"	v	line:11	file:
+finforec	js9helper.h	/^typedef struct finforec{$/;"	s	line:73
+fitsfile	js9helper.h	/^  char *fitsfile;$/;"	m	line:78	struct:finforec
+fitsheader	tpos.c	/^  char *fitsheader;$/;"	m	line:47	struct:optinforec	file:
+fitsname	tpos.c	/^  char *fitsname;$/;"	m	line:46	struct:optinforec	file:
+flipAll	smoke.py	/^def flipAll(j, bins=[]):$/;"	f	line:488
+flipRotateTest	smoke.py	/^def flipRotateTest(j):$/;"	f	line:516
+fname	js9helper.h	/^  char *fname;$/;"	m	line:75	struct:finforec
+fp	js9helper.h	/^  FILE *fp;$/;"	m	line:77	struct:finforec
+ftype	js9helper.h	/^  int ftype;$/;"	m	line:76	struct:finforec
+getCardType	tpos.c	/^int getCardType(char *card){$/;"	f	line:187
+gridTest	smoke.py	/^def gridTest(j, file=None):$/;"	f	line:379
+headerTest	smoke.py	/^def headerTest(j, file=None):$/;"	f	line:122
+height	pngdisp.c	/^int width, height, rowbytes;$/;"	v	line:30
+imstat	cimtest.c	/^void imstat(void *buf, int idim1, int idim2, int bitpix, int n){$/;"	f	line:67
+info_ptr	js9helper.h	/^  png_infop info_ptr;$/;"	m	line:81	struct:finforec
+info_ptr	pngdisp.c	/^png_infop info_ptr;$/;"	v	line:36
+init	smoke.py	/^def init():$/;"	f	line:31
+js9helper	js9helper.c	/^int js9helper(int argc, char **argv)$/;"	f	line:861
+loadImage	smoke.py	/^def loadImage(j, im, opts={}):$/;"	f	line:68
+loadWindowTest	smoke.py	/^def loadWindowTest(j, xfrom, xto):$/;"	f	line:178
+main	cimtest.c	/^int main(int argc, char *argv[])$/;"	f	line:144
+main	pngdisp.c	/^int main(int argc, char **argv)$/;"	f	line:183
+main	tpos.c	/^int main(int argc, char **argv)$/;"	f	line:245
+maskBlendTest	smoke.py	/^def maskBlendTest(j):$/;"	f	line:668
+maskOverlayTest	smoke.py	/^def maskOverlayTest(j):$/;"	f	line:702
+mosaicTest	smoke.py	/^def mosaicTest(j, file=None):$/;"	f	line:469
+next	js9helper.h	/^  struct finforec *next;$/;"	m	line:74	struct:finforec	typeref:struct:finforec::finforec
+nowhite	tpos.c	/^int nowhite (char *c, char *cr)$/;"	f	line:215
+num_text	js9helper.h	/^  int num_text;$/;"	m	line:84	struct:finforec
+number_of_passes	pngdisp.c	/^int number_of_passes;$/;"	v	line:37
+optinforec	tpos.c	/^typedef struct optinforec{$/;"	s	line:45	file:
+panTest	smoke.py	/^def panTest(j, file=None):$/;"	f	line:364
+parseSection	js9helper.c	/^int parseSection(fitsfile *fptr, int hdutype, char *s,$/;"	f	line:307
+pixTest	smoke.py	/^def pixTest(j, file=None):$/;"	f	line:76
+png_ptr	js9helper.h	/^  png_structp png_ptr;$/;"	m	line:80	struct:finforec
+png_ptr	pngdisp.c	/^png_structp png_ptr;$/;"	v	line:35
+process_file	pngdisp.c	/^void process_file(void)$/;"	f	line:160
+read_png_file	pngdisp.c	/^void read_png_file(char* file_name)$/;"	f	line:40
+regionsTest	smoke.py	/^def regionsTest(j, file=None):$/;"	f	line:284
+resizeSeparateTest	smoke.py	/^def resizeSeparateTest(j):$/;"	f	line:644
+rotateTest	smoke.py	/^def rotateTest(j, file=None):$/;"	f	line:151
+row_pointers	pngdisp.c	/^png_bytep * row_pointers;$/;"	v	line:38
+rowbytes	pngdisp.c	/^int width, height, rowbytes;$/;"	v	line:30
+scat	tpos.c	/^static void scat(char *str, char **ostr)$/;"	f	line:51	file:
+shapesTest	smoke.py	/^def shapesTest(j, file=None):$/;"	f	line:310
+sleep	smoke.py	/^def sleep(timeout=1):$/;"	f	line:7
+smokeTests	smoke.py	/^def smokeTests():$/;"	f	line:728
+staticColormapTest	smoke.py	/^def staticColormapTest(j):$/;"	f	line:661
+text_ptr	js9helper.h	/^  png_textp text_ptr;$/;"	m	line:82	struct:finforec
+waitStatus	smoke.py	/^def waitStatus(j, wtype='Load'):$/;"	f	line:13
+wcsTest	smoke.py	/^def wcsTest(j, file=None):$/;"	f	line:196
+width	pngdisp.c	/^int width, height, rowbytes;$/;"	v	line:30
+writePNG	tpos.c	/^int writePNG(FILE *ofp, void *image, int width, int height, Optinfo optinfo)$/;"	f	line:84
+write_png_file	pngdisp.c	/^void write_png_file(char* file_name)$/;"	f	line:103
+x	pngdisp.c	/^int x, y;$/;"	v	line:28
+xmmProxyTest	smoke.py	/^def xmmProxyTest(j):$/;"	f	line:439
+y	pngdisp.c	/^int x, y;$/;"	v	line:28
