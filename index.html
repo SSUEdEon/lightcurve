@@ -84,9 +84,7 @@ Note: in console, the support js file is trying to call socket.io which we don't
 
 		chart.draw(stats, options);
 	}
-</script>
-<script>
-	
+
 </script>
 
 <body>
@@ -103,6 +101,8 @@ Note: in console, the support js file is trying to call socket.io which we don't
 	<p id="demo"></p>
 
 	<script>
+		var backgroundLocation;
+
 		function dateDebug() {
 			datez = JS9.GetDisplayData();
 			console.log(datez[0].header.JD);
@@ -110,31 +110,31 @@ Note: in console, the support js file is trying to call socket.io which we don't
 		}
 
 
+		//What is i? Is this meaningful? If so, it needs a meaningful name.
 		i = 0;
 		function bscountsTargetStar() {
-			getRegion();
-			target = JSON.parse(JS9.CountsInRegions(region.wcsstr, background.wcsstr, { cmdswitches: "-j" }));
+			var regionString = getSelectedRegionCoordinates();
+			console.log(regionString);
+			target = JSON.parse(JS9.CountsInRegions(regionString, backgroundLocation, { cmdswitches: "-j" }));
 			document.getElementById("demo").innerHTML = target.backgroundSubtractedResults[0].netCounts;
-			console.log(target.backgroundSubtractedResults[0].netCounts);
+			//What is this for? Again, needs to be meaningful. Or gone.
 			datez = JS9.GetDisplayData("selected");
-			console.log(datez[i].header.JD);
-			console.log(JS9.GetDisplayData());
-			//console.log(target.date);
-			//console.log(target);
+			//console.log(datez[i].header.JD);
+			//console.log(JS9.GetDisplayData());
 			i++;
 		}
 		function storeValue() {
 			//DO the math here
 			//This function should store the date and brightness of our current target star in seperate arrays
 			//dataDate.push and dataBrightness.push
-
 		}
 
 
 		function bscountsCompStar1()//stores our currently selected region as comp1 This can call getRegion() FIRST
 		{
-			getRegion();
-			comp1 = JSON.parse(JS9.CountsInRegions(region.wcsstr, background.wcsstr, { cmdswitches: "-j" }));
+			var regionString = getSelectedRegionCoordinates();
+			console.log(regionString);
+			comp1 = JSON.parse(JS9.CountsInRegions(regionString, backgroundLocation, { cmdswitches: "-j" }));
 			document.getElementById("demo").innerHTML = comp1.backgroundSubtractedResults[0].netCounts;
 			console.log(comp1.backgroundSubtractedResults[0].netCounts);
 			console.log(comp1.date);
@@ -142,25 +142,36 @@ Note: in console, the support js file is trying to call socket.io which we don't
 
 		function bscountsCompStar2()//stores our currently selected region as comp2 This can call getRegion() FIRST
 		{
-			getRegion();
-			comp2 = JSON.parse(JS9.CountsInRegions(region.wcsstr, background.wcsstr, { cmdswitches: "-j" }));
+			var regionString = getSelectedRegionCoordinates();
+			console.log(regionString);
+			comp2 = JSON.parse(JS9.CountsInRegions(regionString, backgroundLocation, { cmdswitches: "-j" }));
 			document.getElementById("demo").innerHTML = comp2.backgroundSubtractedResults[0].netCounts;
 			console.log(comp2.backgroundSubtractedResults[0].netCounts);
 			console.log(comp2.date);
 		}
 
+		function getSelectedRegionCoordinates() {
+			region = JS9.GetRegions("selected")[0];
+			var regionString;
+			(region.wcsstr ? regionString = region.wcsstr : regionString = region.imstr );
+			document.getElementById("demo").innerHTML = regionString;
+			return regionString;
+
+		}
+
 
 		function getRegion() //samples selected region YOU CAN HAVE THE BSCOUNTS functions call this FIRST.
 		{
-			console.log(JS9.GetImage()); //find out if the image is loaded, and what the image is
 			region = JS9.GetRegions("selected")[0];
-			console.log(region.wcsstr);
-			document.getElementById("demo").innerHTML = region.wcsstr;
+			var regionString;
+			(region.wcsstr ? regionString = region.wcsstr : regionString = region.imstr );
+			console.log(regionString);
+			document.getElementById("demo").innerHTML = regionString;
 		}
 
 		function addRegion() //create a circle obj with a fixed radius of 12. This is used as our sample area. CAN'T BE RESIZED
 		{
-			JS9.AddRegions("circle", { radius: 12, resizable: false });
+			JS9.AddRegions("circle", { radius: 12 });
 
 		}
 
@@ -176,6 +187,7 @@ Note: in console, the support js file is trying to call socket.io which we don't
 			background = JS9.GetRegions("all")[0];
 			var regionString;
 			(background.wcsstr ? regionString = background.wcsstr : regionString = background.imstr );
+			backgroundLocation = regionString;
 		//On problem images it looks like imstr is defined, but not wcsstr? So, we'll define this differently and hope the follow up functions can tell the difference.
 
 			console.log(background.wcsstr);
