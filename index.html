@@ -35,7 +35,8 @@
 	<button onclick="setBackgroundCount('comp1')">Comparison 1</button>
 	<button onclick="setBackgroundCount('comp2')">Comparison 2</button>
 	<button onclick="drawChart()">DrawChart</button>
-	<button onClick="setValues()">Set Values Debug</button>
+	<button onClick="getJulianDate()">Debug</button>
+	<button onClick="readAndParseHeader()">Parse Header</button>
 
 	<p id="demo"></p>
 
@@ -46,105 +47,100 @@
 		var comp2Count;
 
 		google.charts.load('current', { 'packages': ['corechart'] });
-	// google.charts.setOnLoadCallback(drawChart);
+		// google.charts.setOnLoadCallback(drawChart);
 
-	var counter = 0;
-	values = [
-		['Time', 'Brightness'],
+		var counter = 0;
+		values = [
+			['Time', 'Brightness'],
 
-	]
-	function drawChart() {
+		]
+		function drawChart() {
 
-		//WE need to use .push to add the new data to the array.
-		//Rewrite this function
-		//we should be storing all data in 2 arrays dataBrightness[i] dataDate[i] and then drawing the graph once all 
-		//points have been found 
-		//Draw is not only drawing the graph but is also doing the math BAD!.
-		//Best option is to do the math and store the data in a single function <button onclick="storeValue()">storeValue</button>
-		//for i <= n plot dataBrightness[i]/dataDate[i] i++; n == lenght of the array dataBrightness/dataDate.
-		//also we need to set the bounds of the graph so the data is more clearly visable 
-		//this is why we want to wait to draw the graph untill we have all the needed data so we know the Max and Min values
+			//Updated take on the below comment:
+			//Create two arrays, dataBrightness and dataDates
+			//When doing the calculations, push the two values both to the arrays and to the chart data array which will still exist
+			//Then you can get minimum and maximum values from those arrays, which are separated, and apply them to auto scale the chart
+			//Start with predefined bounds, and only scale if we go outside of those
+			//I'm okay with leaving some basic arithmetic here and the autoscaling. This is small enough to not worry about.
+			//But the data should be saved regardless of the charting somehow. Maybe an object that includes each consituent part? I don't know.
 
-		//values[counter][1] = (target.backgroundSubtractedResults[0].netCounts/((comp1.backgroundSubtractedResults[0].netCounts + comp2.backgroundSubtractedResults[0].netCounts)/2));
-		//values[counter][0] = datez[0].header.JD;
 
-		values.push([datez[counter].header.JD, targetCount / ((comp1Count + comp2Count) / 2)]);
-		var stats = google.visualization.arrayToDataTable(values);
-		var options = {
-			title: 'Time vs. Brightness',
-			hAxis: { title: 'Time', minValue: datez[counter].header.JD, maxValue: datez[counter].header.JD },// time range should depend on our data EX: (dataDate.min -1) (dataDate.max +1)
-			vAxis: { title: 'Brightness', minValue: 1.4, maxValue: 1.6 },// brightness range should depend on our data EX: (dataBrightness.min -1) //(dataBrightness.max +1)
-			legend: 'none'
-		};
-		counter++;
 
-		var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
 
-		//chart.draw(stats, options);
+			//WE need to use .push to add the new data to the array.
+			//Rewrite this function
+			//we should be storing all data in 2 arrays dataBrightness[i] dataDate[i] and then drawing the graph once all 
+			//points have been found 
+			//Draw is not only drawing the graph but is also doing the math BAD!.
+			//Best option is to do the math and store the data in a single function <button onclick="storeValue()">storeValue</button>
+			//for i <= n plot dataBrightness[i]/dataDate[i] i++; n == lenght of the array dataBrightness/dataDate.
+			//also we need to set the bounds of the graph so the data is more clearly visable 
+			//this is why we want to wait to draw the graph untill we have all the needed data so we know the Max and Min values
 
-		google.visualization.events.addListener(chart, 'ready', function () {
-			chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
-		});
+			//values[counter][1] = (target.backgroundSubtractedResults[0].netCounts/((comp1.backgroundSubtractedResults[0].netCounts + comp2.backgroundSubtractedResults[0].netCounts)/2));
+			//values[counter][0] = datez[0].header.JD;
 
-		chart.draw(stats, options);
-	}
+
+			values.push([String(getJulianDate()), targetCount / ((comp1Count + comp2Count) / 2)]);
+			var stats = google.visualization.arrayToDataTable(values);
+			var options = {
+				title: 'Time vs. Brightness',
+				hAxis: { title: 'Time', minValue: datez[counter].header.JD, maxValue: datez[counter].header.JD },// time range should depend on our data EX: (dataDate.min -1) (dataDate.max +1)
+				vAxis: { title: 'Brightness', minValue: 1.4, maxValue: 1.6 },// brightness range should depend on our data EX: (dataBrightness.min -1) //(dataBrightness.max +1)
+				legend: 'none'
+			};
+			counter++;
+
+			var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+
+			//chart.draw(stats, options);
+
+			google.visualization.events.addListener(chart, 'ready', function () {
+				chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
+			});
+
+			chart.draw(stats, options);
+		}
 
 		function getBackgroundCountRegion() {
 			var regionString = getSelectedRegionCoordinates();
-			if(backgroundLocation){
+			if (backgroundLocation) {
 				regionCount = JSON.parse(JS9.CountsInRegions(regionString, backgroundLocation, { cmdswitches: "-j" }));
 				console.log(regionCount.backgroundSubtractedResults[0].netCounts);
-				return regionCount.backgroundSubtractedResults[0].netCounts; 
+				return regionCount.backgroundSubtractedResults[0].netCounts;
 			} else {
 				console.log("Error: Background not selected");
 				return false;
 			}
 		}
 
-		function setBackgroundCount(object){
+		function setBackgroundCount(object) {
 			var objectCount = getBackgroundCountRegion();
-			datez = JS9.GetDisplayData("selected"); 
+			datez = JS9.GetDisplayData("selected");
 			//this needs to go away eventually
 
-			if(object == "target"){
+			if (object == "target") {
 				targetCount = objectCount;
 				document.getElementById("demo").innerHTML = targetCount;
 			}
-			if(object == "comp1"){
+			if (object == "comp1") {
 				comp1Count = objectCount;
 				document.getElementById("demo").innerHTML = comp1Count;
 			}
-			if(object == "comp2"){
+			if (object == "comp2") {
 				comp2Count = objectCount;
 				document.getElementById("demo").innerHTML = comp2Count;
 			}
-	
+
 		}
 
-		function setValues() {
+		function getJulianDate() {
 
-			//Problem: JD doesn't exist for all targets. We'll need our custom parser and we'll need to convert it ourselves. Lame.
+			var headerData = readAndParseHeader();
+			var headerDate = headerData.DATEOBS;
+			var convertedDate = (Math.floor(dateToJulian(headerDate) * 100000) / 100000)
+			return convertedDate			
 
-			var date;
-			var imageData = JS9.GetImageData();
-			if (imageData && imageData.header && imageData.header.JD) {
-				date = imageData.header.JD
-			} else {
-				date = 0;
-				//this is a placeholder until we get the parser working. We'll have to call the parser and output a date from that, 
-				//since the JS9 one doesn't work quite right.
-			}
-
-			var totalCounts = 0;
-
-			console.log(getBackgroundCountRegion('target'));
-			
-			//target.backgroundSubtractedResults[0].netCounts / ((comp1.backgroundSubtractedResults[0].netCounts + comp2.backgroundSubtractedResults[0].netCounts) / 2)
-
-
-			//DO the math here
-			//This function should store the date and brightness of our current target star in seperate arrays
-			//dataDate.push and dataBrightness.push
 		}
 
 
@@ -157,9 +153,7 @@
 
 		}
 
-		function getBackground() 
-
-		{
+		function getBackground() {
 			background = JS9.GetRegions("all")[0];
 			var regionString;
 			(background.wcsstr ? regionString = background.wcsstr : regionString = background.imstr);
@@ -169,16 +163,19 @@
 			document.getElementById("demo").innerHTML = regionString;
 		}
 
-//Just pasting this here for now. It needs to be reformatted to work with the data inputs in this script.
-		async function readHeader(filename, readable) {
-			readable.setEncoding("utf8");
-			let data = "";
-			for await (const chunk of readable) {
-				data += chunk;
+		function dateToJulian(date){
+
+			if(!(date instanceof Date)){
+				date = new Date(date);
 			}
-			var rawHeaderText = data;
-			var endTag = data.indexOf("END") + 3;
-			rawHeaderText = rawHeaderText.substr(0, endTag);
+
+			var julianDate = (date /86400000) + 2440587.5;
+			return julianDate;
+
+		}
+
+		function readAndParseHeader() {
+			var rawHeaderText = JS9.GetFITSHeader();
 			var regex1 = RegExp(".{80}", "g"); //FTS files have 80 byte lines, so we split by lines first
 			var regex2 = RegExp("s*=s*"); //Our files have something = something on each relevant line, so we split that
 			var headerArr = [];
@@ -202,23 +199,17 @@
 					headerArr[i][1] = headerArr[i][1].replace(/\s*'/gm, "").trim();
 				}
 
-				if (headerArr[i][0].indexOf("DATE") > -1) {
-					var timestamp = new Date(headerArr[i][1] + "Z");
-					headerArr[i][1] = timestamp.getTime();
-				}
 			}
 			var headerobjtemp = {};
 
-			//Below, we need to convert our two dimensional array into an object MongoDB can understand
+			//Below, we need to convert our two dimensional array into an object
 			for (var i = 0, iLen = headerArr.length; i < iLen; i++) {
 				if (headerArr[i][0] && headerArr[i][1]) {
 					headerobjtemp[headerArr[i][0]] = headerArr[i][1];
 				}
 			}
 			headerobj = headerobjtemp;
-			if (headerobj["filename"] != "") {
-				addFile(filename, headerobj);
-			}
+			console.log(headerobj);
 			return headerobj;
 		}
 
