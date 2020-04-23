@@ -82,7 +82,13 @@ Note: in console, the support js file is trying to call socket.io which we don't
 
 		var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
 
-		chart.draw(stats, options);
+		//chart.draw(stats, options);
+
+		google.visualization.events.addListener(chart, 'ready', function () {
+        chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
+      });
+
+      chart.draw(stats, options);
 	}
 
 </script>
@@ -90,7 +96,9 @@ Note: in console, the support js file is trying to call socket.io which we don't
 <body>
 	<h1>AfH Supernova Activity</h1>
 
-	<p>INSTRUCTIONS</p>
+	<p>
+		<li>Instructions</li>
+	</p>
 	<button onclick="addRegion()">AddRegion</button>
 	<button onclick="getBackground()">GetBackground</button>
 	<button onclick="bscountsTargetStar()">bscountsTargetStar</button>
@@ -105,8 +113,8 @@ Note: in console, the support js file is trying to call socket.io which we don't
 
 		function dateDebug() {
 			datez = JS9.GetDisplayData();
-			console.log(datez[0].header.JD);
-			console.log(JS9.GetDisplayData());
+		//	console.log(datez[0].header.JD);
+		//	console.log(JS9.GetDisplayData());
 		}
 
 
@@ -130,10 +138,9 @@ Note: in console, the support js file is trying to call socket.io which we don't
 		}
 
 
-		function bscountsCompStar1()//stores our currently selected region as comp1 This can call getRegion() FIRST
+		function bscountsCompStar1()
 		{
 			var regionString = getSelectedRegionCoordinates();
-			console.log(regionString);
 			comp1 = JSON.parse(JS9.CountsInRegions(regionString, backgroundLocation, { cmdswitches: "-j" }));
 			document.getElementById("demo").innerHTML = comp1.backgroundSubtractedResults[0].netCounts;
 			console.log(comp1.backgroundSubtractedResults[0].netCounts);
@@ -143,11 +150,10 @@ Note: in console, the support js file is trying to call socket.io which we don't
 		function bscountsCompStar2()//stores our currently selected region as comp2 This can call getRegion() FIRST
 		{
 			var regionString = getSelectedRegionCoordinates();
-			console.log(regionString);
 			comp2 = JSON.parse(JS9.CountsInRegions(regionString, backgroundLocation, { cmdswitches: "-j" }));
 			document.getElementById("demo").innerHTML = comp2.backgroundSubtractedResults[0].netCounts;
-			console.log(comp2.backgroundSubtractedResults[0].netCounts);
-			console.log(comp2.date);
+		//	console.log(comp2.backgroundSubtractedResults[0].netCounts);
+		//	console.log(comp2.date);
 		}
 
 		function getSelectedRegionCoordinates() {
@@ -165,7 +171,7 @@ Note: in console, the support js file is trying to call socket.io which we don't
 			region = JS9.GetRegions("selected")[0];
 			var regionString;
 			(region.wcsstr ? regionString = region.wcsstr : regionString = region.imstr );
-			console.log(regionString);
+		//	console.log(regionString);
 			document.getElementById("demo").innerHTML = regionString;
 		}
 
@@ -183,15 +189,15 @@ Note: in console, the support js file is trying to call socket.io which we don't
 		//Instead, functions should either do something in terms of applying operators or return something if it's a 'get' type.
 
 		{
-			console.log(JS9.GetRegions());
+		//	console.log(JS9.GetRegions());
 			background = JS9.GetRegions("all")[0];
 			var regionString;
 			(background.wcsstr ? regionString = background.wcsstr : regionString = background.imstr );
 			backgroundLocation = regionString;
 		//On problem images it looks like imstr is defined, but not wcsstr? So, we'll define this differently and hope the follow up functions can tell the difference.
 
-			console.log(background.wcsstr);
-			console.log(regionString);
+		//	console.log(background.wcsstr);
+		//	console.log(regionString);
 			document.getElementById("demo").innerHTML = regionString;
 		}
 
