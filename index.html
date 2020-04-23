@@ -1,4 +1,5 @@
 <html>
+
 <head>
 	<title>AfH Supernova Activity</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -22,32 +23,29 @@
 	</style>
 </head>
 
-<script>
-/* API Notes
+<body>
+	<h1>AfH Supernova Activity</h1>
 
-Just using this space for some notes. Obviously this should be deleted.
+	<p>
+		<li>Instructions</li>
+	</p>
+	<button onclick="JS9.AddRegions(`circle`, { radius: 12 })">Add Region</button>
+	<button onclick="getBackground()">GetBackground</button>
+	<button onclick="setBackgroundCount('target')">Target Star</button>
+	<button onclick="setBackgroundCount('comp1')">Comparison 1</button>
+	<button onclick="setBackgroundCount('comp2')">Comparison 2</button>
+	<button onclick="drawChart()">DrawChart</button>
+	<button onClick="setValues()">Set Values Debug</button>
 
-im = JS9.GetImage()
-returns:
-im: image handle
+	<p id="demo"></p>
 
-This might help us find out what an image is in order to pass it properly.
+	<script>
+		var backgroundLocation;
+		var targetCount;
+		var comp1Count;
+		var comp2Count;
 
-JS9.GetImageData() should get us an object with all information, including 'id'. Again, we're just trying to tell what image is 'loaded'.
-This can also help debug if an image is loaded or not.
-
-
-Note: in console, the support js file is trying to call socket.io which we don't have. Not sure if this does something.
-
-
-*/
-
-
-
-</script>
-
-<script type="text/javascript">
-	google.charts.load('current', { 'packages': ['corechart'] });
+		google.charts.load('current', { 'packages': ['corechart'] });
 	// google.charts.setOnLoadCallback(drawChart);
 
 	var counter = 0;
@@ -70,7 +68,7 @@ Note: in console, the support js file is trying to call socket.io which we don't
 		//values[counter][1] = (target.backgroundSubtractedResults[0].netCounts/((comp1.backgroundSubtractedResults[0].netCounts + comp2.backgroundSubtractedResults[0].netCounts)/2));
 		//values[counter][0] = datez[0].header.JD;
 
-		values.push([datez[counter].header.JD, target.backgroundSubtractedResults[0].netCounts / ((comp1.backgroundSubtractedResults[0].netCounts + comp2.backgroundSubtractedResults[0].netCounts) / 2)])
+		values.push([datez[counter].header.JD, targetCount / ((comp1Count + comp2Count) / 2)]);
 		var stats = google.visualization.arrayToDataTable(values);
 		var options = {
 			title: 'Time vs. Brightness',
@@ -85,126 +83,149 @@ Note: in console, the support js file is trying to call socket.io which we don't
 		//chart.draw(stats, options);
 
 		google.visualization.events.addListener(chart, 'ready', function () {
-        chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
-      });
+			chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
+		});
 
-      chart.draw(stats, options);
+		chart.draw(stats, options);
 	}
 
-</script>
-
-<body>
-	<h1>AfH Supernova Activity</h1>
-
-	<p>
-		<li>Instructions</li>
-	</p>
-	<button onclick="addRegion()">AddRegion</button>
-	<button onclick="getBackground()">GetBackground</button>
-	<button onclick="bscountsTargetStar()">bscountsTargetStar</button>
-	<button onclick="bscountsCompStar1()">bscountsCompStar1</button>
-	<button onclick="bscountsCompStar2()">bscountsCompStar2</button>
-	<button onclick="drawChart()">DrawChart</button>
-
-	<p id="demo"></p>
-
-	<script>
-		var backgroundLocation;
-
-		function dateDebug() {
-			datez = JS9.GetDisplayData();
-		//	console.log(datez[0].header.JD);
-		//	console.log(JS9.GetDisplayData());
-		}
-
-
-		//What is i? Is this meaningful? If so, it needs a meaningful name.
-		i = 0;
-		function bscountsTargetStar() {
+		function getBackgroundCountRegion() {
 			var regionString = getSelectedRegionCoordinates();
-			console.log(regionString);
-			target = JSON.parse(JS9.CountsInRegions(regionString, backgroundLocation, { cmdswitches: "-j" }));
-			document.getElementById("demo").innerHTML = target.backgroundSubtractedResults[0].netCounts;
-			//What is this for? Again, needs to be meaningful. Or gone.
-			datez = JS9.GetDisplayData("selected");
-			//console.log(datez[i].header.JD);
-			//console.log(JS9.GetDisplayData());
-			i++;
+			if(backgroundLocation){
+				regionCount = JSON.parse(JS9.CountsInRegions(regionString, backgroundLocation, { cmdswitches: "-j" }));
+				console.log(regionCount.backgroundSubtractedResults[0].netCounts);
+				return regionCount.backgroundSubtractedResults[0].netCounts; 
+			} else {
+				console.log("Error: Background not selected");
+				return false;
+			}
 		}
-		function storeValue() {
+
+		function setBackgroundCount(object){
+			var objectCount = getBackgroundCountRegion();
+			datez = JS9.GetDisplayData("selected"); 
+			//this needs to go away eventually
+
+			if(object == "target"){
+				targetCount = objectCount;
+				document.getElementById("demo").innerHTML = targetCount;
+			}
+			if(object == "comp1"){
+				comp1Count = objectCount;
+				document.getElementById("demo").innerHTML = comp1Count;
+			}
+			if(object == "comp2"){
+				comp2Count = objectCount;
+				document.getElementById("demo").innerHTML = comp2Count;
+			}
+	
+		}
+
+		function setValues() {
+
+			//Problem: JD doesn't exist for all targets. We'll need our custom parser and we'll need to convert it ourselves. Lame.
+
+			var date;
+			var imageData = JS9.GetImageData();
+			if (imageData && imageData.header && imageData.header.JD) {
+				date = imageData.header.JD
+			} else {
+				date = 0;
+				//this is a placeholder until we get the parser working. We'll have to call the parser and output a date from that, 
+				//since the JS9 one doesn't work quite right.
+			}
+
+			var totalCounts = 0;
+
+			console.log(getBackgroundCountRegion('target'));
+			
+			//target.backgroundSubtractedResults[0].netCounts / ((comp1.backgroundSubtractedResults[0].netCounts + comp2.backgroundSubtractedResults[0].netCounts) / 2)
+
+
 			//DO the math here
 			//This function should store the date and brightness of our current target star in seperate arrays
 			//dataDate.push and dataBrightness.push
 		}
 
 
-		function bscountsCompStar1()
-		{
-			var regionString = getSelectedRegionCoordinates();
-			comp1 = JSON.parse(JS9.CountsInRegions(regionString, backgroundLocation, { cmdswitches: "-j" }));
-			document.getElementById("demo").innerHTML = comp1.backgroundSubtractedResults[0].netCounts;
-			console.log(comp1.backgroundSubtractedResults[0].netCounts);
-			console.log(comp1.date);
-		}
-
-		function bscountsCompStar2()//stores our currently selected region as comp2 This can call getRegion() FIRST
-		{
-			var regionString = getSelectedRegionCoordinates();
-			comp2 = JSON.parse(JS9.CountsInRegions(regionString, backgroundLocation, { cmdswitches: "-j" }));
-			document.getElementById("demo").innerHTML = comp2.backgroundSubtractedResults[0].netCounts;
-		//	console.log(comp2.backgroundSubtractedResults[0].netCounts);
-		//	console.log(comp2.date);
-		}
-
 		function getSelectedRegionCoordinates() {
 			region = JS9.GetRegions("selected")[0];
 			var regionString;
-			(region.wcsstr ? regionString = region.wcsstr : regionString = region.imstr );
+			(region.wcsstr ? regionString = region.wcsstr : regionString = region.imstr);
 			document.getElementById("demo").innerHTML = regionString;
 			return regionString;
 
 		}
 
-
-		function getRegion() //samples selected region YOU CAN HAVE THE BSCOUNTS functions call this FIRST.
-		{
-			region = JS9.GetRegions("selected")[0];
-			var regionString;
-			(region.wcsstr ? regionString = region.wcsstr : regionString = region.imstr );
-		//	console.log(regionString);
-			document.getElementById("demo").innerHTML = regionString;
-		}
-
-		function addRegion() //create a circle obj with a fixed radius of 12. This is used as our sample area. CAN'T BE RESIZED
-		{
-			JS9.AddRegions("circle", { radius: 12 });
-
-		}
-
-		function getBackground() //samples the background used to compare the target star to "empty space"
-
-		//It looks like this is just a variation of getRegion. I don't see that it returns the value of the dark area. Am I missing something?
-		//If this is just getRegion, getRegion should be changed to return the value, and in any place that calls it the line should
-		//be something like var region = getRegion(). These functions rely on other functions to set variables, which is a bad pattern.
-		//Instead, functions should either do something in terms of applying operators or return something if it's a 'get' type.
+		function getBackground() 
 
 		{
-		//	console.log(JS9.GetRegions());
 			background = JS9.GetRegions("all")[0];
 			var regionString;
-			(background.wcsstr ? regionString = background.wcsstr : regionString = background.imstr );
+			(background.wcsstr ? regionString = background.wcsstr : regionString = background.imstr);
 			backgroundLocation = regionString;
-		//On problem images it looks like imstr is defined, but not wcsstr? So, we'll define this differently and hope the follow up functions can tell the difference.
+			//On problem images it looks like imstr is defined, but not wcsstr? So, we'll define this differently and hope the follow up functions can tell the difference.
 
-		//	console.log(background.wcsstr);
-		//	console.log(regionString);
 			document.getElementById("demo").innerHTML = regionString;
+		}
+
+//Just pasting this here for now. It needs to be reformatted to work with the data inputs in this script.
+		async function readHeader(filename, readable) {
+			readable.setEncoding("utf8");
+			let data = "";
+			for await (const chunk of readable) {
+				data += chunk;
+			}
+			var rawHeaderText = data;
+			var endTag = data.indexOf("END") + 3;
+			rawHeaderText = rawHeaderText.substr(0, endTag);
+			var regex1 = RegExp(".{80}", "g"); //FTS files have 80 byte lines, so we split by lines first
+			var regex2 = RegExp("s*=s*"); //Our files have something = something on each relevant line, so we split that
+			var headerArr = [];
+			var array1;
+			while ((array1 = regex1.exec(rawHeaderText)) !== null) {
+				headerArr.push(array1[0]);
+			}
+			for (var i = 0; i < headerArr.length; i++) {
+				headerArr[i] = headerArr[i].replace(/\s\s+/g, " ");
+				headerArr[i] = headerArr[i].replace(/\/.*/g, "").trim();
+				headerArr[i] = headerArr[i].split(regex2);
+				headerArr[i][0] = headerArr[i][0].replace(/\.*\s*\-*/g, "");
+				headerArr[i][0] = headerArr[i][0].replace(/-/g, ""); //dashes in keys will break queries
+				headerArr[i][0] = headerArr[i][0].replace(/\s/g, "").trim();
+
+				if (!headerArr[i][1]) {
+					//this conditional eliminates descriptors without values, which some software adds in
+					headerArr.splice(i, 1);
+				} else {
+					headerArr[i][1] = headerArr[i][1].replace(/^\s+|\s+$/gm, "");
+					headerArr[i][1] = headerArr[i][1].replace(/\s*'/gm, "").trim();
+				}
+
+				if (headerArr[i][0].indexOf("DATE") > -1) {
+					var timestamp = new Date(headerArr[i][1] + "Z");
+					headerArr[i][1] = timestamp.getTime();
+				}
+			}
+			var headerobjtemp = {};
+
+			//Below, we need to convert our two dimensional array into an object MongoDB can understand
+			for (var i = 0, iLen = headerArr.length; i < iLen; i++) {
+				if (headerArr[i][0] && headerArr[i][1]) {
+					headerobjtemp[headerArr[i][0]] = headerArr[i][1];
+				}
+			}
+			headerobj = headerobjtemp;
+			if (headerobj["filename"] != "") {
+				addFile(filename, headerobj);
+			}
+			return headerobj;
 		}
 
 
 	</script>
 	<div id="centerdiv">
-		
+
 		<center>
 			<font size="+1"><b>JS9</b></font>
 		</center>
@@ -216,53 +237,6 @@ Note: in console, the support js file is trying to call socket.io which we don't
 		</div>
 	</div>
 	<div id="chart_div" style="width: 900px; height: 500px;"></div>
-	<p>
-		<h4>JS9 Demos:</h4>
-		<h2>TODO: This doesn't really need to be here, does it?</h2>
-		<b>web page configuration:</b>
-		<ul class="js9demo">
-			<li><a href='js9basics.html'>the basics</a>
-			<li><a href='js9sizes.html'>setting the size of the JS9 display</a>
-			<li><a href='js9menustyles.html'>menubar styles</a>
-			<li><a href='js9bespoke.html'>web page control</a>
-			<li><a href='js9preload.html'>preloading images into JS9</a>
-		</ul>
-		<b>multiple displays:</b>
-		<ul class="js9demo">
-			<li><a href='js9multi.html'>multiple instances of JS9</a>
-			<li><a href='js9super.html'>control multiple displays with one menu</a>
-			<li><a href='js9create.html'>creating a JS9 instance dynamically</a>
-			<li><a href='js9sync.html'>syncing images in multiple displays</a>
-		</ul>
-		<b>plugins:</b>
-		<ul class="js9demo">
-			<li><a href='js9plugins.html'>adding plugins to JS9</a>
-			<li><a href='js9imexam.html'>the imexam plugin</a>
-			<li><a href='js9panzoom.html'>pan and zoom</a>
-			<li><a href='js9cat.html'>overlaying catalogs</a>
-			<li><a href='js9dysel.html'>dynamic selection of displays</a>
-		</ul>
-		<b>colors:</b>
-		<ul class="js9demo">
-			<li><a href='js9blend.html'>image blending</a>
-			<li><a href='js9rgb.html'>RGB composite images</a>
-			<li><a href='js9cmaps.html'>creating new colormaps</a>
-		</ul>
-		<b>data analysis:</b>
-		<ul class="js9demo">
-			<li><a href='js9analysis.html'>remote data analysis</a>
-			<li><a href='js9onchange.html'>running tasks when a region changes</a>
-		</ul>
-		<b>FITS support:</b>
-		<ul class="js9demo">
-			<li><a href='js9bitpix.html'>displaying different FITS datatypes</a>
-			<li><a href='js9large.html'>support for large FITS files</a>
-		</ul>
-		<b>not often needed:</b>
-		<ul class="js9demo">
-			<li><a href='js9allinone.html'>using the all-in-one files</a>
-			<li><a href='js9pngvsfits.html'>PNG representation files vs FITS files</a>
-		</ul>
 </body>
 
 </html>
