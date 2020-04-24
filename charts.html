@@ -26,6 +26,18 @@
 		google.charts.load('current', { 'packages': ['corechart'] });
 		google.charts.setOnLoadCallback(drawSheetName);
 
+        var options = {
+				title: 'Name',
+				legend: 'none',
+                vAxis: {
+                    format: 'scientific'
+                },
+                hAxis: {
+                    viewWindowMode: 'maximized'
+                },
+                height: 400
+			};
+
 		function drawSheetName() {
       var queryString = encodeURIComponent();
 
@@ -42,7 +54,7 @@
 
       var data = response.getDataTable();
       var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
-      chart.draw(data, { height: 400 });
+      chart.draw(data, options);
     }
 
 			function getBackgroundCountRegion() {
