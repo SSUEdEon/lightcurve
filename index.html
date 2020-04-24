@@ -24,87 +24,7 @@
 </head>
 
 <body>
-	<h1>AfH Supernova Activity</h1>
-
-	<p>
-		<li>Instructions</li>
-		
-	</p>
 	
-	
-	 <p>1 -- Select the File Button at the top left, then the drop down titled open at the top and then select local file which should open a file picker menu to select the FTS image you would like to use.
- 
-</p>
-			<img class="img-fluid" src="./Step1Pic.PNG" alt="">
-       
-          <p>2 – From the Scale tab select Log.
- 
-</p>
-			<img class="img-fluid" src="./Step2Pic.PNG" alt="">
-		
-          <p>3 – If necessary, adjust the Low Brightness Limit and High Brightness Limit until the image is adequately displayed by left clicking the image and dragging left and right.  You will effectively be adjusting the Brightness and Contrast for your image display.
- 
-</p>
-			<img class="img-fluid" src="./Step3Pic.PNG" alt="">
-		
-          <p>4 – Use a finder-chart to locate your target and comparison stars.  If you will be selecting comparison stars, make sure to label your comparison stars on your finder-chart.
- 
-</p>
-		
-          <p>5 – Use the Zoom tab to zoom in or out as needed.
- 
-</p>
-		
-          <p>6 – Click the AddRegion button on the top left of the screen. A green circle will appear on the image.
-			  <img class="img-fluid" src="./Step6Pic.PNG" alt="">
- 
-</p>
-     
-		
-          <p>7 – Make sure the circle is on a spot where it is just background and no stars are in the circle.<br>
-			  <img class="img-fluid" src="./Step7Pic.PNG" alt="">
- 
-</p>
-		
-          <p>8 – Click the GetBackground Button on the top left of the screen.
-
-Next, identify your target star and two comparison stars and follow the instructions below:
-<br>
- 
-</p>
-		
-          <p>9 – Drag and center the same green circle on your target star and click the bscountsTargetStar button at the top of the screen.
-<br>
-			 <img class="img-fluid" src="./Step9Pic.PNG" alt="">  
- 
-</p>
-
-          <p>10– Now center the circle on a different comparison star1.  Click the bscountsCompStar1 button at the top of your screen.
-<br>
-			 <img class="img-fluid" src="./Step10Pic.PNG" alt="">  
- 
-</p>
-     
-		
-          <p>11– Center the circle again on a different comparison star2.  Click the bscountsCompStar2 button at the top of your screen
-<br>
-			 <img class="img-fluid" src="./Step11Pic.PNG" alt="">  
- 
-</p>
-		
-          <p>12 – Click the DrawChart button at the top of the screen and a graph similar to below will appear
-<br>
-			 <img class="img-fluid" src="./Step12Pic.PNG" alt="">  
- 
-</p>
-	
-	
-	
-	
-	<video width="640" height="385" controls>
-  <source src="./JS9Video.mp4" type="video/mp4">
-Your browser does not support the video tag.
-</video>
 	<button onclick="JS9.AddRegions(`circle`, { radius: 12 })">Add Region</button>
 	<button onclick="getBackground()">GetBackground</button>
 	<button onclick="setBackgroundCount('target')">Target Star</button>
@@ -115,6 +35,7 @@ Your browser does not support the video tag.
 	<button onClick="readAndParseHeader()">Parse Header</button>
 
 	<p id="demo"></p>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 	<script>
 		var backgroundLocation;
@@ -123,60 +44,28 @@ Your browser does not support the video tag.
 		var comp2Count;
 
 		google.charts.load('current', { 'packages': ['corechart'] });
-		// google.charts.setOnLoadCallback(drawChart);
+		google.charts.setOnLoadCallback(drawSheetName);
 
-		var counter = 0;
-		values = [
-			['Time', 'Brightness'],
+		function drawSheetName() {
+      var queryString = encodeURIComponent();
 
-		]
-		function drawChart() {
+      var query = new google.visualization.Query(
+          'https://docs.google.com/spreadsheets/d/1_m8BBc_rIi98VnIsLkBQMskdXvyA9uzXCR6qPsOTbjk/edit?usp=sharing' + queryString);
+      query.send(handleSampleDataQueryResponse);
+    }
 
-			//Updated take on the below comment:
-			//Create two arrays, dataBrightness and dataDates
-			//When doing the calculations, push the two values both to the arrays and to the chart data array which will still exist
-			//Then you can get minimum and maximum values from those arrays, which are separated, and apply them to auto scale the chart
-			//Start with predefined bounds, and only scale if we go outside of those
-			//I'm okay with leaving some basic arithmetic here and the autoscaling. This is small enough to not worry about.
-			//But the data should be saved regardless of the charting somehow. Maybe an object that includes each consituent part? I don't know.
+    function handleSampleDataQueryResponse(response) {
+      if (response.isError()) {
+        alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+        return;
+      }
 
+      var data = response.getDataTable();
+      var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+      chart.draw(data, { height: 400 });
+    }
 
-
-
-			//WE need to use .push to add the new data to the array.
-			//Rewrite this function
-			//we should be storing all data in 2 arrays dataBrightness[i] dataDate[i] and then drawing the graph once all 
-			//points have been found 
-			//Draw is not only drawing the graph but is also doing the math BAD!.
-			//Best option is to do the math and store the data in a single function <button onclick="storeValue()">storeValue</button>
-			//for i <= n plot dataBrightness[i]/dataDate[i] i++; n == lenght of the array dataBrightness/dataDate.
-			//also we need to set the bounds of the graph so the data is more clearly visable 
-			//this is why we want to wait to draw the graph untill we have all the needed data so we know the Max and Min values
-
-			//values[counter][1] = (target.backgroundSubtractedResults[0].netCounts/((comp1.backgroundSubtractedResults[0].netCounts + comp2.backgroundSubtractedResults[0].netCounts)/2));
-			//values[counter][0] = datez[0].header.JD;
-
-
-			values.push([String(getJulianDate()), targetCount / ((comp1Count + comp2Count) / 2)]);
-			var stats = google.visualization.arrayToDataTable(values);
-			var options = {
-				title: 'Time vs. Brightness',
-				hAxis: { title: 'Time', minValue: datez[counter].header.JD, maxValue: datez[counter].header.JD },// time range should depend on our data EX: (dataDate.min -1) (dataDate.max +1)
-				vAxis: { title: 'Brightness', minValue: 1.4, maxValue: 1.6 },// brightness range should depend on our data EX: (dataBrightness.min -1) //(dataBrightness.max +1)
-				legend: 'none'
-			};
-			counter++;
-
-			var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
-
-			//chart.draw(stats, options);
-
-			google.visualization.events.addListener(chart, 'ready', function () {
-				chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
-			});
-
-			chart.draw(stats, options);
-		}
+	
 
 		function getBackgroundCountRegion() {
 			var regionString = getSelectedRegionCoordinates();

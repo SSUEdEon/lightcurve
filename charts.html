@@ -1,0 +1,74 @@
+<html>
+
+<head>
+	<title>AfH Supernova Activity</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link type="image/x-icon" rel="shortcut icon" href="./favicon.ico">
+	<link type="text/css" rel="stylesheet" href="js9support.css">
+	<link type="text/css" rel="stylesheet" href="js9.css">
+	<script type="text/javascript" src="js9prefs.js"></script>
+	<script type="text/javascript" src="js9support.min.js"></script>
+	<script type="text/javascript" src="js9.min.js"></script>
+	<script type="text/javascript" src="js9plugins.js"></script>
+	<script type="text/javascript" src="./plugins/imexam/imexam.js"></script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<style type="text/css">
+		#centerdiv {
+			width: 512px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+	</style>
+</head>
+
+<body>
+	
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+	<script>
+
+		google.charts.load('current', { 'packages': ['corechart'] });
+		google.charts.setOnLoadCallback(drawSheetName);
+
+		function drawSheetName() {
+      var queryString = encodeURIComponent();
+
+      var query = new google.visualization.Query(
+          'https://docs.google.com/spreadsheets/d/1_m8BBc_rIi98VnIsLkBQMskdXvyA9uzXCR6qPsOTbjk/edit?usp=sharing' + queryString);
+      query.send(handleSampleDataQueryResponse);
+    }
+
+    function handleSampleDataQueryResponse(response) {
+      if (response.isError()) {
+        alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+        return;
+      }
+
+      var data = response.getDataTable();
+      var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+      chart.draw(data, { height: 400 });
+    }
+
+	
+
+		function getBackgroundCountRegion() {
+			var regionString = getSelectedRegionCoordinates();
+			if (backgroundLocation) {
+				regionCount = JSON.parse(JS9.CountsInRegions(regionString, backgroundLocation, { cmdswitches: "-j" }));
+				console.log(regionCount.backgroundSubtractedResults[0].netCounts);
+				return regionCount.backgroundSubtractedResults[0].netCounts;
+			} else {
+				console.log("Error: Background not selected");
+				return false;
+			}
+		}
+
+
+
+	</script>
+	<div id="chart_div" style="width: 900px; height: 500px;"></div>
+</body>
+
+</html>
