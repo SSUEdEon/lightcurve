@@ -1,78 +1,82 @@
 <html>
 
 <head>
-	<title>AfH Supernova Activity</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link type="image/x-icon" rel="shortcut icon" href="./favicon.ico">
-	<link type="text/css" rel="stylesheet" href="js9support.css">
-	<link type="text/css" rel="stylesheet" href="js9.css">
-	<style type="text/css">
-		#centerdiv {
-			width: 512px;
-			margin-left: auto;
-			margin-right: auto;
-		}
-	</style>
+    <title>AfH Supernova Activity</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link type="image/x-icon" rel="shortcut icon" href="./favicon.ico">
+    <link type="text/css" rel="stylesheet" href="js9support.css">
+    <link type="text/css" rel="stylesheet" href="js9.css">
+    <style type="text/css">
+        #centerdiv {
+            width: 512px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
 </head>
 
 <body>
-	
-	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-	<script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-		google.charts.load('current', { 'packages': ['corechart'] });
-		google.charts.setOnLoadCallback(drawSheetName);
+    <script>
 
+        //https://developers.google.com/chart/interactive/docs/basic_interactivity for details on click interactions
+        //we'll need this for allowing people to get numbers from the peak
+
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawAllCharts);
         var options = {
-				title: 'Name',
-				legend: 'none',
-                vAxis: {
-                    format: 'scientific'
-                },
-                hAxis: {
-                    viewWindowMode: 'maximized'
-                },
-                height: 400
-			};
+            title: 'Name',
+            legend: 'none',
+            vAxis: {
+                format: 'scientific'
+            },
+            hAxis: {
+                viewWindowMode: 'maximized'
+            }
+        };
 
-		function drawSheetName() {
-      var queryString = encodeURIComponent();
 
-      var query = new google.visualization.Query(
-          'https://docs.google.com/spreadsheets/d/1_m8BBc_rIi98VnIsLkBQMskdXvyA9uzXCR6qPsOTbjk/edit?usp=sharing' + queryString);
-      query.send(handleSampleDataQueryResponse);
-    }
+        function drawAllCharts(){
+            var query1 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1_m8BBc_rIi98VnIsLkBQMskdXvyA9uzXCR6qPsOTbjk/edit#gid=0");
+            var query2 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1y3dJYcnOLcI6WseGxOQbYSddYGlpl7naxy6n_atCalk/edit#gid=0");
+            query1.send(draw1);
+            query2.send(draw2);
 
-    function handleSampleDataQueryResponse(response) {
-      if (response.isError()) {
-        alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
-        return;
-      }
+        }
 
-      var data = response.getDataTable();
-      var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
-      chart.draw(data, options);
-    }
+        function draw1(response){
+            var data = response.getDataTable();
+            var chart1 = new google.visualization.ScatterChart(document.getElementById("chart1"));
+            chart1.draw(data, options);
+        }
 
-			function getBackgroundCountRegion() {
-			var regionString = getSelectedRegionCoordinates();
-			if (backgroundLocation) {
-				regionCount = JSON.parse(JS9.CountsInRegions(regionString, backgroundLocation, { cmdswitches: "-j" }));
-				console.log(regionCount.backgroundSubtractedResults[0].netCounts);
-				return regionCount.backgroundSubtractedResults[0].netCounts;
-			} else {
-				console.log("Error: Background not selected");
-				return false;
-			}
-		}
+        function draw2(response){
+            var data = response.getDataTable();
+            var chart2 = new google.visualization.ScatterChart(document.getElementById("chart2"));
+            chart2.draw(data, options);
+        
+        }
 
 
 
-	</script>
-	<div id="chart_div" style="width: 900px; height: 500px;"></div>
+    </script>
+    <div class="chartWrapper">
+        <div id="chart1" style="width: 700px; height: 300px;"></div>
+        <div id="chart2" style="width: 700px; height: 300px;"></div>
+        <div id="chart3" style="width: 900px; height: 500px;"></div>
+        <div id="chart4" style="width: 900px; height: 500px;"></div>
+        <div id="chart5" style="width: 900px; height: 500px;"></div>
+        <div id="chart6" style="width: 900px; height: 500px;"></div>
+        <div id="chart7" style="width: 900px; height: 500px;"></div>
+        <div id="chart8" style="width: 900px; height: 500px;"></div>
+        <div id="chart9" style="width: 900px; height: 500px;"></div>
+        <div id="chart10" style="width: 900px; height: 500px;"></div>
+    </div>
+    
 </body>
 
 </html>
