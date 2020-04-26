@@ -22,6 +22,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     <script>
+        var line = 5670
 
         //https://developers.google.com/chart/interactive/docs/basic_interactivity for details on click interactions
         //we'll need this for allowing people to get numbers from the peak
@@ -44,19 +45,36 @@
 
 
         function drawAllCharts() {
-            var query1 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1_m8BBc_rIi98VnIsLkBQMskdXvyA9uzXCR6qPsOTbjk/edit#gid=0");
+            var query1 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1oXcuRQq5HheZ6mfmhCmOYIQNgWxzW_Okhx7FpnN884U/edit#gid=0");
             var query2 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
+            var query3 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
+            var query4 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
+            var query5 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
+            var query6 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
+            var query7 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
+            var query8 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
+            var query9 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
+            var query10 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
+
             query1.send(draw1);
             query2.send(draw2);
+            query3.send(draw3);
+            query4.send(draw4);
+            query5.send(draw5);
+            query6.send(draw6);
+            query7.send(draw7);
+            query8.send(draw8);
+            query9.send(draw9);
+            query10.send(draw10);
 
         }
 
         function draw1(response) {
-            options["title"] = "Test"
+            options["title"] = "1994s"
             var data = response.getDataTable();
             var chart1 = new google.visualization.ScatterChart(document.getElementById("chart1"));
             chart1.draw(data, options);
-            drawVAxisLine(chart1, 5670);
+            drawVAxisLine(chart1, line);
         }
 
         function draw2(response) {
@@ -64,6 +82,76 @@
             var data2 = response.getDataTable();
             var chart2 = new google.visualization.ScatterChart(document.getElementById("chart2"));
             chart2.draw(data2, options);
+            drawVAxisLine(chart2, line);
+        }
+
+        function draw3(response) {
+            options["title"] = "Test"
+            var data3 = response.getDataTable();
+            var chart3 = new google.visualization.ScatterChart(document.getElementById("chart3"));
+            chart3.draw(data3, options);
+            drawVAxisLine(chart3, line);
+        }
+
+        function draw4(response) {
+            options["title"] = "Test"
+            var data4 = response.getDataTable();
+            var chart4 = new google.visualization.ScatterChart(document.getElementById("chart4"));
+            chart4.draw(data4, options);
+            drawVAxisLine(chart4, line);
+
+        }
+
+        function draw5(response) {
+            options["title"] = "Test"
+            var data5 = response.getDataTable();
+            var chart5 = new google.visualization.ScatterChart(document.getElementById("chart5"));
+            chart5.draw(data5, options);
+            drawVAxisLine(chart5, line);
+        }
+
+        function draw6(response) {
+            options["title"] = "Test"
+            var data6 = response.getDataTable();
+            var chart6 = new google.visualization.ScatterChart(document.getElementById("chart6"));
+            chart6.draw(data6, options);
+            drawVAxisLine(chart6, line);
+
+        }
+
+        function draw7(response) {
+            options["title"] = "Test"
+            var data7 = response.getDataTable();
+            var chart7 = new google.visualization.ScatterChart(document.getElementById("chart7"));
+            chart2.draw(data7, options);
+            drawVAxisLine(chart7, line);
+
+        }
+
+        function draw8(response) {
+            options["title"] = "Test"
+            var data8 = response.getDataTable();
+            var chart8 = new google.visualization.ScatterChart(document.getElementById("chart8"));
+            chart8.draw(data8, options);
+            drawVAxisLine(chart8, line);
+
+        }
+
+        function draw9(response) {
+            options["title"] = "Test"
+            var data9 = response.getDataTable();
+            var chart9 = new google.visualization.ScatterChart(document.getElementById("chart9"));
+            chart9.draw(data9, options);
+            drawVAxisLine(chart9, line);
+
+        }
+
+        function draw10(response) {
+            options["title"] = "Test"
+            var data10 = response.getDataTable();
+            var chart10 = new google.visualization.ScatterChart(document.getElementById("chart10"));
+            chart10.draw(data10, options);
+            drawVAxisLine(chart10, line);
 
         }
 
@@ -93,14 +181,14 @@
     <div class="chartWrapper">
         <div id="chart1" style="width: 700px; height: 300px;"></div>
         <div id="chart2" style="width: 700px; height: 300px;"></div>
-        <div id="chart3" style="width: 900px; height: 500px;"></div>
-        <div id="chart4" style="width: 900px; height: 500px;"></div>
-        <div id="chart5" style="width: 900px; height: 500px;"></div>
-        <div id="chart6" style="width: 900px; height: 500px;"></div>
-        <div id="chart7" style="width: 900px; height: 500px;"></div>
-        <div id="chart8" style="width: 900px; height: 500px;"></div>
-        <div id="chart9" style="width: 900px; height: 500px;"></div>
-        <div id="chart10" style="width: 900px; height: 500px;"></div>
+        <div id="chart3" style="width: 700px; height: 300px;"></div>
+        <div id="chart4" style="width: 700px; height: 300px;"></div>
+        <div id="chart5" style="width: 700px; height: 300px;"></div>
+        <div id="chart6" style="width: 700px; height: 300px;"></div>
+        <div id="chart7" style="width: 700px; height: 300px;"></div>
+        <div id="chart8" style="width: 700px; height: 300px;"></div>
+        <div id="chart9" style="width: 700px; height: 300px;"></div>
+        <div id="chart10" style="width: 700px; height: 300px;"></div>
     </div>
 
 </body>
