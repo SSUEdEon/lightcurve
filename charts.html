@@ -29,36 +29,62 @@
         google.charts.load('current', { 'packages': ['corechart'] });
         google.charts.setOnLoadCallback(drawAllCharts);
         var options = {
-            title: 'Name',
+            title: 'Supernova',
             legend: 'none',
             vAxis: {
+                title: 'Flux (lm)',
                 format: 'scientific'
             },
             hAxis: {
-                viewWindowMode: 'maximized'
+                title: 'Wavelength (nm)',
+                viewWindowMode: 'maximized',
+                format: '#'
             }
         };
 
 
-        function drawAllCharts(){
+        function drawAllCharts() {
             var query1 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1_m8BBc_rIi98VnIsLkBQMskdXvyA9uzXCR6qPsOTbjk/edit#gid=0");
-            var query2 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1y3dJYcnOLcI6WseGxOQbYSddYGlpl7naxy6n_atCalk/edit#gid=0");
+            var query2 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
             query1.send(draw1);
             query2.send(draw2);
 
         }
 
-        function draw1(response){
+        function draw1(response) {
+            options["title"] = "Test"
             var data = response.getDataTable();
             var chart1 = new google.visualization.ScatterChart(document.getElementById("chart1"));
             chart1.draw(data, options);
+            drawVAxisLine(chart1, 5670);
         }
 
-        function draw2(response){
-            var data = response.getDataTable();
+        function draw2(response) {
+            options["title"] = "1996bo"
+            var data2 = response.getDataTable();
             var chart2 = new google.visualization.ScatterChart(document.getElementById("chart2"));
-            chart2.draw(data, options);
-        
+            chart2.draw(data2, options);
+
+        }
+
+        function drawVAxisLine(chart, value) {
+            var layout = chart.getChartLayoutInterface();
+            var chartArea = layout.getChartAreaBoundingBox();
+
+            var svg = chart.getContainer().getElementsByTagName('svg')[0];
+            var xLoc = layout.getXLocation(value)
+            svg.appendChild(createLine(xLoc, chartArea.top + chartArea.height, xLoc, chartArea.top, '#00cccc', 4)); // axis line 
+        }
+
+        function createLine(x1, y1, x2, y2, color, w) {
+            var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', x1);
+            line.setAttribute('y1', y1);
+            line.setAttribute('x2', x2);
+            line.setAttribute('y2', y2);
+            line.setAttribute('stroke', color);
+            line.setAttribute('stroke-width', w);
+            return line;
         }
 
 
@@ -76,7 +102,7 @@
         <div id="chart9" style="width: 900px; height: 500px;"></div>
         <div id="chart10" style="width: 900px; height: 500px;"></div>
     </div>
-    
+
 </body>
 
 </html>
