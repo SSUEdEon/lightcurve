@@ -47,7 +47,7 @@
         function drawAllCharts() {
             var query1 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1oXcuRQq5HheZ6mfmhCmOYIQNgWxzW_Okhx7FpnN884U/edit#gid=0");
             var query2 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
-            var query3 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
+            var query3 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
             var query4 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
             var query5 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
             var query6 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
@@ -86,7 +86,7 @@
         }
 
         function draw3(response) {
-            options["title"] = "Test"
+            options["title"] = "1996bl"
             var data3 = response.getDataTable();
             var chart3 = new google.visualization.ScatterChart(document.getElementById("chart3"));
             chart3.draw(data3, options);
