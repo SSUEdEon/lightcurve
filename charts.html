@@ -24,6 +24,7 @@
 
     <script>
         var line = 6150
+        var rowCounter = 1;
 
         //https://developers.google.com/chart/interactive/docs/basic_interactivity for details on click interactions
         //we'll need this for allowing people to get numbers from the peak
@@ -58,8 +59,27 @@
 
         }
 
-        //use eval to make this a single function for all charts
         function draw(div, title, url) {
+            //Create table element first, so we can call it
+            var table = document.getElementById("resultsTable");
+            var row = table.insertRow(rowCounter);
+            var cell0 = row.insertCell(0);
+            cell0.innerHTML = title;
+            var cell1 = row.insertCell(1);
+            eval("cell1.id = '" + div + "v1';"); 
+            var cell2 = row.insertCell(2);
+            eval("cell2.id = '" + div + "v2';");
+            var cell3 = row.insertCell(3);
+            eval("cell3.id = '" + div + "c1';");
+            var cell4 = row.insertCell(4);
+            eval("cell4.id = '" + div + "c2';");
+            var cell5 = row.insertCell(5);
+            eval("cell5.id = '" + div + "c3';");
+            var cell6 = row.insertCell(6);
+            eval("cell6.id = '" + div + "c4';");
+            rowCounter = 1 + rowCounter;
+
+
             eval("q" + div + " = new google.visualization.Query(\"" + url + "\"); ");
             eval("q" + div + ".send(draw);");
             function draw(response) {
@@ -73,19 +93,15 @@
                         var wavelength = data.getValue(selectedItem.row, 0);
                         eval("document.getElementById('" + div + "value1" + "').innerHTML = wavelength;" );
                         eval("document.getElementById('" + div + "value2" + "').innerHTML = flux;" );
-                        //alert('The user selected ' + wavelength);
                     } else (alert('No selecteditem'))
                 }
 
-                // Listen for the 'select' event, and call my function selectHandler() when
-                // the user selects something on the chart.
-                //eval("google.visualization.events.addListener('c" + div + "', 'select', selectHandler);");
-                //google.visualization.events.addListener(chart1, 'select', selectHandler);
                 eval("google.visualization.events.addListener(" + div + ", 'select', selectHandler);");
                 google.visualization.events.addListener('chart1', 'select', selectHandler);
                 eval(div + ".draw(data, options);");
                 eval("drawVAxisLine(" + div + ", line)");
             }
+
 
         }
 
@@ -173,6 +189,21 @@
             <br />
             <span>Flux: </span><span id="chart10value2"></span>
         </div>
+    </div>
+    <div>
+        <br /><br /><br />
+        <table id="resultsTable">
+            <tr>
+                <td></td>
+                <td>Magnitude</td>
+                <td>Wavelength</td>
+                <td>Calc 1</td>
+                <td>Calc 2</td>
+                <td>Calc 3</td>
+                <td>Calc 4</td>
+            </tr>
+            
+        </table>
     </div>
 
 </body>

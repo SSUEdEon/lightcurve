@@ -3,3 +3,11 @@
     grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
 }
+
+.resultsTable {
+    text-align: left;
+}
+
+tr td {
+    text-align: left;
+}
