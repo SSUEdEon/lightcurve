@@ -29,7 +29,7 @@
         //we'll need this for allowing people to get numbers from the peak
 
         google.charts.load('current', { 'packages': ['corechart'] });
-        google.charts.setOnLoadCallback(drawAllCharts);
+        google.charts.setOnLoadCallback(drawCall);
         var options = {
             title: 'Supernova',
             legend: 'none',
@@ -44,126 +44,48 @@
             }
         };
 
-        function drawAllCharts() {
-            var query1 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1oXcuRQq5HheZ6mfmhCmOYIQNgWxzW_Okhx7FpnN884U/edit#gid=0");
-            var query2 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
-            var query3 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
-            var query4 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
-            var query5 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
-            var query6 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
-            var query7 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
-            var query8 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
-            var query9 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
-            var query10 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
-
-            query1.send(draw1);
-            query2.send(draw2);
-            query3.send(draw3);
-            query4.send(draw4);
-            query5.send(draw5);
-            query6.send(draw6);
-            query7.send(draw7);
-            query8.send(draw8);
-            query9.send(draw9);
-            query10.send(draw10);
-
+        function drawCall() {
+            draw("chart1", "1994s", "https://docs.google.com/spreadsheets/d/1oXcuRQq5HheZ6mfmhCmOYIQNgWxzW_Okhx7FpnN884U/edit#gid=0");
+            draw("chart2", "1996bo", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
+            draw("chart3", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
+            draw("chart4", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
+            draw("chart5", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
+            draw("chart6", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
+            draw("chart7", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
+            draw("chart8", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
+            draw("chart9", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
+            draw("chart10", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
+            
         }
 
-        function draw1(response) {
-            options["title"] = "1994s"
-            var data = response.getDataTable();
-            var chart1 = new google.visualization.ScatterChart(document.getElementById("chart1"));
-            function selectHandler() {
-    var selectedItem = chart1.getSelection()[0];
-    if (selectedItem) {
-      var value = data.getValue(selectedItem.row, selectedItem.column);
-      alert('The user selected ' + value);
-    }
-  }
+        //use eval to make this a single function for all charts
+        function draw(div, title, url) {
+            eval("q" + div + " = new google.visualization.Query(\"" + url + "\"); ");
+            eval("q" + div + ".send(draw);");
+            function draw(response) {
+                options["title"] = title
+                var data = response.getDataTable();
+                eval(div + "= new google.visualization.ScatterChart(document.getElementById(\"" + div + "\"));" );
+                function selectHandler() {
+                    eval("var selectedItem =" + div + ".getSelection()[0]; console.log('evaled' + div);")
+                    if (selectedItem) {
+                        var value = data.getValue(0, selectedItem.column);
+                        alert('The user selected ' + value);
+                    } else (alert('No selecteditem'))
+                }
 
-  // Listen for the 'select' event, and call my function selectHandler() when
-  // the user selects something on the chart.
-  google.visualization.events.addListener(chart1, 'select', selectHandler);
+                // Listen for the 'select' event, and call my function selectHandler() when
+                // the user selects something on the chart.
+                //eval("google.visualization.events.addListener('c" + div + "', 'select', selectHandler);");
+                //google.visualization.events.addListener(chart1, 'select', selectHandler);
+                eval("google.visualization.events.addListener(" + div + ", 'select', selectHandler);");
+                google.visualization.events.addListener('chart1', 'select', selectHandler);
+                eval(div + ".draw(data, options);");
+                eval("drawVAxisLine(" + div + ", line)");
 
-            chart1.draw(data, options);
-            drawVAxisLine(chart1, line);
-        }
 
-        function draw2(response) {
-            options["title"] = "1996bo"
-            var data2 = response.getDataTable();
-            var chart2 = new google.visualization.ScatterChart(document.getElementById("chart2"));
-            chart2.draw(data2, options);
-            drawVAxisLine(chart2, line);
-        }
 
-        function draw3(response) {
-            options["title"] = "1996bl"
-            var data3 = response.getDataTable();
-            var chart3 = new google.visualization.ScatterChart(document.getElementById("chart3"));
-            chart3.draw(data3, options);
-            drawVAxisLine(chart3, line);
-        }
-
-        function draw4(response) {
-            options["title"] = "Test"
-            var data4 = response.getDataTable();
-            var chart4 = new google.visualization.ScatterChart(document.getElementById("chart4"));
-            chart4.draw(data4, options);
-            drawVAxisLine(chart4, line);
-
-        }
-
-        function draw5(response) {
-            options["title"] = "Test"
-            var data5 = response.getDataTable();
-            var chart5 = new google.visualization.ScatterChart(document.getElementById("chart5"));
-            chart5.draw(data5, options);
-            drawVAxisLine(chart5, line);
-        }
-
-        function draw6(response) {
-            options["title"] = "Test"
-            var data6 = response.getDataTable();
-            var chart6 = new google.visualization.ScatterChart(document.getElementById("chart6"));
-            chart6.draw(data6, options);
-            drawVAxisLine(chart6, line);
-
-        }
-
-        function draw7(response) {
-            options["title"] = "Test"
-            var data7 = response.getDataTable();
-            var chart7 = new google.visualization.ScatterChart(document.getElementById("chart7"));
-            chart7.draw(data7, options);
-            drawVAxisLine(chart7, line);
-
-        }
-
-        function draw8(response) {
-            options["title"] = "Test"
-            var data8 = response.getDataTable();
-            var chart8 = new google.visualization.ScatterChart(document.getElementById("chart8"));
-            chart8.draw(data8, options);
-            drawVAxisLine(chart8, line);
-
-        }
-
-        function draw9(response) {
-            options["title"] = "Test"
-            var data9 = response.getDataTable();
-            var chart9 = new google.visualization.ScatterChart(document.getElementById("chart9"));
-            chart9.draw(data9, options);
-            drawVAxisLine(chart9, line);
-
-        }
-
-        function draw10(response) {
-            options["title"] = "Test"
-            var data10 = response.getDataTable();
-            var chart10 = new google.visualization.ScatterChart(document.getElementById("chart10"));
-            chart10.draw(data10, options);
-            drawVAxisLine(chart10, line);
+            }
 
         }
 
