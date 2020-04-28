@@ -66,7 +66,7 @@
             var cell0 = row.insertCell(0);
             cell0.innerHTML = title;
             var cell1 = row.insertCell(1);
-            eval("cell1.id = '" + div + "v1';"); 
+            eval("cell1.id = '" + div + "v1';");
             var cell2 = row.insertCell(2);
             eval("cell2.id = '" + div + "v2';");
             var cell3 = row.insertCell(3);
@@ -82,17 +82,18 @@
 
             eval("q" + div + " = new google.visualization.Query(\"" + url + "\"); ");
             eval("q" + div + ".send(draw);");
+
             function draw(response) {
                 options["title"] = title
                 var data = response.getDataTable();
                 eval(div + "= new google.visualization.ScatterChart(document.getElementById(\"" + div + "\"));");
                 function selectHandler() {
-                    eval("var selectedItem =" + div + ".getSelection()[0]; console.log('evaled' + div);")
+                    eval("var selectedItem =" + div + ".getSelection()[0];")
                     if (selectedItem) {
-                        var flux = data.getValue(0, selectedItem.column);
+                        var flux = data.getValue(selectedItem.row, 1);
                         var wavelength = data.getValue(selectedItem.row, 0);
-                        eval("document.getElementById('" + div + "value1" + "').innerHTML = wavelength;" );
-                        eval("document.getElementById('" + div + "value2" + "').innerHTML = flux;" );
+                        eval("document.getElementById('" + div + "value1" + "').innerHTML = wavelength;");
+                        eval("document.getElementById('" + div + "value2" + "').innerHTML = flux;");
                     } else (alert('No selecteditem'))
                 }
 
@@ -125,15 +126,31 @@
             return line;
         }
 
+        function saveValue1(div) {
+            var value = document.getElementById("chart1value1").innerHTML;
+            eval("var value = document.getElementById('" + div + "value1').innerHTML;");
+            eval("document.getElementById('" + div + "v1').innerHTML = '" + value + "'");
+        }
+
+        function saveValue2(div) {
+            var value = document.getElementById("chart1value1").innerHTML;
+            eval("var value = document.getElementById('" + div + "value2').innerHTML;");
+            eval("document.getElementById('" + div + "v2').innerHTML = '" + value + "'");
+        }
 
 
     </script>
     <div class="chartWrapper">
         <div>
             <div id="chart1" style="width: 700px; height: 300px;"></div>
-            <span>Wavelength: </span><span id="chart1value1"></span>
+
+            <span>Flux: </span>
+            <span id="chart1value2"></span>
+            <span onClick="saveValue2('chart1')">Save</span>
             <br />
-            <span>Flux: </span><span id="chart1value2"></span>
+            <span>Wavelength: </span><span id="chart1value1"></span>
+            <span onClick="saveValue1('chart1')">Save</span>
+
         </div>
         <div>
             <div id="chart2" style="width: 700px; height: 300px;"></div>
@@ -185,9 +202,10 @@
         </div>
         <div>
             <div id="chart10" style="width: 700px; height: 300px;"></div>
-            <span>Wavelength: </span><span id="chart10value1"></span>
-            <br />
             <span>Flux: </span><span id="chart10value2"></span>
+            <br />
+            <span>Wavelength: </span><span id="chart10value1"></span>
+
         </div>
     </div>
     <div>
@@ -202,7 +220,7 @@
                 <td>Calc 3</td>
                 <td>Calc 4</td>
             </tr>
-            
+
         </table>
     </div>
 
