@@ -23,7 +23,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     <script>
-        var line = 5670
+        var line = 6150
 
         //https://developers.google.com/chart/interactive/docs/basic_interactivity for details on click interactions
         //we'll need this for allowing people to get numbers from the peak
@@ -55,7 +55,7 @@
             draw("chart8", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
             draw("chart9", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
             draw("chart10", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
-            
+
         }
 
         //use eval to make this a single function for all charts
@@ -65,12 +65,15 @@
             function draw(response) {
                 options["title"] = title
                 var data = response.getDataTable();
-                eval(div + "= new google.visualization.ScatterChart(document.getElementById(\"" + div + "\"));" );
+                eval(div + "= new google.visualization.ScatterChart(document.getElementById(\"" + div + "\"));");
                 function selectHandler() {
                     eval("var selectedItem =" + div + ".getSelection()[0]; console.log('evaled' + div);")
                     if (selectedItem) {
-                        var value = data.getValue(0, selectedItem.column);
-                        alert('The user selected ' + value);
+                        var flux = data.getValue(0, selectedItem.column);
+                        var wavelength = data.getValue(selectedItem.row, 0);
+                        eval("document.getElementById('" + div + "value1" + "').innerHTML = wavelength;" );
+                        eval("document.getElementById('" + div + "value2" + "').innerHTML = flux;" );
+                        //alert('The user selected ' + wavelength);
                     } else (alert('No selecteditem'))
                 }
 
@@ -82,9 +85,6 @@
                 google.visualization.events.addListener('chart1', 'select', selectHandler);
                 eval(div + ".draw(data, options);");
                 eval("drawVAxisLine(" + div + ", line)");
-
-
-
             }
 
         }
@@ -95,7 +95,7 @@
 
             var svg = chart.getContainer().getElementsByTagName('svg')[0];
             var xLoc = layout.getXLocation(value)
-            svg.appendChild(createLine(xLoc, chartArea.top + chartArea.height, xLoc, chartArea.top, '#00cccc', 4)); // axis line 
+            svg.appendChild(createLine(xLoc, chartArea.top + chartArea.height, xLoc, chartArea.top, '#ff0000', 2)); // axis line 
         }
 
         function createLine(x1, y1, x2, y2, color, w) {
@@ -113,16 +113,66 @@
 
     </script>
     <div class="chartWrapper">
-        <div id="chart1" style="width: 700px; height: 300px;"></div>
-        <div id="chart2" style="width: 700px; height: 300px;"></div>
-        <div id="chart3" style="width: 700px; height: 300px;"></div>
-        <div id="chart4" style="width: 700px; height: 300px;"></div>
-        <div id="chart5" style="width: 700px; height: 300px;"></div>
-        <div id="chart6" style="width: 700px; height: 300px;"></div>
-        <div id="chart7" style="width: 700px; height: 300px;"></div>
-        <div id="chart8" style="width: 700px; height: 300px;"></div>
-        <div id="chart9" style="width: 700px; height: 300px;"></div>
-        <div id="chart10" style="width: 700px; height: 300px;"></div>
+        <div>
+            <div id="chart1" style="width: 700px; height: 300px;"></div>
+            <span>Wavelength: </span><span id="chart1value1"></span>
+            <br />
+            <span>Flux: </span><span id="chart1value2"></span>
+        </div>
+        <div>
+            <div id="chart2" style="width: 700px; height: 300px;"></div>
+            <span>Wavelength: </span><span id="chart2value1"></span>
+            <br />
+            <span>Flux: </span><span id="chart2value2"></span>
+        </div>
+        <div>
+            <div id="chart3" style="width: 700px; height: 300px;"></div>
+            <span>Wavelength: </span><span id="chart3value1"></span>
+            <br />
+            <span>Flux: </span><span id="chart3value2"></span>
+        </div>
+        <div>
+            <div id="chart4" style="width: 700px; height: 300px;"></div>
+            <span>Wavelength: </span><span id="chart4value1"></span>
+            <br />
+            <span>Flux: </span><span id="chart4value2"></span>
+        </div>
+        <div>
+            <div id="chart5" style="width: 700px; height: 300px;"></div>
+            <span>Wavelength: </span><span id="chart5value1"></span>
+            <br />
+            <span>Flux: </span><span id="chart5value2"></span>
+        </div>
+        <div>
+            <div id="chart6" style="width: 700px; height: 300px;"></div>
+            <span>Wavelength: </span><span id="chart6value1"></span>
+            <br />
+            <span>Flux: </span><span id="chart6value2"></span>
+        </div>
+        <div>
+            <div id="chart7" style="width: 700px; height: 300px;"></div>
+            <span>Wavelength: </span><span id="chart7value1"></span>
+            <br />
+            <span>Flux: </span><span id="chart7value2"></span>
+        </div>
+        <div>
+            <div id="chart8" style="width: 700px; height: 300px;"></div>
+            <span>Wavelength: </span><span id="chart8value1"></span>
+            <br />
+            <span>Flux: </span><span id="chart8value2"></span>
+        </div>
+        <div>
+            <div id="chart9" style="width: 700px; height: 300px;"></div>
+            <span>Wavelength: </span><span id="chart9value1"></span>
+            <br />
+            <span>Flux: </span><span id="chart9value2"></span>
+        </div>
+        <div>
+            <div id="chart10" style="width: 700px; height: 300px;"></div>
+            <span>Wavelength: </span><span id="chart10value1"></span>
+            <br />
+            <span>Flux: </span><span id="chart10value2"></span>
+        </div>
     </div>
 
 </body>
