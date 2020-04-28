@@ -8,6 +8,7 @@
     <link type="image/x-icon" rel="shortcut icon" href="./favicon.ico">
     <link type="text/css" rel="stylesheet" href="js9support.css">
     <link type="text/css" rel="stylesheet" href="js9.css">
+    <link type="text/css" rel="stylesheet" href="charts.css">
     <style type="text/css">
         #centerdiv {
             width: 512px;
@@ -43,7 +44,6 @@
             }
         };
 
-
         function drawAllCharts() {
             var query1 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1oXcuRQq5HheZ6mfmhCmOYIQNgWxzW_Okhx7FpnN884U/edit#gid=0");
             var query2 = new google.visualization.Query("https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0");
@@ -73,6 +73,18 @@
             options["title"] = "1994s"
             var data = response.getDataTable();
             var chart1 = new google.visualization.ScatterChart(document.getElementById("chart1"));
+            function selectHandler() {
+    var selectedItem = chart1.getSelection()[0];
+    if (selectedItem) {
+      var value = data.getValue(selectedItem.row, selectedItem.column);
+      alert('The user selected ' + value);
+    }
+  }
+
+  // Listen for the 'select' event, and call my function selectHandler() when
+  // the user selects something on the chart.
+  google.visualization.events.addListener(chart1, 'select', selectHandler);
+
             chart1.draw(data, options);
             drawVAxisLine(chart1, line);
         }
