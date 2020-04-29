@@ -66,9 +66,9 @@
             var cell0 = row.insertCell(0);
             cell0.innerHTML = title;
             var cell1 = row.insertCell(1);
-            eval("cell1.id = '" + div + "v1';");
+            eval("cell1.id = '" + div + "v2';");
             var cell2 = row.insertCell(2);
-            eval("cell2.id = '" + div + "v2';");
+            eval("cell2.id = '" + div + "v1';");
             var cell3 = row.insertCell(3);
             eval("cell3.id = '" + div + "c1';");
             var cell4 = row.insertCell(4);
@@ -126,13 +126,21 @@
             return line;
         }
 
-        function saveValue1(div) {
+//sets wavelength
+        function saveWavelength(div) {
             var value = document.getElementById("chart1value1").innerHTML;
             eval("var value = document.getElementById('" + div + "value1').innerHTML;");
             eval("document.getElementById('" + div + "v1').innerHTML = '" + value + "'");
+
+            //get red shift
+
+            var redshift = (+value - 6150) / 6150;
+            eval("document.getElementById('" + div + "c1').innerHTML = '" + redshift + "';");
+
         }
 
-        function saveValue2(div) {
+//sets flx
+        function saveFlux(div) {
             var value = document.getElementById("chart1value1").innerHTML;
             eval("var value = document.getElementById('" + div + "value2').innerHTML;");
             eval("document.getElementById('" + div + "v2').innerHTML = '" + value + "'");
@@ -143,68 +151,102 @@
     <div class="chartWrapper">
         <div>
             <div id="chart1" style="width: 700px; height: 300px;"></div>
-
             <span>Flux: </span>
             <span id="chart1value2"></span>
-            <span onClick="saveValue2('chart1')">Save</span>
+            <span onClick="saveFlux('chart1')">Save</span>
             <br />
             <span>Wavelength: </span><span id="chart1value1"></span>
-            <span onClick="saveValue1('chart1')">Save</span>
-
+            <span onClick="saveWavelength('chart1')">Save</span>
         </div>
         <div>
             <div id="chart2" style="width: 700px; height: 300px;"></div>
-            <span>Wavelength: </span><span id="chart2value1"></span>
+            <span>Flux: </span>
+            <span id="chart2value2"></span>
+            <span onClick="saveFlux('chart2')">Save</span>
             <br />
-            <span>Flux: </span><span id="chart2value2"></span>
+            <span>Wavelength: </span>
+            <span id="chart2value1"></span>
+            <span onClick="saveWavelength('chart2')">Save</span>
         </div>
         <div>
             <div id="chart3" style="width: 700px; height: 300px;"></div>
-            <span>Wavelength: </span><span id="chart3value1"></span>
+            <span>Flux: </span>
+            <span id="chart3value2"></span>
+            <span onClick="saveFlux('chart3')">Save</span>
             <br />
-            <span>Flux: </span><span id="chart3value2"></span>
+            <span>Wavelength: </span>
+            <span id="chart3value1"></span>
+            <span onClick="saveWavelength('chart3')">Save</span>
         </div>
         <div>
             <div id="chart4" style="width: 700px; height: 300px;"></div>
-            <span>Wavelength: </span><span id="chart4value1"></span>
+            <span>Flux: </span>
+            <span id="chart4value2"></span>
+            <span onClick="saveFlux('chart4')">Save</span>
             <br />
-            <span>Flux: </span><span id="chart4value2"></span>
+            <span>Wavelength: </span>
+            <span id="chart4value1"></span>
+            <span onClick="saveWavelength('chart4')">Save</span>
         </div>
         <div>
             <div id="chart5" style="width: 700px; height: 300px;"></div>
-            <span>Wavelength: </span><span id="chart5value1"></span>
+            <span>Flux: </span>
+            <span id="chart5value2"></span>
+            <span onClick="saveFlux('chart5')">Save</span>
             <br />
-            <span>Flux: </span><span id="chart5value2"></span>
+            <span>Wavelength: </span>
+            <span id="chart5value1"></span>
+            <span onClick="saveWavelength('chart5')">Save</span>
         </div>
         <div>
             <div id="chart6" style="width: 700px; height: 300px;"></div>
-            <span>Wavelength: </span><span id="chart6value1"></span>
+            <span>Flux: </span>
+            <span id="chart6value2"></span>
+            <span onClick="saveFlux('chart6')">Save</span>
             <br />
-            <span>Flux: </span><span id="chart6value2"></span>
+            <span>Wavelength: </span>
+            <span id="chart6value1"></span>
+            <span onClick="saveWavelength('chart6')">Save</span>
         </div>
         <div>
             <div id="chart7" style="width: 700px; height: 300px;"></div>
-            <span>Wavelength: </span><span id="chart7value1"></span>
+            <span>Flux: </span>
+            <span id="chart7value2"></span>
+            <span onClick="saveFlux('chart7')">Save</span>
             <br />
-            <span>Flux: </span><span id="chart7value2"></span>
+            <span>Wavelength: </span>
+            <span id="chart7value1"></span>
+            <span onClick="saveWavelength('chart7')">Save</span>
         </div>
         <div>
             <div id="chart8" style="width: 700px; height: 300px;"></div>
-            <span>Wavelength: </span><span id="chart8value1"></span>
+            <span>Flux: </span>
+            <span id="chart8value2"></span>
+            <span onClick="saveFlux('chart8')">Save</span>
             <br />
-            <span>Flux: </span><span id="chart8value2"></span>
+            <span>Wavelength: </span>
+            <span id="chart8value1"></span>
+            <span onClick="saveWavelength('chart8')">Save</span>
         </div>
         <div>
             <div id="chart9" style="width: 700px; height: 300px;"></div>
-            <span>Wavelength: </span><span id="chart9value1"></span>
+            <span>Flux: </span>
+            <span id="chart9value2"></span>
+            <span onClick="saveFlux('chart9')">Save</span>
             <br />
-            <span>Flux: </span><span id="chart9value2"></span>
+            <span>Wavelength: </span>
+            <span id="chart9value1"></span>
+            <span onClick="saveWavelength('chart9')">Save</span>
         </div>
         <div>
             <div id="chart10" style="width: 700px; height: 300px;"></div>
-            <span>Flux: </span><span id="chart10value2"></span>
+            <span>Flux: </span>
+            <span id="chart10value2"></span>
+            <span onClick="saveFlux('chart10')">Save</span>
             <br />
-            <span>Wavelength: </span><span id="chart10value1"></span>
+            <span>Wavelength: </span>
+            <span id="chart10value1"></span>
+            <span onClick="saveWavelength('chart10')">Save</span>
 
         </div>
     </div>
@@ -215,7 +257,7 @@
                 <td></td>
                 <td>Magnitude</td>
                 <td>Wavelength</td>
-                <td>Calc 1</td>
+                <td>Redshift</td>
                 <td>Calc 2</td>
                 <td>Calc 3</td>
                 <td>Calc 4</td>
