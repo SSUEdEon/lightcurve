@@ -11,3 +11,7 @@
 tr td {
     text-align: left;
 }
+
+.hidden {
+    display: none;
+}

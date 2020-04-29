@@ -19,10 +19,20 @@
 </head>
 
 <body>
+    <div id="chartContainer" class="chartWrapper">
+
+
+    </div>
+
+
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     <script>
+        generateChartDivs();
+        //This whole thing is wrong... turns out we were supposed to have a separate graph for each light curve, which the 
+        //magitude comes from. The spectra is part two. Really, really wish I could use components properly for this thing.
+
         var line = 6150
         var rowCounter = 1;
 
@@ -45,7 +55,11 @@
             }
         };
 
+        //URL for lightcurve: https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0
+
         function drawCall() {
+//Spectra charts
+
             draw("chart1", "1994s", "https://docs.google.com/spreadsheets/d/1oXcuRQq5HheZ6mfmhCmOYIQNgWxzW_Okhx7FpnN884U/edit#gid=0");
             draw("chart2", "1996bo", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
             draw("chart3", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
@@ -56,6 +70,17 @@
             draw("chart8", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
             draw("chart9", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
             draw("chart10", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
+
+            draw("chart1b", "1994s", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0");
+            draw("chart2b", "1994s", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0");
+            draw("chart3b", "1994s", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0");
+            draw("chart4b", "1994s", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0");
+            draw("chart5b", "1994s", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0");
+            draw("chart6b", "1994s", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0");
+            draw("chart7b", "1994s", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0");
+            draw("chart8b", "1994s", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0");
+            draw("chart9b", "1994s", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0");
+            draw("chart10b", "1994s", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0");
 
         }
 
@@ -92,8 +117,7 @@
                     if (selectedItem) {
                         var flux = data.getValue(selectedItem.row, 1);
                         var wavelength = data.getValue(selectedItem.row, 0);
-                        eval("document.getElementById('" + div + "value1" + "').innerHTML = wavelength;");
-                        eval("document.getElementById('" + div + "value2" + "').innerHTML = flux;");
+                        eval("document.getElementById('" + div + "value" + "').innerHTML = wavelength;");
                     } else (alert('No selecteditem'))
                 }
 
@@ -128,128 +152,60 @@
 
 //sets wavelength
         function saveWavelength(div) {
-            var value = document.getElementById("chart1value1").innerHTML;
-            eval("var value = document.getElementById('" + div + "value1').innerHTML;");
+            eval("var value = document.getElementById('" + div + "value').innerHTML;");
             eval("document.getElementById('" + div + "v1').innerHTML = '" + value + "'");
 
             //get red shift
 
-            var redshift = (+value - 6150) / 6150;
-            eval("document.getElementById('" + div + "c1').innerHTML = '" + redshift + "';");
+          //  var redshift = (+value - 6150) / 6150;
+         //   eval("document.getElementById('" + div + "c1').innerHTML = '" + redshift + "';");
 
         }
 
 //sets flx
         function saveFlux(div) {
-            var value = document.getElementById("chart1value1").innerHTML;
-            eval("var value = document.getElementById('" + div + "value2').innerHTML;");
+            console.log(div);
+            eval("var value = document.getElementById('" + div + "bvalue').innerHTML;");
             eval("document.getElementById('" + div + "v2').innerHTML = '" + value + "'");
         }
 
+        function showLight(chart){
+            eval(`document.getElementById("${chart}b").classList.remove("hidden");
+                document.getElementById("${chart}").classList.add("hidden");`);
+        }
+
+        function showSpectra(chart){
+            eval(`document.getElementById("${chart}").classList.remove("hidden");
+                document.getElementById("${chart}b").classList.add("hidden");`);
+        }
+
+        function generateChartDivs() {
+            var content = "";
+
+            for(var i=1; i<=10; i++){
+            var singleContent = 
+            `<div>
+            <div id="chart${i}" style="width: 700px; height: 300px;" class="hidden"></div>
+            <div id="chart${i}b" style="width: 700px; height: 300px;"></div>
+            <span onclick="showLight('chart${i}')">Light Curve</span> | <span onclick="showSpectra('chart${i}')"> Spectra</span><br/>
+            <span>Magnitude: </span>
+            <span id="chart${i}bvalue"></span>
+            <span onClick="saveFlux('chart${i}')">Save</span>
+            <br />
+            <span>Wavelength: </span><span id="chart${i}value"></span>
+            <span onClick="saveWavelength('chart${i}')">Save</span>
+        </div>`
+
+            content = content + singleContent;
+            }
+
+        document.getElementById("chartContainer").innerHTML = content;
+
+        }
 
     </script>
-    <div class="chartWrapper">
-        <div>
-            <div id="chart1" style="width: 700px; height: 300px;"></div>
-            <span>Flux: </span>
-            <span id="chart1value2"></span>
-            <span onClick="saveFlux('chart1')">Save</span>
-            <br />
-            <span>Wavelength: </span><span id="chart1value1"></span>
-            <span onClick="saveWavelength('chart1')">Save</span>
-        </div>
-        <div>
-            <div id="chart2" style="width: 700px; height: 300px;"></div>
-            <span>Flux: </span>
-            <span id="chart2value2"></span>
-            <span onClick="saveFlux('chart2')">Save</span>
-            <br />
-            <span>Wavelength: </span>
-            <span id="chart2value1"></span>
-            <span onClick="saveWavelength('chart2')">Save</span>
-        </div>
-        <div>
-            <div id="chart3" style="width: 700px; height: 300px;"></div>
-            <span>Flux: </span>
-            <span id="chart3value2"></span>
-            <span onClick="saveFlux('chart3')">Save</span>
-            <br />
-            <span>Wavelength: </span>
-            <span id="chart3value1"></span>
-            <span onClick="saveWavelength('chart3')">Save</span>
-        </div>
-        <div>
-            <div id="chart4" style="width: 700px; height: 300px;"></div>
-            <span>Flux: </span>
-            <span id="chart4value2"></span>
-            <span onClick="saveFlux('chart4')">Save</span>
-            <br />
-            <span>Wavelength: </span>
-            <span id="chart4value1"></span>
-            <span onClick="saveWavelength('chart4')">Save</span>
-        </div>
-        <div>
-            <div id="chart5" style="width: 700px; height: 300px;"></div>
-            <span>Flux: </span>
-            <span id="chart5value2"></span>
-            <span onClick="saveFlux('chart5')">Save</span>
-            <br />
-            <span>Wavelength: </span>
-            <span id="chart5value1"></span>
-            <span onClick="saveWavelength('chart5')">Save</span>
-        </div>
-        <div>
-            <div id="chart6" style="width: 700px; height: 300px;"></div>
-            <span>Flux: </span>
-            <span id="chart6value2"></span>
-            <span onClick="saveFlux('chart6')">Save</span>
-            <br />
-            <span>Wavelength: </span>
-            <span id="chart6value1"></span>
-            <span onClick="saveWavelength('chart6')">Save</span>
-        </div>
-        <div>
-            <div id="chart7" style="width: 700px; height: 300px;"></div>
-            <span>Flux: </span>
-            <span id="chart7value2"></span>
-            <span onClick="saveFlux('chart7')">Save</span>
-            <br />
-            <span>Wavelength: </span>
-            <span id="chart7value1"></span>
-            <span onClick="saveWavelength('chart7')">Save</span>
-        </div>
-        <div>
-            <div id="chart8" style="width: 700px; height: 300px;"></div>
-            <span>Flux: </span>
-            <span id="chart8value2"></span>
-            <span onClick="saveFlux('chart8')">Save</span>
-            <br />
-            <span>Wavelength: </span>
-            <span id="chart8value1"></span>
-            <span onClick="saveWavelength('chart8')">Save</span>
-        </div>
-        <div>
-            <div id="chart9" style="width: 700px; height: 300px;"></div>
-            <span>Flux: </span>
-            <span id="chart9value2"></span>
-            <span onClick="saveFlux('chart9')">Save</span>
-            <br />
-            <span>Wavelength: </span>
-            <span id="chart9value1"></span>
-            <span onClick="saveWavelength('chart9')">Save</span>
-        </div>
-        <div>
-            <div id="chart10" style="width: 700px; height: 300px;"></div>
-            <span>Flux: </span>
-            <span id="chart10value2"></span>
-            <span onClick="saveFlux('chart10')">Save</span>
-            <br />
-            <span>Wavelength: </span>
-            <span id="chart10value1"></span>
-            <span onClick="saveWavelength('chart10')">Save</span>
 
-        </div>
-    </div>
+    
     <div>
         <br /><br /><br />
         <table id="resultsTable">
