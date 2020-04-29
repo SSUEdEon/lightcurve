@@ -33,3 +33,27 @@ th {
 .firstColumn td {
     background-color: #DCDCDC;
 }
+
+.button:hover {
+    cursor: pointer;
+}
+
+.button {
+    color: blue;
+}
+
+.label {
+    width: 100%;
+    text-align: center;
+}
+
+label span {
+    display:table;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.valueDiv{
+    width: 100%;
+    padding-left: 80px;
+}
