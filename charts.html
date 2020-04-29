@@ -9,13 +9,6 @@
     <link type="text/css" rel="stylesheet" href="js9support.css">
     <link type="text/css" rel="stylesheet" href="js9.css">
     <link type="text/css" rel="stylesheet" href="charts.css">
-    <style type="text/css">
-        #centerdiv {
-            width: 512px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-    </style>
 </head>
 
 <body>
@@ -88,7 +81,6 @@
         }
 
         function draw(div, title, url, hidden) {
-            console.log(hidden);
             //Create table element first, so we can call it
             var table = document.getElementById("resultsTable");
             var row = table.insertRow(rowCounter);
@@ -131,7 +123,6 @@
                 eval("drawVAxisLine(" + div + ", line)");
                 if(hidden == true){
                     eval(`document.getElementById("${div}").classList.add("hidden")`);
-                    console.log("Hidden " + div);
                 }
             }
 
@@ -172,7 +163,6 @@
 
 //sets flx
         function saveFlux(div) {
-            console.log(div);
             eval("var value = document.getElementById('" + div + "bvalue').innerHTML;");
             eval("document.getElementById('" + div + "v2').innerHTML = '" + value + "'");
         }
@@ -218,13 +208,13 @@
         <br /><br /><br />
         <table id="resultsTable">
             <tr>
-                <td></td>
-                <td>Magnitude</td>
-                <td>Wavelength</td>
-                <td>Redshift</td>
-                <td>Calc 2</td>
-                <td>Calc 3</td>
-                <td>Calc 4</td>
+                <th></th>
+                <th>Magnitude</th>
+                <th>Wavelength</th>
+                <th>Calc 1</th>
+                <th>Calc 2</th>
+                <th>Calc 3</th>
+                <th>Calc 4</th>
             </tr>
 
         </table>

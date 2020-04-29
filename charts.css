@@ -10,6 +10,7 @@
 
 tr td {
     text-align: left;
+    padding: 10px;
 }
 
 .hidden {
@@ -18,4 +19,17 @@ tr td {
 
 .shown {
     display: block;
+}
+
+table, th, td {
+    margin: 0 auto;
+    border: 1px solid black;
+    border-collapse: collapse;
+    }
+th {
+    background-color: #BEC0BF;
+}
+
+.firstColumn td {
+    background-color: #DCDCDC;
 }
