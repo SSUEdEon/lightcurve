@@ -57,3 +57,7 @@ label span {
     width: 100%;
     padding-left: 80px;
 }
+
+.underline {
+    text-decoration: underline;
+}

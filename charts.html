@@ -172,12 +172,22 @@
 
         function showLight(chart){
             eval(`document.getElementById("${chart}b").classList.remove("hidden");
-                document.getElementById("${chart}").classList.add("hidden");`);
+                document.getElementById("${chart}").classList.add("hidden");
+                
+                document.getElementById("${chart}lightbutton").classList.add("underline");
+                document.getElementById("${chart}spectrabutton").classList.remove("underline");
+                
+                `);
         }
 
         function showSpectra(chart){
             eval(`document.getElementById("${chart}").classList.remove("hidden");
-                document.getElementById("${chart}b").classList.add("hidden");`);
+                document.getElementById("${chart}b").classList.add("hidden");
+
+                document.getElementById("${chart}lightbutton").classList.remove("underline");
+                document.getElementById("${chart}spectrabutton").classList.add("underline");
+                
+                `);
         }
 
         function generateChartDivs() {
@@ -189,7 +199,7 @@
             <div id="chart${i}" style="width: 700px; height: 300px;"></div>
             <div id="chart${i}b" style="width: 700px; height: 300px;" ></div>
             <div class="label">
-            <span onclick="showLight('chart${i}')" class="button">Light Curve</span> | <span onclick="showSpectra('chart${i}')" class="button"> Spectra</span><br/>
+            <span onclick="showLight('chart${i}')" class="button underline" id="chart${i}lightbutton">Light Curve</span> | <span onclick="showSpectra('chart${i}')" class="button" id="chart${i}spectrabutton"> Spectra</span><br/>
             </div>
             <div class="valueDiv">
             <span>Magnitude: </span>
