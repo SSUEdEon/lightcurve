@@ -52,7 +52,9 @@
                 title: 'Wavelength (nm)',
                 viewWindowMode: 'maximized',
                 format: '#'
-            }
+            },
+            width: '700px',
+            height: '300px'
         };
 
         //URL for lightcurve: https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0
@@ -60,17 +62,18 @@
         function drawCall() {
 //Spectra charts
 
-            draw("chart1", "1994s", "https://docs.google.com/spreadsheets/d/1oXcuRQq5HheZ6mfmhCmOYIQNgWxzW_Okhx7FpnN884U/edit#gid=0");
-            draw("chart2", "1996bo", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
-            draw("chart3", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
-            draw("chart4", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
-            draw("chart5", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
-            draw("chart6", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
-            draw("chart7", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
-            draw("chart8", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
-            draw("chart9", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
-            draw("chart10", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing");
+            draw("chart1", "1994s", "https://docs.google.com/spreadsheets/d/1oXcuRQq5HheZ6mfmhCmOYIQNgWxzW_Okhx7FpnN884U/edit#gid=0", true);
+            draw("chart2", "1996bo", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing", true);
+            draw("chart3", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing", true);
+            draw("chart4", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing", true);
+            draw("chart5", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing", true);
+            draw("chart6", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing", true);
+            draw("chart7", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing", true);
+            draw("chart8", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing", true);
+            draw("chart9", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing", true);
+            draw("chart10", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing", true);
 
+//Light curve charts
             draw("chart1b", "1994s", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0");
             draw("chart2b", "1994s", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0");
             draw("chart3b", "1994s", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0");
@@ -84,7 +87,8 @@
 
         }
 
-        function draw(div, title, url) {
+        function draw(div, title, url, hidden) {
+            console.log(hidden);
             //Create table element first, so we can call it
             var table = document.getElementById("resultsTable");
             var row = table.insertRow(rowCounter);
@@ -125,6 +129,10 @@
                 google.visualization.events.addListener('chart1', 'select', selectHandler);
                 eval(div + ".draw(data, options);");
                 eval("drawVAxisLine(" + div + ", line)");
+                if(hidden == true){
+                    eval(`document.getElementById("${div}").classList.add("hidden")`);
+                    console.log("Hidden " + div);
+                }
             }
 
 
@@ -185,8 +193,8 @@
             for(var i=1; i<=10; i++){
             var singleContent = 
             `<div>
-            <div id="chart${i}" style="width: 700px; height: 300px;" class="hidden"></div>
-            <div id="chart${i}b" style="width: 700px; height: 300px;"></div>
+            <div id="chart${i}" style="width: 700px; height: 300px;"></div>
+            <div id="chart${i}b" style="width: 700px; height: 300px;" ></div>
             <span onclick="showLight('chart${i}')">Light Curve</span> | <span onclick="showSpectra('chart${i}')"> Spectra</span><br/>
             <span>Magnitude: </span>
             <span id="chart${i}bvalue"></span>
