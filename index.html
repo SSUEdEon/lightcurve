@@ -28,18 +28,18 @@
 
 	<div class="instructions">
 		<ul>
-			<li>1: Select the file button at the top left, then 'open > local file'. Use the file picker to select the FTS image you'd like to work with.</li>
+			<li>1: Select the file button at the top left, then 'open > local file'. Use the file picker to select the
+				FTS image you'd like to work with.</li>
 			<li>2: From the 'Scale' tab, select 'Log'. Adjust brightness as needed.</li>
-			<li>3: Using a finder chart, locate your traget and comparison stars. Make sure to label these on your chart for reference.</li>
-			<li>4: Click 'Add Region' to create a circle region on the image. Place this image on a blank area with no stars **to be changed with annulus**</li>
-			<li>5: Click 'Get Background' to get the 'dark' background for subtraction. **again, to be changed**</li>
-			<li>6: Move the region to your target star and click 'Target Star'. Do the same for each comparison.</li>
-			<li>7: Click 'draw chart' to plot the background subtracted results of your image.</li>
+			<li>3: Using a finder chart, locate your traget and comparison stars. Make sure to label these on your chart
+				for reference.</li>
+			<li>4: If needed, resize the circle. You should use the same size for each image and each star, so if you change this note the size and make sure it fits for all objects.</li>
+			<li>5: Move the region to your target star and click 'Target Star'. Do the same for each comparison. This will also determine background from the area around the object.</li>
+			<li>6: Click 'draw chart' to plot the background subtracted results of your image.</li>
 			<li>Repeat for additional images.</li>
 		</ul>
 	</div>
 	<button onclick="JS9.AddRegions(`circle`, { radius: 12 })">Add Region</button>
-	<button onclick="getBackground()">GetBackground</button>
 	<button onclick="setBackgroundCount('target')">Target Star</button>
 	<button onclick="setBackgroundCount('comp1')">Comparison 1</button>
 	<button onclick="setBackgroundCount('comp2')">Comparison 2</button>
@@ -56,7 +56,7 @@
 		var comp2Count;
 
 		google.charts.load('current', { 'packages': ['corechart'] });
-		// google.charts.setOnLoadCallback(drawChart);
+		// google.charts.setOnLoadCallback(drawChart); < use this if you want to draw something when the chart loads
 
 		var counter = 0;
 		values = [
@@ -70,15 +70,13 @@
 			var stats = google.visualization.arrayToDataTable(values);
 			var options = {
 				title: 'Time vs. Brightness',
-				hAxis: { title: 'Time'},// time range should depend on our data EX: (dataDate.min -1) (dataDate.max +1)
-				vAxis: { title: 'Brightness', minValue: 1.4, maxValue: 1.6 },// brightness range should depend on our data EX: (dataBrightness.min -1) //(dataBrightness.max +1)
+				hAxis: { title: 'Time' },
+				vAxis: { title: 'Brightness', minValue: 1.4, maxValue: 1.6 },
 				legend: 'none'
 			};
 			counter++;
 
 			var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
-
-			//chart.draw(stats, options);
 
 			google.visualization.events.addListener(chart, 'ready', function () {
 				chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
@@ -89,20 +87,23 @@
 
 		function getBackgroundCountRegion() {
 			var regionString = getSelectedRegionCoordinates();
-			if (backgroundLocation) {
-				regionCount = JSON.parse(JS9.CountsInRegions(regionString, backgroundLocation, { cmdswitches: "-j" }));
-				console.log(regionCount.backgroundSubtractedResults[0].netCounts);
+			var backgroundCoordinates = getBackgroundCoordinates();
+			if (regionString && backgroundCoordinates) {
+				regionCount = JSON.parse(JS9.CountsInRegions(regionString, backgroundCoordinates, { cmdswitches: "-j" }));
 				return regionCount.backgroundSubtractedResults[0].netCounts;
 			} else {
 				console.log("Error: Background not selected");
 				return false;
 			}
+
+			var regionCoordinates = getSelectedRegionCoordinates();
+
+
 		}
+
 
 		function setBackgroundCount(object) {
 			var objectCount = getBackgroundCountRegion();
-			datez = JS9.GetDisplayData("selected");
-			//this needs to go away eventually
 
 			if (object == "target") {
 				targetCount = objectCount;
@@ -117,6 +118,8 @@
 				document.getElementById("demo").innerHTML = comp2Count;
 			}
 
+			//remove text, remove parentheses, remove spaces, split by commas
+
 		}
 
 		function getJulianDate() {
@@ -124,13 +127,13 @@
 			var headerData = readAndParseHeader();
 			var headerDate = headerData.DATEOBS;
 			var convertedDate = (Math.floor(dateToJulian(headerDate) * 100000) / 100000)
-			return convertedDate			
+			return convertedDate
 
 		}
 
 
 		function getSelectedRegionCoordinates() {
-			region = JS9.GetRegions("selected")[0];
+			region = JS9.GetRegions("all")[0];
 			var regionString;
 			(region.wcsstr ? regionString = region.wcsstr : regionString = region.imstr);
 			document.getElementById("demo").innerHTML = regionString;
@@ -144,17 +147,28 @@
 			(background.wcsstr ? regionString = background.wcsstr : regionString = background.imstr);
 			backgroundLocation = regionString;
 			//On problem images it looks like imstr is defined, but not wcsstr? So, we'll define this differently and hope the follow up functions can tell the difference.
-
 			document.getElementById("demo").innerHTML = regionString;
 		}
 
-		function dateToJulian(date){
+		function getBackgroundCoordinates() {
+			//Created an annulus, use that for background region
+			//Note also that this only works if the selected region is a circle.
 
-			if(!(date instanceof Date)){
+			var selectedCoordinates = getSelectedRegionCoordinates();
+			strippedCoordinates = selectedCoordinates.replace(/[a-z]|\)|\(|\s/gi, '');
+			var selectedCoordinatesSplit = strippedCoordinates.split(`,`);
+			var annulusString = `annulus(${selectedCoordinatesSplit[0]}, ${selectedCoordinatesSplit[1]}, ${selectedCoordinatesSplit[2]}, ${+selectedCoordinatesSplit[2] * 2})`;
+			return annulusString;
+
+		}
+
+		function dateToJulian(date) {
+
+			if (!(date instanceof Date)) {
 				date = new Date(date);
 			}
 
-			var julianDate = (date /86400000) + 2440587.5;
+			var julianDate = (date / 86400000) + 2440587.5;
 			return julianDate;
 
 		}
@@ -194,7 +208,6 @@
 				}
 			}
 			headerobj = headerobjtemp;
-			console.log(headerobj);
 			return headerobj;
 		}
 
