@@ -141,14 +141,6 @@
 
 		}
 
-		function getBackground() {
-			background = JS9.GetRegions("all")[0];
-			var regionString;
-			(background.wcsstr ? regionString = background.wcsstr : regionString = background.imstr);
-			backgroundLocation = regionString;
-			//On problem images it looks like imstr is defined, but not wcsstr? So, we'll define this differently and hope the follow up functions can tell the difference.
-			document.getElementById("demo").innerHTML = regionString;
-		}
 
 		function getBackgroundCoordinates() {
 			//Created an annulus, use that for background region
