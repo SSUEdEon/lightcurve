@@ -132,6 +132,8 @@
                     if (selectedItem) {
                         var wavelength = data.getValue(selectedItem.row, 0);
                         eval("document.getElementById('" + div + "value" + "').innerHTML = wavelength;");
+                        saveWavelength(div);
+                        generateDistanceChart();
                     } else (alert('No selecteditem'))
                 }
 
@@ -140,6 +142,8 @@
                     if (selectedItem) {
                         var wavelength = data.getValue(selectedItem.row, 1);
                         eval("document.getElementById('" + div + "value" + "').innerHTML = wavelength;");
+                        saveMagnitude(div);
+                        generateDistanceChart();
                     } else (alert('No selecteditem'))
                 }
 
@@ -182,18 +186,20 @@
         function saveWavelength(div) {
             var wavelength = document.getElementById(`${div}value`).innerHTML;
             document.getElementById(`${div}v1`).innerHTML = String(wavelength);
-            var redshift = (wavelength - 6150)/6150;
+            var redshift = (wavelength - 6150) / 6150;
             document.getElementById(`${div}redshift`).innerHTML = String(redshift);
-            var speed = redshift * 3 * Math.pow(10,5);
+            var speed = redshift * 3 * Math.pow(10, 5);
             document.getElementById(`${div}speed`).innerHTML = String(speed);
+
         }
 
         //sets flx
         function saveMagnitude(div) {
+            div = div.replace("b", "");
             var magnitude = document.getElementById(`${div}bvalue`).innerHTML;;
-        
+
             var distance = +magnitude + 19.12;
-            var moddedDistance = (distance + 5)/5;
+            var moddedDistance = (distance + 5) / 5;
             var parsecs = Math.pow(10, moddedDistance);
             var km = parsecs * 3.09 * Math.pow(10, 13);
 
@@ -239,10 +245,8 @@
             <div class="valueDiv">
             <span>Magnitude: </span>
             <span id="chart${i}bvalue" class="valueText"></span>
-            <span onClick="saveMagnitude('chart${i}')" class="button">Save</span>
             <br />
             <span>Wavelength: </span><span id="chart${i}value" class="valueText"></span>
-            <span onClick="saveWavelength('chart${i}')" class="button">Save</span>
             </div>
         </div>`
 
@@ -252,6 +256,57 @@
             document.getElementById("chartContainer").innerHTML = content;
 
         }
+
+        function generateDistanceChart() {
+            var values = [['Speed', 'Distance']];
+            for (var i = 1; i <= 10; i++) {
+                var speed = document.getElementById(`chart${i}speed`).innerHTML;
+                var distance = document.getElementById(`chart${i}parsec`).innerHTML;
+                if (+speed != 0 && +distance != 0) {
+                    values.push([+speed, +distance]);
+                }
+            }
+
+            console.log(values);
+
+            var chartData = google.visualization.arrayToDataTable(values);
+            var options = {
+                title: 'Distance vs. Speed',
+                hAxis: { title: 'Speed (km/s)' },
+                vAxis: { title: 'Distance (parsecs)' },
+                legend: 'none'
+            };
+            var chart_div = document.getElementById('distanceChart');
+            var chart = new google.visualization.ScatterChart(document.getElementById('distanceChart'));
+
+            google.visualization.events.addListener(chart, 'ready', function () {
+                //		chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
+            });
+
+            chart.draw(chartData, options);
+
+        }
+
+
+        var cell0 = row.insertCell(0);
+        cell0.innerHTML = title;
+        var cell1 = row.insertCell(1);
+        eval("cell1.id = '" + div + "v2';");
+        var cell2 = row.insertCell(2);
+        eval("cell2.id = '" + div + "v1';");
+        var cell3 = row.insertCell(3);
+        eval("cell3.id = '" + div + "d';");
+        var cell4 = row.insertCell(4);
+        eval("cell4.id = '" + div + "dmod';");
+        var cell5 = row.insertCell(5);
+        eval("cell5.id = '" + div + "parsec';");
+        var cell6 = row.insertCell(6);
+        eval("cell6.id = '" + div + "km';");
+        var cell7 = row.insertCell(7);
+        eval("cell7.id = '" + div + "redshift';");
+        var cell8 = row.insertCell(8);
+        eval("cell8.id = '" + div + "speed';");
+
 
     </script>
 
@@ -273,6 +328,8 @@
 
         </table>
     </div>
+    <br />
+    <div id="distanceChart"></div>
 
 </body>
 
