@@ -37,6 +37,11 @@
         var options = {
             title: 'Supernova',
             legend: 'none',
+            explorer: {
+  actions: ['dragToZoom', 'rightClickToReset']
+  /* you can add more options */
+},
+            pointSize: 4,
             vAxis: {
                 title: 'Flux (lm)',
                 format: 'scientific'
@@ -289,27 +294,6 @@
             chart.draw(chartData, distanceOptions);
 
         }
-
-
-        var cell0 = row.insertCell(0);
-        cell0.innerHTML = title;
-        var cell1 = row.insertCell(1);
-        eval("cell1.id = '" + div + "v2';");
-        var cell2 = row.insertCell(2);
-        eval("cell2.id = '" + div + "v1';");
-        var cell3 = row.insertCell(3);
-        eval("cell3.id = '" + div + "d';");
-        var cell4 = row.insertCell(4);
-        eval("cell4.id = '" + div + "dmod';");
-        var cell5 = row.insertCell(5);
-        eval("cell5.id = '" + div + "parsec';");
-        var cell6 = row.insertCell(6);
-        eval("cell6.id = '" + div + "km';");
-        var cell7 = row.insertCell(7);
-        eval("cell7.id = '" + div + "redshift';");
-        var cell8 = row.insertCell(8);
-        eval("cell8.id = '" + div + "speed';");
-
 
     </script>
 
