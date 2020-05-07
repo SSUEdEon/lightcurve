@@ -257,7 +257,7 @@
 
         }
 
-        function generateDistanceChart() {
+        function generateDistanceChart(trendline) {
             var values = [['Speed', 'Distance']];
             for (var i = 1; i <= 10; i++) {
                 var speed = document.getElementById(`chart${i}speed`).innerHTML;
@@ -267,15 +267,18 @@
                 }
             }
 
-            console.log(values);
-
             var chartData = google.visualization.arrayToDataTable(values);
-            var options = {
+            var distanceOptions = {
                 title: 'Distance vs. Speed',
                 hAxis: { title: 'Speed (km/s)' },
                 vAxis: { title: 'Distance (parsecs)' },
                 legend: 'none'
             };
+
+            if(trendline == true){
+                distanceOptions["trendlines"] = { 0: {} };
+            }
+
             var chart_div = document.getElementById('distanceChart');
             var chart = new google.visualization.ScatterChart(document.getElementById('distanceChart'));
 
@@ -283,7 +286,7 @@
                 //		chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
             });
 
-            chart.draw(chartData, options);
+            chart.draw(chartData, distanceOptions);
 
         }
 
@@ -330,6 +333,7 @@
     </div>
     <br />
     <div id="distanceChart"></div>
+    <button onclick="generateDistanceChart(true)">Show Trendline</button>
 
 </body>
 
