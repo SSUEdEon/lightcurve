@@ -62,7 +62,7 @@
         function drawCall() {
             //Spectra charts
 
-            draw("chart1", "1994s", "https://docs.google.com/spreadsheets/d/1oXcuRQq5HheZ6mfmhCmOYIQNgWxzW_Okhx7FpnN884U/edit#gid=0", "spectrum");
+            draw("chart1", "1994S", "https://docs.google.com/spreadsheets/d/1oXcuRQq5HheZ6mfmhCmOYIQNgWxzW_Okhx7FpnN884U/edit#gid=0", "spectrum");
             draw("chart2", "1996bo", "https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0", "spectrum");
             draw("chart3", "1995D", "https://docs.google.com/spreadsheets/d/1vvoEdXROUcDhaa8QEEbwWidaLDd9rvtniWb1i1f65ns/edit#gid=0", "spectrum");
             draw("chart4", "1994ae", "https://docs.google.com/spreadsheets/d/1h7m0xWTXXK35yQgAsCCg9FuBvcPed42W_cR-EAain2A/edit#gid=0", "spectrum");
@@ -74,15 +74,15 @@
             draw("chart10", "test", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing", "spectrum");
 
             //Light curve charts
-            draw("chart1b", "1994s", "https://docs.google.com/spreadsheets/d/1JkiJv5RyOZfZS8dWUJJgv8fGstU0DPI-JF67RRLms08/edit#gid=0", "lightcurve");
+            draw("chart1b", "1994S", "https://docs.google.com/spreadsheets/d/1JkiJv5RyOZfZS8dWUJJgv8fGstU0DPI-JF67RRLms08/edit#gid=0", "lightcurve");
             draw("chart2b", "1996bo", "https://docs.google.com/spreadsheets/d/1dsjQ9UXbjmMtLj2p0p4Xowu5s_fkdoiul94SkiA3rEg/edit#gid=0", "lightcurve");
             draw("chart3b", "1995D", "https://docs.google.com/spreadsheets/d/1RaxZI5q54bBNCW6IHEp2QLwGIvDZLDonMsFc7Yuf908/edit#gid=0", "lightcurve");
             draw("chart4b", "1994ae", "https://docs.google.com/spreadsheets/d/10OTmXDpEjyM9E10x3p4pdO41AZAnDZcRTvgNwuL0a7w/edit#gid=0", "lightcurve");
-            draw("chart5b", "1995a", "https://docs.google.com/spreadsheets/d/1G7MTgJ43Us8nwqRayzaCeQFoW7mmRpskCxogFcldw00/edit#gid=0", "lightcurve");
+            draw("chart5b", "1995a TEST", "https://docs.google.com/spreadsheets/d/1G7MTgJ43Us8nwqRayzaCeQFoW7mmRpskCxogFcldw00/edit#gid=0", "lightcurve");
             draw("chart6b", "1995ac", "https://docs.google.com/spreadsheets/d/12-lJNDNfF2gx_Oq9IrUZfO4J_PezpuQ_CZfwpuJ-5Vw/edit#gid=0", "lightcurve");
             draw("chart7b", "1995bd", "https://docs.google.com/spreadsheets/d/1yM9ZftQYxNFF9vJk-SSimK4dc63_IvZ-48em5Ln03Po/edit#gid=0", "lightcurve");
             draw("chart8b", "1996X", "https://docs.google.com/spreadsheets/d/12MWw367V7smxs6kAh3L9nd_rSr-9JQcS1s-3ktpb-_U/edit#gid=0", "lightcurve");
-            draw("chart9b", "1996b", "https://docs.google.com/spreadsheets/d/1wehP5AsLgMy4Ix-tz5w5-H7eoaU3Bur3m0OhAmd8ubk/edit#gid=0", "lightcurve");
+            draw("chart9b", "1996b TEST", "https://docs.google.com/spreadsheets/d/1wehP5AsLgMy4Ix-tz5w5-H7eoaU3Bur3m0OhAmd8ubk/edit#gid=0", "lightcurve");
             draw("chart10b", "test", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0", "lightcurve");
 
         }
@@ -279,9 +279,9 @@
             <br />
             <div class="valueDiv">
             <span>Magnitude: </span>
-            <input id="chart${i}bmagnitudeInput"></input><span onclick="updateMagnitude('chart${i}b')">Update</span>
+            <input id="chart${i}bmagnitudeInput"></input><span onclick="updateMagnitude('chart${i}b')" class="button">Update</span>
             <br />
-            <span>Wavelength: </span><input id="chart${i}wavelengthInput"></input><span onclick="updateWavelength('chart${i}')">Update</span>
+            <span>Wavelength: </span><input id="chart${i}wavelengthInput"></input><span onclick="updateWavelength('chart${i}')" class="button">Update</span>
             </div>
         </div>`
 
