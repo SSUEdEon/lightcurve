@@ -152,7 +152,7 @@
                         var magnitude = data.getValue(selectedItem.row, 1);
                         //console.log(`${div}magnitudeInput`);
                         document.getElementById(`${div}magnitudeInput`).value = magnitude;
-                       // eval("document.getElementById('" + div + "value" + "').innerHTML = wavelength;");
+                        // eval("document.getElementById('" + div + "value" + "').innerHTML = wavelength;");
                         saveMagnitude(div);
                         generateDistanceChart();
                     } else (alert('No selecteditem'))
@@ -202,11 +202,11 @@
 
         }
 
-        
+
         function saveMagnitude(div) {
             div = div.replace("b", "");
             var magnitude = document.getElementById(`${div}bmagnitudeInput`).value;
-            
+
             var distance = +magnitude + 19.12;
             var moddedDistance = (distance + 5) / 5;
             var parsecs = Math.pow(10, moddedDistance);
@@ -280,13 +280,21 @@
             var chartData = google.visualization.arrayToDataTable(values);
             var distanceOptions = {
                 title: 'Distance vs. Speed',
+                series: {
+                    0: {
+                        visibleInLegend: false
+                    }
+                },
                 hAxis: { title: 'Speed (km/s)' },
                 vAxis: { title: 'Distance (parsecs)' },
-                legend: 'none'
             };
 
             if (trendline == true) {
-                distanceOptions["trendlines"] = { 0: {} };
+                distanceOptions["trendlines"] = {
+                    0: {
+                        visibleInLegend: true
+                    }
+                };
             }
 
             var chart_div = document.getElementById('distanceChart');
