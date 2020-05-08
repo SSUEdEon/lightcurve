@@ -28,6 +28,7 @@
 
         var line = 6150
         var rowCounter = 1;
+        var numberOfCharts = 10;
 
         //https://developers.google.com/chart/interactive/docs/basic_interactivity for details on click interactions
         //we'll need this for allowing people to get numbers from the peak
@@ -239,7 +240,7 @@
         function generateChartDivs() {
             var content = "";
 
-            for (var i = 1; i <= 10; i++) {
+            for (var i = 1; i <= numberOfCharts; i++) {
                 var singleContent =
                     `<div>
             <div id="chart${i}" style="width: 700px; height: 300px;"></div>
