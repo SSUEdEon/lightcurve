@@ -64,8 +64,6 @@
 
 		]
 		function drawChart() {
-
-
 			values.push([String(getJulianDate()), targetCount / ((comp1Count + comp2Count) / 2)]);
 			var stats = google.visualization.arrayToDataTable(values);
 			var options = {
@@ -149,7 +147,8 @@
 			var selectedCoordinates = getSelectedRegionCoordinates();
 			strippedCoordinates = selectedCoordinates.replace(/[a-z]|\)|\(|\s/gi, '');
 			var selectedCoordinatesSplit = strippedCoordinates.split(`,`);
-			var annulusString = `annulus(${selectedCoordinatesSplit[0]}, ${selectedCoordinatesSplit[1]}, ${selectedCoordinatesSplit[2]}, ${+selectedCoordinatesSplit[2] * 2})`;
+			var annulusString = `annulus(${selectedCoordinatesSplit[0]}, ${selectedCoordinatesSplit[1]}, ${selectedCoordinatesSplit[2]}, ${parseInt(selectedCoordinatesSplit[2]) * 2})`;
+			console.log
 			return annulusString;
 
 		}
