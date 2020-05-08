@@ -38,9 +38,9 @@
             title: 'Supernova',
             legend: 'none',
             explorer: {
-  actions: ['dragToZoom', 'rightClickToReset']
-  /* you can add more options */
-},
+                actions: ['dragToZoom', 'rightClickToReset']
+                /* you can add more options */
+            },
             pointSize: 4,
             vAxis: {
                 title: 'Flux (lm)',
@@ -54,6 +54,8 @@
             width: '700px',
             height: '300px'
         };
+
+
 
         //URL for lightcurve: https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0
 
@@ -72,15 +74,15 @@
             draw("chart10", "test Spectrum", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing", "spectrum");
 
             //Light curve charts
-            draw("chart1b", "test Light Curve", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0", "lightcurve");
-            draw("chart2b", "test Light Curve", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0", "lightcurve");
-            draw("chart3b", "test Light Curve", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0", "lightcurve");
-            draw("chart4b", "test Light Curve", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0", "lightcurve");
-            draw("chart5b", "test Light Curve", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0", "lightcurve");
-            draw("chart6b", "test Light Curve", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0", "lightcurve");
-            draw("chart7b", "test Light Curve", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0", "lightcurve");
-            draw("chart8b", "test Light Curve", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0", "lightcurve");
-            draw("chart9b", "test Light Curve", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0", "lightcurve");
+            draw("chart1b", "1994s Light Curve", "https://docs.google.com/spreadsheets/d/1JkiJv5RyOZfZS8dWUJJgv8fGstU0DPI-JF67RRLms08/edit#gid=0", "lightcurve");
+            draw("chart2b", "1996bo Light Curve", "https://docs.google.com/spreadsheets/d/1dsjQ9UXbjmMtLj2p0p4Xowu5s_fkdoiul94SkiA3rEg/edit#gid=0", "lightcurve");
+            draw("chart3b", "1995D Light Curve", "https://docs.google.com/spreadsheets/d/1RaxZI5q54bBNCW6IHEp2QLwGIvDZLDonMsFc7Yuf908/edit#gid=0", "lightcurve");
+            draw("chart4b", "1994ae Light Curve", "https://docs.google.com/spreadsheets/d/10OTmXDpEjyM9E10x3p4pdO41AZAnDZcRTvgNwuL0a7w/edit#gid=0", "lightcurve");
+            draw("chart5b", "1995a Light Curve", "https://docs.google.com/spreadsheets/d/1G7MTgJ43Us8nwqRayzaCeQFoW7mmRpskCxogFcldw00/edit#gid=0", "lightcurve");
+            draw("chart6b", "1995ac Light Curve", "https://docs.google.com/spreadsheets/d/12-lJNDNfF2gx_Oq9IrUZfO4J_PezpuQ_CZfwpuJ-5Vw/edit#gid=0", "lightcurve");
+            draw("chart7b", "1995bd Light Curve", "https://docs.google.com/spreadsheets/d/1yM9ZftQYxNFF9vJk-SSimK4dc63_IvZ-48em5Ln03Po/edit#gid=0", "lightcurve");
+            draw("chart8b", "1996X Light Curve", "https://docs.google.com/spreadsheets/d/12MWw367V7smxs6kAh3L9nd_rSr-9JQcS1s-3ktpb-_U/edit#gid=0", "lightcurve");
+            draw("chart9b", "1996b Light Curve", "https://docs.google.com/spreadsheets/d/1wehP5AsLgMy4Ix-tz5w5-H7eoaU3Bur3m0OhAmd8ubk/edit#gid=0", "lightcurve");
             draw("chart10b", "test Light Curve", "https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0", "lightcurve");
 
         }
@@ -163,8 +165,6 @@
                     eval(`document.getElementById("${div}").classList.add("hidden")`);
                 }
             }
-
-
         }
 
         function drawVAxisLine(chart, value) {
@@ -243,7 +243,7 @@
                 var singleContent =
                     `<div>
             <div id="chart${i}" style="width: 700px; height: 300px;"></div>
-            <div id="chart${i}b" style="width: 700px; height: 300px;" ></div>
+            <div id="chart${i}b" style="width: 700px; height: 300px;"></div>
             <div class="label">
             <span onclick="showLight('chart${i}')" class="button underline" id="chart${i}lightbutton">Light Curve</span> | <span onclick="showSpectra('chart${i}')" class="button" id="chart${i}spectrabutton"> Spectra</span><br/>
             </div>
@@ -280,7 +280,7 @@
                 legend: 'none'
             };
 
-            if(trendline == true){
+            if (trendline == true) {
                 distanceOptions["trendlines"] = { 0: {} };
             }
 
