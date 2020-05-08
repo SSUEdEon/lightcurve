@@ -217,6 +217,16 @@
 
         }
 
+        function updateWavelength(div){
+            saveWavelength(div);
+            generateDistanceChart();
+        }
+
+        function updateMagnitude(div){
+            saveMagnitude(div);
+            generateDistanceChart(div);
+        }
+
 
         function saveMagnitude(div) {
             div = div.replace("b", "");
@@ -269,9 +279,9 @@
             <br />
             <div class="valueDiv">
             <span>Magnitude: </span>
-            <input id="chart${i}bmagnitudeInput"></input><span onclick="saveMagnitude('chart${i}b')">Update</span>
+            <input id="chart${i}bmagnitudeInput"></input><span onclick="updateMagnitude('chart${i}b')">Update</span>
             <br />
-            <span>Wavelength: </span><input id="chart${i}wavelengthInput"></input><span onclick="saveWavelength('chart${i}')">Update</span>
+            <span>Wavelength: </span><input id="chart${i}wavelengthInput"></input><span onclick="updateWavelength('chart${i}')">Update</span>
             </div>
         </div>`
 
@@ -288,23 +298,24 @@
                 var speed = document.getElementById(`chart${i}speed`).innerHTML;
                 var distance = document.getElementById(`chart${i}parsec`).innerHTML;
                 if (+speed != 0 && +distance != 0) {
-                    values.push([+speed, +distance]);
+                    values.push([(parseInt(distance) / 1000000), parseInt(speed)]);
                 }
             }
 
             var chartData = google.visualization.arrayToDataTable(values);
             var distanceOptions = {
-                title: 'Distance vs. Speed',
+                title: 'Speed vs. Distance',
                 series: {
                     0: {
                         visibleInLegend: false
                     }
                 },
-                hAxis: { title: 'Speed (km/s)' },
-                vAxis: { title: 'Distance (parsecs)' },
+                vAxis: { title: 'Speed (km/s)' },
+                hAxis: { title: 'Distance (million parsecs)' },
             };
 
-            if (trendline == true) {
+            //trendline = true if you want the button to work
+            if (true) {
                 distanceOptions["trendlines"] = {
                     0: {
                         visibleInLegend: true
