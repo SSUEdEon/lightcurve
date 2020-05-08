@@ -123,6 +123,7 @@
                         format: "#",
                         direction: "-1"
                     }
+
                 } else {
                     options["vAxis"] = {
                         title: "Flux (lm)",
@@ -138,7 +139,8 @@
                     eval("var selectedItem =" + div + ".getSelection()[0];")
                     if (selectedItem) {
                         var wavelength = data.getValue(selectedItem.row, 0);
-                        eval("document.getElementById('" + div + "value" + "').innerHTML = wavelength;");
+                        document.getElementById(`${div}wavelengthInput`).value = wavelength;
+                        //eval("document.getElementById('" + div + "value" + "').innerHTML = wavelength;");
                         saveWavelength(div);
                         generateDistanceChart();
                     } else (alert('No selecteditem'))
@@ -147,8 +149,10 @@
                 function selectHandlerLight() {
                     eval("var selectedItem =" + div + ".getSelection()[0];")
                     if (selectedItem) {
-                        var wavelength = data.getValue(selectedItem.row, 1);
-                        eval("document.getElementById('" + div + "value" + "').innerHTML = wavelength;");
+                        var magnitude = data.getValue(selectedItem.row, 1);
+                        //console.log(`${div}magnitudeInput`);
+                        document.getElementById(`${div}magnitudeInput`).value = magnitude;
+                       // eval("document.getElementById('" + div + "value" + "').innerHTML = wavelength;");
                         saveMagnitude(div);
                         generateDistanceChart();
                     } else (alert('No selecteditem'))
@@ -187,9 +191,9 @@
             return line;
         }
 
-        //sets wavelength
+
         function saveWavelength(div) {
-            var wavelength = document.getElementById(`${div}value`).innerHTML;
+            var wavelength = document.getElementById(`${div}wavelengthInput`).value;
             document.getElementById(`${div}v1`).innerHTML = String(wavelength);
             var redshift = (wavelength - 6150) / 6150;
             document.getElementById(`${div}redshift`).innerHTML = String(redshift);
@@ -198,11 +202,11 @@
 
         }
 
-        //sets flx
+        
         function saveMagnitude(div) {
             div = div.replace("b", "");
-            var magnitude = document.getElementById(`${div}bvalue`).innerHTML;;
-
+            var magnitude = document.getElementById(`${div}bmagnitudeInput`).value;
+            
             var distance = +magnitude + 19.12;
             var moddedDistance = (distance + 5) / 5;
             var parsecs = Math.pow(10, moddedDistance);
@@ -245,13 +249,14 @@
             <div id="chart${i}" style="width: 700px; height: 300px;"></div>
             <div id="chart${i}b" style="width: 700px; height: 300px;"></div>
             <div class="label">
-            <span onclick="showLight('chart${i}')" class="button underline" id="chart${i}lightbutton">Light Curve</span> | <span onclick="showSpectra('chart${i}')" class="button" id="chart${i}spectrabutton"> Spectra</span><br/>
+            <span onclick="showLight('chart${i}')" class="button underline" id="chart${i}lightbutton">Light Curve</span> | <span onclick="showSpectra('chart${i}')" class="button" id="chart${i}spectrabutton"> Spectrum</span><br/>
             </div>
+            <br />
             <div class="valueDiv">
             <span>Magnitude: </span>
-            <span id="chart${i}bvalue" class="valueText"></span>
+            <input id="chart${i}bmagnitudeInput"></input><span onclick="saveMagnitude('chart${i}b')">Update</span>
             <br />
-            <span>Wavelength: </span><span id="chart${i}value" class="valueText"></span>
+            <span>Wavelength: </span><input id="chart${i}wavelengthInput"></input><span onclick="saveWavelength('chart${i}')">Update</span>
             </div>
         </div>`
 
