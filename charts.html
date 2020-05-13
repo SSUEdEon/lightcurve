@@ -344,17 +344,33 @@
 
         function generateSecondMathElements() {
             var content = `
-            <p>The graph plots speed against distance, in units of km/s and Mpc. So, the units of this slope are (after some conversions):  <br /><br />
-            \`"km/s"/"Mpc" = ("distance/time")/("distance") = 1/"time"\`</p>
+            <p>
+                In the graph, the slope of the line was ${slope} km/s / Mpc. Look closely at the units. Using some conversion and cancellation shows
+                that the slope of the line is in units of \` 1 / "time" \`:  
+                <br /><br />
+                \`"km/s"/"Mpc" = ("distance/time")/("distance") = 1/"time"\`</p>
             
-            <p>We want to solve for time here, which we're going to call \`t\`. We're starting with the equation \`t = 1/(${slope} "km/s"), and we'll start by multiplying both sides by the inverse fraction.</p>
-            <p>\\[((${slope} "km/s")/(1 "Mpc"))t = 1/((${slope} "km/s")/"Mpc") * ((${slope} "km/s")/(1 "Mpc"))  \\]</p>
-            <p>\`=> ((${slope} "km/s")/(1 "Mpc"))t =  1\` 
+            <p>
+               Solve for time \`t\`, using the equation:
+               <br />
+                \`t = 1/(${slope} "km/s")\`<br />
+                Start by multiplying both sides by the inverse of the fraction on the left:
+            </p>
+            <p>
+                \`((${slope} "km/s")/(1 "Mpc"))t = 1/((${slope} km/s)/"Mpc" * ((${slope} "km/s")/(1 "Mpc")) \`
+            </p>
+            <p>
+                \`=> ((${slope} "km/s")/(1 "Mpc"))t =  1\` 
+            </p>
             <br />
-            Next, we'll multiply each side by \`1 "Mpc"\` to cancel out the lower unit on the left.</p>
-            <p>\`(1 "Mpc") * ((${slope} "km/s")/(1 "Mpc"))t = 1 * (1 "Mpc") => ${slope} "km/s" * t = 1 "Mpc"\`</p>
+            <p>
+                Next, multiply each side by \`1 "Mpc"\` to cancel out the lower unit on the left.
+            </p>
+            <p>
+                \`(1 "Mpc") * (${slope} "km/s")/(1 "Mpc")t = 1 * (1 "Mpc") => ${slope} "km/s" * t = 1 "Mpc" \`
+            </p>
             <br />
-            <p>Notice that we're using km/s and Mpc as our units. To match these up, we'll be converting Mpc to Parsecs, then to kilometers, rearranging to get t by itself.</p>
+            <p>Notice that the units are km/s and Mpc. To match these up, convert Mpc to Parsecs, then to kilometers, rearranging to get t by itself.</p>
             <p>\` ${slope} "km/s" * t = 1 "Mpc" => t = (1*10^6 "pc") / (${slope} "km/s") = (1*10^6 "pc" * 3.09 * 10^13 "km/pc")/(${slope} "km/s")\`
             <p>\` t =  ${((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)).toExponential(6)).toString().replace("e+", "*10^"))}  \`</p>
             <p>This final value of \`t\` represents the amount of time all of the galaxies have been moving away from each other. So if you rewound their movement they would, after this amount of time,
