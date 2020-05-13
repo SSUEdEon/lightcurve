@@ -9,10 +9,16 @@
     <link type="text/css" rel="stylesheet" href="js9support.css">
     <link type="text/css" rel="stylesheet" href="js9.css">
     <link type="text/css" rel="stylesheet" href="charts.css">
+
 </head>
 
 <body>
     <div id="chartContainer" class="chartWrapper">
+
+
+    </div>
+
+    <div id="mathContainer">
 
 
     </div>
@@ -23,11 +29,13 @@
 
     <script>
         generateChartDivs();
-        //This whole thing is wrong... turns out we were supposed to have a separate graph for each light curve, which the 
-        //magitude comes from. The spectra is part two. Really, really wish I could use components properly for this thing.
 
         var line = 6150
         var rowCounter = 1;
+        var numberOfCharts = 10;
+        var slope = 70;
+        var slopeCalculationTwo;
+        var slopeCalculationThree;
 
         //https://developers.google.com/chart/interactive/docs/basic_interactivity for details on click interactions
         //we'll need this for allowing people to get numbers from the peak
@@ -72,7 +80,7 @@
             draw("chart8", "1996X", "https://docs.google.com/spreadsheets/d/1Cwo6RHSWNn1DUYsFfm_IWkAGqsFiAcy8pc5e21jbf1Y/edit#gid=0", "spectrum");
             draw("chart9", "1995E", "https://docs.google.com/spreadsheets/d/1yymaEOW8Q4FkN0RJB4e5ZlMt7VNa_TYezkvVDoylJU4/edit#gid=0", "spectrum");
             draw("chart10", "1996bl", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing", "spectrum");
-            
+
             //Light curve charts
             draw("chart1b", "1994S", "https://docs.google.com/spreadsheets/d/1JkiJv5RyOZfZS8dWUJJgv8fGstU0DPI-JF67RRLms08/edit#gid=0", "lightcurve");
             draw("chart2b", "1996bo", "https://docs.google.com/spreadsheets/d/1dsjQ9UXbjmMtLj2p0p4Xowu5s_fkdoiul94SkiA3rEg/edit#gid=0", "lightcurve");
@@ -114,16 +122,16 @@
                 var cell8 = row.insertCell(8);
                 eval("cell8.id = '" + div + "speed';");
                 rowCounter = 1 + rowCounter;
-            
-            //make title accurate
 
-                title = title  + " Spectrum";
- 
+                //make title accurate
+
+                title = title + " Spectrum";
+
             } else {
                 title = title + " Light Curve";
             }
 
-            
+
 
             eval("q" + div + " = new google.visualization.Query(\"" + url + "\"); ");
             eval("q" + div + ".send(draw);");
@@ -137,7 +145,7 @@
                         format: "#",
                         direction: "-1"
                     }
-                    
+
 
                 } else {
                     options["vAxis"] = {
@@ -217,12 +225,12 @@
 
         }
 
-        function updateWavelength(div){
+        function updateWavelength(div) {
             saveWavelength(div);
             generateDistanceChart();
         }
 
-        function updateMagnitude(div){
+        function updateMagnitude(div) {
             saveMagnitude(div);
             generateDistanceChart(div);
         }
@@ -265,6 +273,13 @@
                 `);
         }
 
+        function callMathParser() {
+            var script = document.createElement("script");
+            script.type = "text/javascript";
+            script.src = "https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML";
+            document.getElementsByTagName("head")[0].appendChild(script);
+        };
+
         function generateChartDivs() {
             var content = "";
 
@@ -290,6 +305,79 @@
 
             document.getElementById("chartContainer").innerHTML = content;
 
+        }
+
+        function changeToNextSection() {
+            //destroy all graphs; add create math later; get rid of button, or change
+            if (document.getElementById(`chartContainer`) != null) {
+                document.getElementById('chartContainer').remove();
+                createMathElements();
+            }
+        }
+
+        function getSlopeAndGenerateCalc(event) {
+            event.preventDefault();
+            if (document.getElementById('slope') != null) {
+                slope = document.getElementById('slope').value;
+                generateSecondMathElements();
+            }
+        }
+
+        function createMathElements() {
+            var content = `
+            <div style="margin: 0 auto; text-align: center;">
+            <br /><br />
+            <p>To start this calculation, enter the slope of the line on your chart: </p>
+            <br />
+            <form onsubmit="getSlopeAndGenerateCalc(event)">
+                <label for="slope">Slope: </label>
+                <input id="slope"></input>
+                <button type="submit">Submit</button>
+            </form>
+            <br />
+            <div id="calcSectionTwo">
+            
+            </div>
+            </div>`;
+            document.getElementById('mathContainer').innerHTML = content;
+        }
+
+        function generateSecondMathElements() {
+            var content = `
+            <p>The graph plots speed against distance, in units of km/s and Mpc. So, the units of this slope are (after some conversions):  <br /><br />
+            \`"km/s"/"Mpc" = ("distance/time")/("distance") = 1/"time"\`</p>
+            
+            <p>We want to solve for time here, which we're going to call \`t\`. We're starting with the equation \`t = 1/(${slope} "km/s"), and we'll start by multiplying both sides by the inverse fraction.</p>
+            <p>\\[((${slope} "km/s")/(1 "Mpc"))t = 1/((${slope} "km/s")/"Mpc") * ((${slope} "km/s")/(1 "Mpc"))  \\]</p>
+            <p>\`=> ((${slope} "km/s")/(1 "Mpc"))t =  1\` 
+            <br />
+            Next, we'll multiply each side by \`1 "Mpc"\` to cancel out the lower unit on the left.</p>
+            <p>\`(1 "Mpc") * ((${slope} "km/s")/(1 "Mpc"))t = 1 * (1 "Mpc") => ${slope} "km/s" * t = 1 "Mpc"\`</p>
+            <br />
+            <p>Notice that we're using km/s and Mpc as our units. To match these up, we'll be converting Mpc to Parsecs, then to kilometers, rearranging to get t by itself.</p>
+            <p>\` ${slope} "km/s" * t = 1 "Mpc" => t = (1*10^6 "pc") / (${slope} "km/s") = (1*10^6 "pc" * 3.09 * 10^13 "km/pc")/(${slope} "km/s")\`
+            <p>\` t =  ${((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)).toExponential(6)).toString().replace("e+", "*10^"))}  \`</p>
+            <p>This final value of \`t\` represents the amount of time all of the galaxies have been moving away from each other. So if you rewound their movement they would, after this amount of time,
+            all be very close together. This graph and its interpretation are evidence for the Bing Bang Theory, which states that in the past the universe was denser and hotter, and it has been
+            expanding ever since. The slope of the line made from the distances and speeds of the supernova you worked with in the previous section can be used to esimate the age of the universe:
+            <p>\`
+            ${((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)).toExponential(6)).toString().replace("e+", "*10^"))} 
+            "seconds" = 
+            ${((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60).toExponential(6).toString().replace("e+", "*10^")}
+             "hours" = 
+            ${((((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60) / 24) / 365).toExponential(6).toString().replace("e+", "*10^")}
+             "years"
+            \` </p>
+   
+            
+            `
+            if (document.getElementById('calcSectionTwo') != null) {
+                document.getElementById('calcSectionTwo').innerHTML = content;
+                var script = document.createElement("script");
+                script.type = "text/javascript";
+                script.src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML";
+                document.getElementsByTagName("head")[0].appendChild(script);
+            }
         }
 
         function generateDistanceChart(trendline) {
@@ -356,7 +444,10 @@
     </div>
     <br />
     <div id="distanceChart"></div>
-    <button onclick="generateDistanceChart(true)">Show Trendline</button>
+    <br />
+    <div style="display: flex; justify-content: center;">
+        <button onclick="changeToNextSection()">Calc Section</button>
+    </div>
 
 </body>
 
