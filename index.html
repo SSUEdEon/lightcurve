@@ -33,8 +33,10 @@
 			<li>2: From the 'Scale' tab, select 'Log'. Adjust brightness as needed.</li>
 			<li>3: Using a finder chart, locate your traget and comparison stars. Make sure to label these on your chart
 				for reference.</li>
-			<li>4: If needed, resize the circle. You should use the same size for each image and each star, so if you change this note the size and make sure it fits for all objects.</li>
-			<li>5: Move the region to your target star and click 'Target Star'. Do the same for each comparison. This will also determine background from the area around the object.</li>
+			<li>4: If needed, resize the circle. You should use the same size for each image and each star, so if you
+				change this note the size and make sure it fits for all objects.</li>
+			<li>5: Move the region to your target star and click 'Target Star'. Do the same for each comparison. This
+				will also determine background from the area around the object.</li>
 			<li>6: Click 'draw chart' to plot the background subtracted results of your image.</li>
 			<li>Repeat for additional images.</li>
 		</ul>
@@ -54,6 +56,39 @@
 		var targetCount;
 		var comp1Count;
 		var comp2Count;
+
+//Use this to create a chart for SN2014 something in M83. After three
+//images have been procesed, offer to show the use this graph instead of
+//their own. Explain what the purpose is, then link to the next activity.
+
+		var prepopulatedChartData = [
+			[2456673.904, 0.030432108],
+			[2456674.9, 0.057354394],
+			[2456675.9, 0.070630696]
+			[2456676.89, 0.140093962]
+			[2456677.89, 0.18430428,]
+			[2456678.89, 0.271634703],
+			[2456679.88, 0.331858878],
+			[2456680.88, 0.411445949],
+			[2456683.869, 0.637464707],
+			[2456685.869, 0.695084938],
+			[2456686.865, 0.750515703],
+			[2456687.865, 0.791087208],
+			[2456688.855, 0.775112635],
+			[2456689.855, 0.790924543],
+			[2456690.855, 0.802591712],
+			[2456691.855, 0.784450501],
+			[2456692.844, 0.779905653],
+			[2456693.844, 0.770687958],
+			[2456694.845, 0.768217156],
+			[2456695.844, 0.708610077],
+			[2456696.835, 0.685586984],
+			[2456698.01, 0.7227411],
+			[2456698.835, 0.644798213],
+			[2456699.832, 0.596989119],
+			[2456700.878, 0.588991646]
+		]
+
 
 		google.charts.load('current', { 'packages': ['corechart'] });
 		// google.charts.setOnLoadCallback(drawChart); < use this if you want to draw something when the chart loads
