@@ -107,11 +107,6 @@
 			counter++;
 
 			var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
-
-			google.visualization.events.addListener(chart, 'ready', function () {
-				chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
-			});
-
 			chart.draw(stats, options);
 		}
 
