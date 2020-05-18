@@ -90,9 +90,8 @@
             draw("chart6b", "1995ac", "https://docs.google.com/spreadsheets/d/12-lJNDNfF2gx_Oq9IrUZfO4J_PezpuQ_CZfwpuJ-5Vw/edit#gid=0", "lightcurve");
             draw("chart7b", "1995bd", "https://docs.google.com/spreadsheets/d/1yM9ZftQYxNFF9vJk-SSimK4dc63_IvZ-48em5Ln03Po/edit#gid=0", "lightcurve");
             draw("chart8b", "1996X", "https://docs.google.com/spreadsheets/d/12MWw367V7smxs6kAh3L9nd_rSr-9JQcS1s-3ktpb-_U/edit#gid=0", "lightcurve");
-            draw("chart9b", "1995E", "https://docs.google.com/spreadsheets/d/1TKbXtmnqr9iDJXSGxnLYWe2Uz4lG6cZBlylnUFj7-E0/edit?ts=5ebac329#gid=0", "lightcurve");
+            draw("chart9b", "1995E", "https://docs.google.com/spreadsheets/d/1TKbXtmnqr9iDJXSGxnLYWe2Uz4lG6cZBlylnUFj7-E0/edit#gid=0", "lightcurve");
             draw("chart10b", "1996bl", "https://docs.google.com/spreadsheets/d/1wehP5AsLgMy4Ix-tz5w5-H7eoaU3Bur3m0OhAmd8ubk/edit#gid=0", "lightcurve");
-
         }
 
         //TODO: Only add row to table for light curves; right now it's doing it twice. You can get the title by not including 'Light Curve' explicitly, have that come
@@ -144,7 +143,7 @@
                         title: "Magnitude",
                         format: "#",
                         direction: "-1",
-                        minValue: "16"
+                        minValue: 16
                     }
 
 
@@ -412,6 +411,7 @@
             var chartData = google.visualization.arrayToDataTable(values);
             var distanceOptions = {
                 title: 'Speed vs. Distance',
+                legend: 'bottom',
                 series: {
                     0: {
                         visibleInLegend: false
