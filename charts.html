@@ -312,6 +312,7 @@
             if (document.getElementById(`chartContainer`) != null) {
                 document.getElementById('chartContainer').remove();
                 createMathElements();
+                window.scrollTo(0, 0);
             }
         }
 
@@ -460,11 +461,13 @@
         </table>
     </div>
     <br />
-    <div id="distanceChart"></div>
-    <br />
     <div style="display: flex; justify-content: center;">
         <button onclick="changeToNextSection()">Calc Section</button>
     </div>
+    <br />
+    <div id="distanceChart"></div>
+    <br />
+
 
 </body>
 
