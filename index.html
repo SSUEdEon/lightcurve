@@ -14,6 +14,7 @@
 	<script type="text/javascript" src="js9plugins.js"></script>
 	<script type="text/javascript" src="./plugins/imexam/imexam.js"></script>
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<link type="text/css" rel="stylesheet" href="supernova.css">
 	<style type="text/css">
 		#centerdiv {
 			width: 512px;
@@ -46,6 +47,8 @@
 	<button onclick="setBackgroundCount('comp1')">Comparison 1</button>
 	<button onclick="setBackgroundCount('comp2')">Comparison 2</button>
 	<button onclick="drawChart()">DrawChart</button>
+	<button onclick="drawCompleteChart()" style="display: none">Draw Completed Chart</button>
+	<button onclick="promptForCompletedChart()">Trigger Prompt</button>
 	<p id="demo"></p>
 
 	<script>
@@ -59,6 +62,7 @@
 		//their own. Explain what the purpose is, then link to the next activity.
 
 		var prepopulatedChartData = [
+			['Time', 'Brightness'],
 			[2456673.904, 0.030432108],
 			[2456674.9, 0.057354394],
 			[2456675.9, 0.070630696],
@@ -95,6 +99,12 @@
 			['Time', 'Brightness'],
 
 		]
+
+		function drawCompleteChart() {
+			values = prepopulatedChartData;
+			drawChart();
+		}
+
 		function drawChart() {
 			values.push([String(getJulianDate()), targetCount / ((comp1Count + comp2Count) / 2)]);
 			var stats = google.visualization.arrayToDataTable(values);
@@ -105,9 +115,17 @@
 				legend: 'none'
 			};
 			counter++;
+			if(counter >= 3){
+				promptForCompletedChart();
+			}
 
 			var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
 			chart.draw(stats, options);
+		}
+
+		function promptForCompletedChart(){
+			document.getElementById("modal_wrapper").style.display = "block";
+
 		}
 
 		function getBackgroundCountRegion() {
@@ -229,6 +247,10 @@
 			return headerobj;
 		}
 
+		function closeModal(){
+			document.getElementById("modal_wrapper").style.display = "none";
+		}
+
 
 	</script>
 	<div id="centerdiv">
@@ -241,6 +263,14 @@
 		<div class="JS9"></div>
 		<div style="margin-top: 2px;">
 			<div class="JS9Colorbar"></div>
+		</div>
+	</div>
+	<div onclick="closeModal()" class="modal_wrapper" id="modal_wrapper">
+		<div class="modal_content">
+			<p>This text would explain the situation.</p>
+			<br />
+			<br />
+			<button onclick="drawCompleteChart()">Draw Complete Chart</button>
 		</div>
 	</div>
 	<div id="chart_div" style="width: 900px; height: 500px;"></div>

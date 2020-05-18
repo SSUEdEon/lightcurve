@@ -384,9 +384,9 @@
             ${((((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60) / 24) / 365).toExponential(6).toString().replace("e+", "*10^")}
              "years"
             \` </p>
-   
-            
+              
             `
+
             if (document.getElementById('calcSectionTwo') != null) {
                 document.getElementById('calcSectionTwo').innerHTML = content;
                 var script = document.createElement("script");
@@ -395,6 +395,7 @@
                 document.getElementsByTagName("head")[0].appendChild(script);
             }
         }
+        
 
         function generateDistanceChart(trendline) {
             var values = [['Speed', 'Distance']];
