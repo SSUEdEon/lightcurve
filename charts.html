@@ -383,8 +383,10 @@
             ${((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60).toExponential(6).toString().replace("e+", "*10^")}
              "hours" = 
             ${((((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60) / 24) / 365).toExponential(6).toString().replace("e+", "*10^")}
-             "years"
-            \` </p>
+             "years" \` 
+             <br /><br />
+             \` = ${(((((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60) / 24) / 365)/(Math.pow(10, 9))).toFixed(3)} \` billion years
+             </p>
               
             `
 
