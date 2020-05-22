@@ -42,7 +42,7 @@
 			<li>Repeat for additional images.</li>
 		</ul>
 	</div>
-	<button onclick="JS9.AddRegions(`circle`, { radius: 12 })">Add Region</button>
+	<button onclick="JS9.AddRegions(`circle`, { radius: 3, resizable: false })">Add Region</button>
 	<button onclick="setBackgroundCount('target')">Target Star</button>
 	<button onclick="setBackgroundCount('comp1')">Comparison 1</button>
 	<button onclick="setBackgroundCount('comp2')">Comparison 2</button>
@@ -60,6 +60,8 @@
 		//Use this to create a chart for SN2014 something in M83. After three
 		//images have been procesed, offer to show the use this graph instead of
 		//their own. Explain what the purpose is, then link to the next activity.
+
+		//Note: This is very specific to the supernova activity. The selection circle and annulus, in particular, are calibrated for just this.
 
 		var prepopulatedChartData = [
 			['Time', 'Brightness'],
@@ -192,8 +194,7 @@
 			var selectedCoordinates = getSelectedRegionCoordinates();
 			strippedCoordinates = selectedCoordinates.replace(/[a-z]|\)|\(|\s/gi, '');
 			var selectedCoordinatesSplit = strippedCoordinates.split(`,`);
-			var annulusString = `annulus(${selectedCoordinatesSplit[0]}, ${selectedCoordinatesSplit[1]}, ${selectedCoordinatesSplit[2]}, ${parseInt(selectedCoordinatesSplit[2]) * 2})`;
-			console.log
+			var annulusString = `annulus(${selectedCoordinatesSplit[0]}, ${selectedCoordinatesSplit[1]}, ${selectedCoordinatesSplit[2]}, 4)`;
 			return annulusString;
 
 		}
