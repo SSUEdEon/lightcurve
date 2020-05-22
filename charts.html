@@ -381,11 +381,23 @@
             ${((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)).toExponential(3)).toString().replace("e+", "*10^"))} 
             "seconds" = 
             ${((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60).toExponential(3).toString().replace("e+", "*10^")}
-             "hours" = 
+             "hours"<br/> = 
             ${((((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60) / 24) / 365).toExponential(3).toString().replace("e+", "*10^")}
              "years" \` 
              <br /><br />
-             \` = ${(((((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60) / 24) / 365)/(Math.pow(10, 9))).toFixed(3)} \` billion years
+             Which is [PROMPT TEXT NEEDED]?
+             <br/><br />
+             ${(((((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60) / 24) / 365)/(Math.pow(10, 9))).toFixed(3)}
+             ${" "}<select id="ageInput" onchange="handleAgeSelection()">
+                <option></option>
+                <option>thousand</option>
+                <option>million</option>
+                <option>billion</option>
+             </select>
+             ${" "} years
+             <br/><br/>
+             <p id="correctAnswer" style="display: none">yup</p>
+             <p id="incorrectAnswer" style="display: none">nope</p>
              </p>
               
             `
@@ -396,6 +408,16 @@
                 script.type = "text/javascript";
                 script.src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML";
                 document.getElementsByTagName("head")[0].appendChild(script);
+            }
+        }
+
+        function handleAgeSelection(e){
+            if(document.getElementById("ageInput").value == "billion"){
+                document.getElementById("correctAnswer").style.display = "block";
+                document.getElementById("incorrectAnswer").style.display = "none";
+            } else {
+                document.getElementById("correctAnswer").style.display = "none";
+                document.getElementById("incorrectAnswer").style.display = "block";
             }
         }
         
