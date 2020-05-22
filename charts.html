@@ -219,9 +219,9 @@
             var wavelength = document.getElementById(`${div}wavelengthInput`).value;
             document.getElementById(`${div}v1`).innerHTML = String(wavelength);
             var redshift = (wavelength - 6150) / 6150;
-            document.getElementById(`${div}redshift`).innerHTML = String(redshift);
+            document.getElementById(`${div}redshift`).innerHTML = String(redshift).substring(0, 10);
             var speed = redshift * 3 * Math.pow(10, 5);
-            document.getElementById(`${div}speed`).innerHTML = String(speed);
+            document.getElementById(`${div}speed`).innerHTML = String(speed).substring(0, 10);
 
         }
 
@@ -241,15 +241,15 @@
             var magnitude = document.getElementById(`${div}bmagnitudeInput`).value;
 
             var distance = +magnitude + 19.12;
-            var moddedDistance = (distance + 5) / 5;
-            var parsecs = Math.pow(10, moddedDistance);
+            var moddedDistance = Math.floor(((distance + 5) / 5) * 10000) / 10000;
+            var parsecs = (Math.pow(10, moddedDistance)) / 1000000;
             var km = parsecs * 3.09 * Math.pow(10, 13);
 
             document.getElementById(`${div}v2`).innerHTML = magnitude;
             document.getElementById(`${div}d`).innerHTML = distance;
-            document.getElementById(`${div}dmod`).innerHTML = moddedDistance;
-            document.getElementById(`${div}parsec`).innerHTML = parsecs;
-            document.getElementById(`${div}km`).innerHTML = km.toExponential(5);
+            document.getElementById(`${div}dmod`).innerHTML = String(moddedDistance).substring(0, 7);
+            document.getElementById(`${div}parsec`).innerHTML = String(parsecs).substring(0, 9);
+            document.getElementById(`${div}km`).innerHTML = km.toExponential(5); 
 
         }
 
@@ -373,16 +373,16 @@
             <br />
             <p>Notice that the units are km/s and Mpc. To match these up, convert Mpc to Parsecs, then to kilometers, rearranging to get t by itself.</p>
             <p>\` ${slope} "km/s" * t = 1 "Mpc" => t = (1*10^6 "pc") / (${slope} "km/s") = (1*10^6 "pc" * 3.09 * 10^13 "km/pc")/(${slope} "km/s")\`
-            <p>\` t =  ${((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)).toExponential(6)).toString().replace("e+", "*10^"))}  \`</p>
+            <p>\` t =  ${((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)).toExponential(3)).toString().replace("e+", "*10^"))}  \`</p>
             <p>This final value of \`t\` represents the amount of time all of the galaxies have been moving away from each other. So if you rewound their movement they would, after this amount of time,
             all be very close together. This graph and its interpretation are evidence for the Bing Bang Theory, which states that in the past the universe was denser and hotter, and it has been
             expanding ever since. The slope of the line made from the distances and speeds of the supernova you worked with in the previous section can be used to esimate the age of the universe:
             <p>\`
-            ${((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)).toExponential(6)).toString().replace("e+", "*10^"))} 
+            ${((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)).toExponential(3)).toString().replace("e+", "*10^"))} 
             "seconds" = 
-            ${((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60).toExponential(6).toString().replace("e+", "*10^")}
+            ${((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60).toExponential(3).toString().replace("e+", "*10^")}
              "hours" = 
-            ${((((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60) / 24) / 365).toExponential(6).toString().replace("e+", "*10^")}
+            ${((((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60) / 24) / 365).toExponential(3).toString().replace("e+", "*10^")}
              "years" \` 
              <br /><br />
              \` = ${(((((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60) / 24) / 365)/(Math.pow(10, 9))).toFixed(3)} \` billion years
@@ -406,7 +406,7 @@
                 var speed = document.getElementById(`chart${i}speed`).innerHTML;
                 var distance = document.getElementById(`chart${i}parsec`).innerHTML;
                 if (+speed != 0 && +distance != 0) {
-                    values.push([(parseInt(distance) / 1000000), parseInt(speed)]);
+                    values.push([(Number(distance)), Number(speed)]);
                 }
             }
 
@@ -455,8 +455,8 @@
                 <th>Wavelength</th>
                 <th>D</th>
                 <th>(D+5)/5</th>
-                <th>Distance, Parsecs</th>
-                <th>Distance, km</th>
+                <th>Dist., Parsecs (million)</th>
+                <th>Dist., km</th>
                 <th>Redshift</th>
                 <th>Speed</th>
             </tr>
