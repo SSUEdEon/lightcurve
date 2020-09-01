@@ -36,6 +36,7 @@
         var slope = 70;
         var slopeCalculationTwo;
         var slopeCalculationThree;
+        var finalAge;
 
         //https://developers.google.com/chart/interactive/docs/basic_interactivity for details on click interactions
         //we'll need this for allowing people to get numbers from the peak
@@ -92,7 +93,16 @@
             draw("chart8b", "1996X", "https://docs.google.com/spreadsheets/d/12MWw367V7smxs6kAh3L9nd_rSr-9JQcS1s-3ktpb-_U/edit#gid=0", "lightcurve");
             draw("chart9b", "1995E", "https://docs.google.com/spreadsheets/d/1TKbXtmnqr9iDJXSGxnLYWe2Uz4lG6cZBlylnUFj7-E0/edit#gid=0", "lightcurve");
             draw("chart10b", "1996bl", "https://docs.google.com/spreadsheets/d/1wehP5AsLgMy4Ix-tz5w5-H7eoaU3Bur3m0OhAmd8ubk/edit#gid=0", "lightcurve");
+
+            //prefilled data for a certain graph
+            document.getElementById('chart6wavelengthInput').value = 6885;
+            document.getElementById('chart6bmagnitudeInput').value = 17.19;
+
+            updateMagnitude('chart6');
+            updateWavelength('chart6');
+
         }
+
 
         //TODO: Only add row to table for light curves; right now it's doing it twice. You can get the title by not including 'Light Curve' explicitly, have that come
         //from the type at the end of the argument.
@@ -219,7 +229,7 @@
             var wavelength = document.getElementById(`${div}wavelengthInput`).value;
             document.getElementById(`${div}v1`).innerHTML = String(wavelength);
             var redshift = (wavelength - 6150) / 6150;
-            document.getElementById(`${div}redshift`).innerHTML = String(redshift).substring(0, 10);
+            document.getElementById(`${div}redshift`).innerHTML = String(redshift).substring(0, 9);
             var speed = redshift * 3 * Math.pow(10, 5);
             document.getElementById(`${div}speed`).innerHTML = String(speed).substring(0, 10);
 
@@ -241,8 +251,8 @@
             var magnitude = document.getElementById(`${div}bmagnitudeInput`).value;
 
             var distance = +magnitude + 19.12;
-            var moddedDistance = Math.floor(((distance + 5) / 5) * 10000) / 10000;
-            var parsecs = (Math.pow(10, moddedDistance)) / 1000000;
+            var moddedDistance = Math.floor(((distance + 5) / 5) * 100) / 100;
+            var parsecs = Math.floor((Math.pow(10, moddedDistance)) / 10000) / 100;
             var km = parsecs * 3.09 * Math.pow(10, 13);
 
             document.getElementById(`${div}v2`).innerHTML = magnitude;
@@ -344,6 +354,8 @@
         }
 
         function generateSecondMathElements() {
+            finalAge = ((((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60) / 24) / 365);
+
             var content = `
             <p>
                 In the graph, the slope of the line was ${slope} km/s / Mpc. Look closely at the units. Using some conversion and cancellation shows
@@ -382,10 +394,10 @@
             "seconds" = 
             ${((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60).toExponential(3).toString().replace("e+", "*10^")}
              "hours"<br/> = 
-            ${((((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60) / 24) / 365).toExponential(3).toString().replace("e+", "*10^")}
+            ${finalAge.toExponential(3).toString().replace("e+", "*10^")}
              "years" \` 
              <br /><br />
-             Which is [PROMPT TEXT NEEDED]?
+             What is this age of the Universe in words? Choose the best answer.
              <br/><br />
              ${(((((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60) / 24) / 365)/(Math.pow(10, 9))).toFixed(3)}
              ${" "}<select id="ageInput" onchange="handleAgeSelection()">
@@ -396,8 +408,8 @@
              </select>
              ${" "} years
              <br/><br/>
-             <p id="correctAnswer" style="display: none">yup</p>
-             <p id="incorrectAnswer" style="display: none">nope</p>
+             <p id="correctAnswer" style="display: none">Correct - the age of the universe is measured in billions of years. Currently, the best estimate is 13.8 billion years.</p>
+             <p id="incorrectAnswer" style="display: none">Incorrect - the age of the universe is measured in billions of years. Currently, the best estimate is 13.8 billion years.</p>
              </p>
               
             `
