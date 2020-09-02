@@ -231,7 +231,7 @@
             var redshift = (wavelength - 6150) / 6150;
             document.getElementById(`${div}redshift`).innerHTML = String(redshift).substring(0, 9);
             var speed = redshift * 3 * Math.pow(10, 5);
-            document.getElementById(`${div}speed`).innerHTML = String(speed).substring(0, 10);
+            document.getElementById(`${div}speed`).innerHTML = String(Math.round(speed));
 
         }
 
@@ -256,7 +256,7 @@
             var km = parsecs * 3.09 * Math.pow(10, 13);
 
             document.getElementById(`${div}v2`).innerHTML = magnitude;
-            document.getElementById(`${div}d`).innerHTML = distance;
+            document.getElementById(`${div}d`).innerHTML = String(distance).substring(0, 5);
             document.getElementById(`${div}dmod`).innerHTML = String(moddedDistance).substring(0, 7);
             document.getElementById(`${div}parsec`).innerHTML = String(parsecs).substring(0, 9);
             document.getElementById(`${div}km`).innerHTML = km.toExponential(5); 
