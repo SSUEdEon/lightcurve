@@ -325,6 +325,7 @@
         }
 
         function createMathElements() {
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"></script>
             var content = `
             <div style="margin: 0 auto; text-align: center;">
             <br /><br />
@@ -344,6 +345,7 @@
         }
 
         function generateSecondMathElements() {
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"></script>
             var content = `
             <p>
                 In the graph, the slope of the line was ${slope} km/s / Mpc. Look closely at the units. Using some conversion and cancellation shows
@@ -375,7 +377,7 @@
             <p>\` ${slope} "km/s" * t = 1 "Mpc" => t = (1*10^6 "pc") / (${slope} "km/s") = (1*10^6 "pc" * 3.09 * 10^13 "km/pc")/(${slope} "km/s")\`
             <p>\` t =  ${((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)).toExponential(6)).toString().replace("e+", "*10^"))}  \`</p>
             <p>This final value of \`t\` represents the amount of time all of the galaxies have been moving away from each other. So if you rewound their movement they would, after this amount of time,
-            all be very close together. This graph and its interpretation are evidence for the Bing Bang Theory, which states that in the past the universe was denser and hotter, and it has been
+            all be very close together. This graph and its interpretation are evidence for the Big Bang Theory, which states that in the past the universe was denser and hotter, and it has been
             expanding ever since. The slope of the line made from the distances and speeds of the supernova you worked with in the previous section can be used to esimate the age of the universe:
             <p>\`
             ${((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)).toExponential(6)).toString().replace("e+", "*10^"))} 

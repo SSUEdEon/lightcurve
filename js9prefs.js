@@ -5,6 +5,7 @@ var JS9Prefs = {
 		 "fits2png":         false,
 		 "debug":	     0,
 		 "loadProxy":	     true,
+		"reloadRefresh":	true,
 		 "workDir":	     "./tmp",
 		 "workDirQuota":     100,
 		 "dataPath":	     "$HOME/Desktop:$HOME/data",

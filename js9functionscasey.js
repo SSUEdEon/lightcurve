@@ -1,0 +1,459 @@
+	var line = 6150
+        var rowCounter = 1;
+        var numberOfCharts = 10;
+        var slope = 70;
+        var slopeCalculationTwo;
+        var slopeCalculationThree;
+        var finalAge;
+
+		  //https://developers.google.com/chart/interactive/docs/basic_interactivity for details on click interactions
+        //we'll need this for allowing people to get numbers from the peak
+
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawCall);
+        var options = {
+            title: 'Supernova',
+            legend: 'none',
+            explorer: {
+                actions: ['dragToZoom', 'rightClickToReset']
+                /* you can add more options */
+            },
+            pointSize: 4,
+            vAxis: {
+                title: 'Flux (lm)',
+                format: 'scientific'
+            },
+            hAxis: {
+                title: 'Wavelength (nm)',
+                viewWindowMode: 'maximized',
+                format: '#'
+            },
+            width: '700px',
+            height: '300px'
+        };
+
+
+
+        //URL for lightcurve: https://docs.google.com/spreadsheets/d/1LWOxc-QpEY7iUFGQ6sR99eYY3VslGP1JsHw5GtDkRAU/edit#gid=0
+
+function drawCall() {
+            //Spectra charts
+
+            draw("chart1", "1994S", "https://docs.google.com/spreadsheets/d/1oXcuRQq5HheZ6mfmhCmOYIQNgWxzW_Okhx7FpnN884U/edit#gid=0", "spectrum");
+            draw("chart2", "1996bo", "https://docs.google.com/spreadsheets/d/1xbbhwvWKtA7Ez6ajnk8UrG1Q7nCu6bPUimuWjNscA28/edit#gid=0", "spectrum");
+            draw("chart3", "1995D", "https://docs.google.com/spreadsheets/d/1vvoEdXROUcDhaa8QEEbwWidaLDd9rvtniWb1i1f65ns/edit#gid=0", "spectrum");
+            draw("chart4", "1994ae", "https://docs.google.com/spreadsheets/d/1h7m0xWTXXK35yQgAsCCg9FuBvcPed42W_cR-EAain2A/edit#gid=0", "spectrum");
+	    draw("chart5", "1995E", "https://docs.google.com/spreadsheets/d/1yymaEOW8Q4FkN0RJB4e5ZlMt7VNa_TYezkvVDoylJU4/edit#gid=0", "spectrum");
+            draw("chart6", "1996bl", "https://docs.google.com/spreadsheets/d/1c3TSBmneobBq7fXICNLvOkNrDpubM_6Wu-ad3m59iF4/edit?usp=sharing", "spectrum");
+     	    draw("chart7", "1995bd", "https://docs.google.com/spreadsheets/d/1iE2IBkcgwQpJ2plgvT0mz1v29IRrQbDFjGYyEDSg9_w/edit#gid=0", "spectrum");
+            draw("chart8", "1996X", "https://docs.google.com/spreadsheets/d/1Cwo6RHSWNn1DUYsFfm_IWkAGqsFiAcy8pc5e21jbf1Y/edit#gid=0", "spectrum");   
+	    draw("chart9", "1995ac", "https://docs.google.com/spreadsheets/d/1WcP4px5gqQt7S7YTcHzjHuz7gQPHF0R3gcSWcE2-auY/edit#gid=0", "spectrum");      
+
+            //Light curve charts
+            draw("chart1b", "1994S", "https://docs.google.com/spreadsheets/d/1JkiJv5RyOZfZS8dWUJJgv8fGstU0DPI-JF67RRLms08/edit#gid=0", "lightcurve");
+            draw("chart2b", "1996bo", "https://docs.google.com/spreadsheets/d/1dsjQ9UXbjmMtLj2p0p4Xowu5s_fkdoiul94SkiA3rEg/edit#gid=0", "lightcurve");
+            draw("chart3b", "1995D", "https://docs.google.com/spreadsheets/d/1RaxZI5q54bBNCW6IHEp2QLwGIvDZLDonMsFc7Yuf908/edit#gid=0", "lightcurve");
+            draw("chart4b", "1994ae", "https://docs.google.com/spreadsheets/d/10OTmXDpEjyM9E10x3p4pdO41AZAnDZcRTvgNwuL0a7w/edit#gid=0", "lightcurve");
+            draw("chart5b", "1995E", "https://docs.google.com/spreadsheets/d/1TKbXtmnqr9iDJXSGxnLYWe2Uz4lG6cZBlylnUFj7-E0/edit#gid=0", "lightcurve");
+            draw("chart6b", "1996bl", "https://docs.google.com/spreadsheets/d/1wehP5AsLgMy4Ix-tz5w5-H7eoaU3Bur3m0OhAmd8ubk/edit#gid=0", "lightcurve");
+            draw("chart7b", "1995bd", "https://docs.google.com/spreadsheets/d/1yM9ZftQYxNFF9vJk-SSimK4dc63_IvZ-48em5Ln03Po/edit#gid=0", "lightcurve");
+            draw("chart8b", "1996X", "https://docs.google.com/spreadsheets/d/12MWw367V7smxs6kAh3L9nd_rSr-9JQcS1s-3ktpb-_U/edit#gid=0", "lightcurve");
+	    draw("chart9b", "1995ac", "https://docs.google.com/spreadsheets/d/12-lJNDNfF2gx_Oq9IrUZfO4J_PezpuQ_CZfwpuJ-5Vw/edit#gid=0", "lightcurve");
+
+
+            //prefilled data for a certain graph
+            document.getElementById('chart9wavelengthInput').value = 6885;
+            document.getElementById('chart9bmagnitudeInput').value = 17.19;
+
+            updateMagnitude('chart9');
+            updateWavelength('chart9');
+
+            document.getElementById('chart9wavelengthInput').readOnly = true;
+            document.getElementById('chart9bmagnitudeInput').readOnly = true;
+
+        }
+
+
+        //TODO: Only add row to table for light curves; right now it's doing it twice. You can get the title by not including 'Light Curve' explicitly, have that come
+        //from the type at the end of the argument.
+
+        function draw(div, title, url, type) {
+            //Create table element first, so we can call it
+            if (type == "spectrum") {
+                var table = document.getElementById("resultsTable");
+                var row = table.insertRow(rowCounter);
+                var cell0 = row.insertCell(0);
+                cell0.innerHTML = title;
+                var cell1 = row.insertCell(1);
+                eval("cell1.id = '" + div + "v2';");
+                var cell2 = row.insertCell(2);
+                eval("cell2.id = '" + div + "v1';");
+                var cell3 = row.insertCell(3);
+                eval("cell3.id = '" + div + "d';");
+    //            var cell4 = row.insertCell(4);
+     //           eval("cell4.id = '" + div + "dmod';");
+                var cell4 = row.insertCell(4);
+                eval("cell4.id = '" + div + "parsec';");
+                var cell5 = row.insertCell(5);
+                eval("cell5.id = '" + div + "km';");
+                var cell6 = row.insertCell(6);
+                eval("cell6.id = '" + div + "redshift';");
+                var cell7 = row.insertCell(7);
+                eval("cell7.id = '" + div + "speed';");
+                rowCounter = 1 + rowCounter;
+
+                //make title accurate
+
+                title = title + " Spectrum";
+
+            } else {
+                title = title + " Light Curve";
+            }
+
+
+
+            eval("q" + div + " = new google.visualization.Query(\"" + url + "\"); ");
+            eval("q" + div + ".send(draw);");
+
+            function draw(response) {
+                options["title"] = title
+                if (type == "lightcurve") {
+                    options["hAxis"]["title"] = "Time";
+                    options["vAxis"] = {
+                        title: "Magnitude",
+                        format: "#",
+                        direction: "-1",
+                        minValue: 16
+                    }
+
+
+                } else {
+                    options["vAxis"] = {
+                        title: "Flux (lm)",
+                        direction: "",
+                        format: "scientific",
+                    }
+                    options["hAxis"]["title"] = "Wavelength (nm)";
+                }
+
+                var data = response.getDataTable();
+                eval(div + "= new google.visualization.ScatterChart(document.getElementById(\"" + div + "\"));");
+                function selectHandlerSpectra() {
+                    eval("var selectedItem =" + div + ".getSelection()[0];")
+                    if (selectedItem) {
+                        var wavelength = data.getValue(selectedItem.row, 0);
+                        document.getElementById(`${div}wavelengthInput`).value = wavelength;
+                        //eval("document.getElementById('" + div + "value" + "').innerHTML = wavelength;");
+                        saveWavelength(div);
+                        generateDistanceChart();
+                    } else (alert('No selecteditem'))
+                }
+
+                function selectHandlerLight() {
+                    eval("var selectedItem =" + div + ".getSelection()[0];")
+                    if (selectedItem) {
+                        var magnitude = data.getValue(selectedItem.row, 1);
+                        //console.log(`${div}magnitudeInput`);
+                        document.getElementById(`${div}magnitudeInput`).value = magnitude;
+                        // eval("document.getElementById('" + div + "value" + "').innerHTML = wavelength;");
+                        saveMagnitude(div);
+                        generateDistanceChart();
+                    } else (alert('No selecteditem'))
+                }
+
+                if (type == "lightcurve") {
+                    eval("google.visualization.events.addListener(" + div + ", 'select', selectHandlerLight);");
+                } else {
+                    eval("google.visualization.events.addListener(" + div + ", 'select', selectHandlerSpectra);");
+                }
+                eval(div + ".draw(data, options);");
+                eval("drawVAxisLine(" + div + ", line)");
+                if (type == "spectrum") {
+                    eval(`document.getElementById("${div}").classList.add("hidden")`);
+                }
+            }
+        }
+
+        function drawVAxisLine(chart, value) {
+            var layout = chart.getChartLayoutInterface();
+            var chartArea = layout.getChartAreaBoundingBox();
+            var svg = chart.getContainer().getElementsByTagName('svg')[0];
+            var xLoc = layout.getXLocation(value)
+            svg.appendChild(createLine(xLoc, chartArea.top + chartArea.height, xLoc, chartArea.top, '#ff0000', 2)); // axis line 
+        }
+
+        function createLine(x1, y1, x2, y2, color, w) {
+            var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', x1);
+            line.setAttribute('y1', y1);
+            line.setAttribute('x2', x2);
+            line.setAttribute('y2', y2);
+            line.setAttribute('stroke', color);
+            line.setAttribute('stroke-width', w);
+            return line;
+        }
+
+
+        function saveWavelength(div) {
+            div = div.replace("b", "");
+            var wavelength = document.getElementById(`${div}wavelengthInput`).value;
+            document.getElementById(`${div}v1`).innerHTML = String(wavelength);
+            var redshift = (wavelength - 6150) / 6150;
+            document.getElementById(`${div}redshift`).innerHTML = String(redshift).substring(0, 9);
+            var speed = redshift * 3 * Math.pow(10, 5);
+            document.getElementById(`${div}speed`).innerHTML = String(Math.round(speed));
+
+        }
+
+        function updateWavelength(div) {
+            saveWavelength(div);
+            generateDistanceChart();
+        }
+
+        function updateMagnitude(div) {
+            saveMagnitude(div);
+            generateDistanceChart(div);
+        }
+
+
+        function saveMagnitude(div) {
+            div = div.replace("b", "");
+            var magnitude = document.getElementById(`${div}bmagnitudeInput`).value;
+
+            var distance = +magnitude + 19.12;
+            var moddedDistance = Math.floor(((distance + 5) / 5) * 100) / 100;
+            var parsecs = Math.floor((Math.pow(10, moddedDistance)) / 10000) / 100;
+            var km = parsecs * 3.09 * Math.pow(10, 13);
+
+            document.getElementById(`${div}v2`).innerHTML = magnitude;
+            document.getElementById(`${div}d`).innerHTML = String(distance).substring(0, 5);
+          //  document.getElementById(`${div}dmod`).innerHTML = String(moddedDistance).substring(0, 7);
+            document.getElementById(`${div}parsec`).innerHTML = String(parsecs).substring(0, 9);
+            document.getElementById(`${div}km`).innerHTML = km.toExponential(5); 
+
+        }
+
+        function showLight(chart) {
+            eval(`document.getElementById("${chart}b").classList.remove("hidden");
+                document.getElementById("${chart}").classList.add("hidden");
+                
+                document.getElementById("${chart}lightbutton").classList.add("underline");
+                document.getElementById("${chart}spectrabutton").classList.remove("underline");
+                
+                `);
+        }
+
+        function showSpectra(chart) {
+            eval(`document.getElementById("${chart}").classList.remove("hidden");
+                document.getElementById("${chart}b").classList.add("hidden");
+
+                document.getElementById("${chart}lightbutton").classList.remove("underline");
+                document.getElementById("${chart}spectrabutton").classList.add("underline");
+                
+                `);
+        }
+
+        function callMathParser() {
+            var script = document.createElement("script");
+            script.type = "text/javascript";
+            script.src = "https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML";
+            document.getElementsByTagName("head")[0].appendChild(script);
+        };
+
+        function generateChartDivs() {
+            var content = "";
+
+            for (var i = 1; i <= 9; i++) {
+                var singleContent =
+                    `<div>
+            <div id="chart${i}" style="width: 700px; height: 300px;"></div>
+            <div id="chart${i}b" style="width: 700px; height: 300px;"></div>
+            <div class="label">
+            <button type="button" onclick="showLight('chart${i}')" id="chart${i}lightbutton">Light Curve</button> |  <button type="button" onclick="showSpectra('chart${i}')" id="chart${i}spectrabutton">Spectrum</button><br/>
+            </div>
+            <br />
+            <div class="valueDiv" style = "text-align: center">
+
+            <span style = "display: inline-block">Magnitude:&nbsp;&#8239;</span>
+            <input id="chart${i}bmagnitudeInput"></input><span onclick="updateMagnitude('chart${i}b')" class="button">Update</span>
+            <br />
+            <span>Wavelength: </span><input id="chart${i}wavelengthInput"></input><span onclick="updateWavelength('chart${i}')" class="button">Update</span>
+            </div>
+        </div>`
+
+                content = content + singleContent;
+            }
+
+            document.getElementById("chartContainer").innerHTML = content;
+
+        }
+
+        function changeToNextSection() {
+            //destroy all graphs; add create math later; get rid of button, or change
+            if (document.getElementById(`chartContainer`) != null) {
+                document.getElementById('chartContainer').remove();
+		document.getElementById('firstText').remove();
+		document.getElementById('secondText').remove();
+		document.getElementById('thirdText').remove();
+		document.getElementById('fourthText').remove();
+		document.getElementById('resultsTable').remove();
+		document.getElementById('calcButton').remove();
+		
+                createMathElements();
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function getSlopeAndGenerateCalc(event) {
+            event.preventDefault();
+            if (document.getElementById('slope') != null) {
+                slope = document.getElementById('slope').value;
+                generateSecondMathElements();
+            }
+        }
+
+        function createMathElements() {
+            var content = `
+            <div style="margin: 0 auto; text-align: center;">
+            <br /><br />
+            <p>To start this calculation, enter the slope of the line on your chart: </p>
+            <br />
+            <form onsubmit="getSlopeAndGenerateCalc(event)">
+                <label for="slope">Slope: </label>
+                <input id="slope"></input>
+                <button type="submit">Submit</button>
+            </form>
+            <br />
+            <div id="calcSectionTwo">
+            
+            </div>
+            </div>`;
+            document.getElementById('mathContainer').innerHTML = content;
+	MathJax.Hub.Typeset();
+        }
+
+        function generateSecondMathElements() {
+            finalAge = ((((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60) / 24) / 365);
+
+            var content = `
+            <p>
+                In the graph, the slope of the line was ${slope} km/s / Mpc. Look closely at the units. Using some conversion and cancellation shows
+                that the slope of the line is in units of \` 1 / "time" \`:  
+                <br /><br />
+                \`"km/s"/"Mpc" = ("distance/time")/("distance") = 1/"time"\`</p>
+            
+            <p>
+               Solve for time \`t\`, using the equation:
+               <br />
+                \`t = 1/(${slope} "km/s")\`<br />
+                Start by multiplying both sides by the inverse of the fraction on the left:
+            </p>
+            <p>
+                \`((${slope} "km/s")/(1 "Mpc"))t = 1/((${slope} km/s)/"Mpc" * ((${slope} "km/s")/(1 "Mpc")) \`
+            </p>
+            <p>
+                \`=> ((${slope} "km/s")/(1 "Mpc"))t =  1\` 
+            </p>
+            <br />
+            <p>
+                Next, multiply each side by \`1 "Mpc"\` to cancel out the lower unit on the left.
+            </p>
+            <p>
+                \`(1 "Mpc") * (${slope} "km/s")/(1 "Mpc")t = 1 * (1 "Mpc") => ${slope} "km/s" * t = 1 "Mpc" \`
+            </p>
+            <br />
+            <p>Notice that the units are km/s and Mpc. To match these up, convert Mpc to Parsecs, then to kilometers, rearranging to get t by itself.</p>
+            <p>\` ${slope} "km/s" * t = 1 "Mpc" => t = (1*10^6 "pc") / (${slope} "km/s") = (1*10^6 "pc" * 3.09 * 10^13 "km/pc")/(${slope} "km/s")\`
+            <p>\` t =  ${((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)).toExponential(3)).toString().replace("e+", "*10^"))}  \`</p>
+            <p>This final value of \`t\` represents the amount of time all of the galaxies have been moving away from each other. So if you rewound their movement they would, after this amount of time,
+            all be very close together. This graph and its interpretation are evidence for the Big Bang Theory, which states that in the past the universe was denser and hotter, and it has been
+            expanding ever since. The slope of the line made from the distances and speeds of the supernova you worked with in the previous section can be used to esimate the age of the universe:
+            <p>\`
+            ${((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)).toExponential(3)).toString().replace("e+", "*10^"))} 
+            "seconds" = 
+            ${((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60).toExponential(3).toString().replace("e+", "*10^")}
+             "hours"<br/> = 
+            ${finalAge.toExponential(3).toString().replace("e+", "*10^")}
+             "years" \` 
+             <br /><br />
+             What is this age of the Universe in words? Choose the best answer.
+             <br/><br />
+             ${(((((((Math.pow(10, 6) * 3.09 * Math.pow(10, 13)) / parseFloat(slope)) / 60) / 60) / 24) / 365)/(Math.pow(10, 9))).toFixed(3)}
+             ${" "}<select id="ageInput" onchange="handleAgeSelection()">
+                <option></option>
+                <option>thousand</option>
+                <option>million</option>
+                <option>billion</option>
+             </select>
+             ${" "} years
+             <br/><br/>
+             <p id="correctAnswer" style="display: none">Correct - the age of the universe is measured in billions of years. Currently, the best estimate is 13.8 billion years.</p>
+             <p id="incorrectAnswer" style="display: none">Incorrect - the age of the universe is measured in billions of years. Currently, the best estimate is 13.8 billion years.</p>
+             </p>
+              
+            `
+
+            if (document.getElementById('calcSectionTwo') != null) {
+                document.getElementById('calcSectionTwo').innerHTML = content;
+                var script = document.createElement("script");
+                script.type = "text/javascript";
+                script.src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML";
+                document.getElementsByTagName("head")[0].appendChild(script);
+            }
+	MathJax.Hub.Typeset();
+        }
+
+        function handleAgeSelection(e){
+            if(document.getElementById("ageInput").value == "billion"){
+                document.getElementById("correctAnswer").style.display = "block";
+                document.getElementById("incorrectAnswer").style.display = "none";
+            } else {
+                document.getElementById("correctAnswer").style.display = "none";
+                document.getElementById("incorrectAnswer").style.display = "block";
+            }
+        }
+        
+
+        function generateDistanceChart(trendline) {
+            var values = [['Speed', 'Distance']];
+            for (var i = 1; i <= 9; i++) {
+                var speed = document.getElementById(`chart${i}speed`).innerHTML;
+                var distance = document.getElementById(`chart${i}parsec`).innerHTML;
+                if (+speed != 0 && +distance != 0) {
+                    values.push([(Number(distance)), Number(speed)]);
+                }
+            }
+
+            var chartData = google.visualization.arrayToDataTable(values);
+            var distanceOptions = {
+                title: 'Speed vs. Distance',
+                legend: 'bottom',
+                series: {
+                    0: {
+                        visibleInLegend: false
+                    }
+                },
+                vAxis: { title: 'Speed (km/s)' },
+                hAxis: { title: 'Distance (million parsecs)' },
+            };
+
+            //trendline = true if you want the button to work
+            if (true) {
+                distanceOptions["trendlines"] = {
+                    0: {
+                        visibleInLegend: true
+                    }
+                };
+            }
+
+            var chart_div = document.getElementById('distanceChart');
+            var chart = new google.visualization.ScatterChart(document.getElementById('distanceChart'));
+
+            google.visualization.events.addListener(chart, 'ready', function () {
+                //		chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
+            });
+
+            chart.draw(chartData, distanceOptions);
+
+        }
+generateChartDivs();

@@ -34,29 +34,7 @@
  */
 JS9.globalOpts.userMenuBar = [
     {
-	"name": "zoom",
-	"title": "myZooms",
-	"updateTitle": false,
-	"options": [
-	    {
-		"name": "in",
-		"shortcut": "zoom in",
-		"cmd": "SetZoom",
-		"args": ["in"]
-	    },
-	    {
-		"name": "out",
-		"shortcut": "zoom out",
-		"cmd": "SetZoom",
-		"args": ["out"]
-	    },
-	    {
-		"name": "one",
-		"shortcut": "reset zoom",
-		"cmd": "SetZoom",
-		"args": [1]
-	    }
-	]
+		]
     },
     {
 	"name": "scale",
@@ -171,51 +149,7 @@ JS9.globalOpts.userMenuBar = [
 	]
     },
     {
-	"name": "regions",
-	"title": "myRegions",
-	"options": [
-	    {
-		"name": "annulus",
-		"cmd": "AddRegions",
-		"args": ["annulus"]
 	    },
-	    {
-		"name": "box",
-		"cmd": "AddRegions",
-		"args": ["box"]
-	    },
-	    {
-		"name": "circle",
-		"cmd": "AddRegions",
-		"args": ["circle"]
-	    },
-	    {
-		"name": "ellipse",
-		"cmd": "AddRegions",
-		"args": ["ellipse"]
-	    },
-	    {
-		"name": "line",
-		"cmd": "AddRegions",
-		"args": ["line"]
-	    },
-	    {
-		"name": "point",
-		"cmd": "AddRegions",
-		"args": ["point"]
-	    },
-	    {
-		"name": "polygon",
-		"cmd": "AddRegions",
-		"args": ["polygon"]
-	    },
-	    {
-		"name": "text",
-		"cmd": "AddRegions",
-		"args": ["text"]
-	    }
-	]
-    },
 
 ];
 

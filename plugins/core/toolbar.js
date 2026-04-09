@@ -72,14 +72,7 @@ JS9.Toolbar.tools = [
     "cmd": "SetScale",
     "args": ["squared"]
   },
-  {
-    "name": "annulus",
-    "tip": "annulus region",
-    "image": "images/toolbar/svg/annulus.svg",
-    "cmd": "AddRegions",
-    "args": ["annulus"]
-  },
-  {
+    {
     "name": "box",
     "tip": "box region",
     "image": "images/toolbar/svg/box.svg",
