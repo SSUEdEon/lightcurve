@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JS9 Exoplanet</title>
+
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<link rel="shortcut icon" href="favicon.ico">
+
+<link rel="stylesheet" href="js9support.css">
+<link rel="stylesheet" href="js9.css">
+<link rel="stylesheet" href="supernova.css">
+
+<script src="js9prefs.js"></script>
+<script src="js9support.min.js"></script>
+<script src="js9.min.js"></script>
+<script src="js9plugins.js"></script>
+<script src="plugins/imexam/imexam.js"></script>
+<script src="js9functionsexoplanet.js"></script>
+
+<style>
+    #centerdiv {
+        width: 512px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"></script>
+
+<script>
+    function loadpic1(){ JS9.Load("./QATAR1-1.fts"); }
+    function loadpic2(){ JS9.Load("./QATAR1-2.fts", {px: 581, py: 511}); }
+    function loadpic3(){ JS9.Load("./QATAR1-3.fts", {px: 569, py: 660}); }
+    function loadpic4(){ JS9.Load("./QATAR1-4.fts", {px: 508, py: 740}); }
+    function loadpic5(){ JS9.Load("./QATAR1-5.fts", {px: 558, py: 742}); }
+</script>
+</head>
+
+<body>
+
+<nav class="nav nav-pills">
+    <a class="nav-item nav-link active test"
+       id="v-pills-intro-tab"
+       data-bs-toggle="pill"
+       style="flex-basis: none; color:black; background-color:#e9e5e0; flex-grow: none"
+       href="#v-pills-intro"
+       role="tab"
+       aria-controls="v-pills-intro"
+       aria-selected="true">
+       <strong>Introduction</strong>
+    </a>
+
+    <a class="nav-item nav-link test2"
+       id="v-pills-build-tab"
+       data-bs-toggle="pill"
+       style="color:black; background-color:#f5f2ef"
+       href="#v-pills-build"
+       role="tab"
+       aria-controls="v-pills-build"
+       aria-selected="false">
+       <strong>Build a Light Curve</strong>
+    </a>
+</nav>
+
+<div class="col-9">
+    <div class="tab-content" id="v-pills-tabContent">
+
+        <div class="tab-pane fade show active" id="v-pills-intro" role="tabpanel" aria-labelledby="v-pills-intro-tab">
+            <br><br>
+
+            <div style="float: right; width: 450px; margin: 0 0 15px 20px; padding: 15px; text-align: center;">
+                <img src="https://afh.sonoma.edu/wp-content/uploads/2020/06/656348main_ToV_transit_diag_fulljpeg.jpg" width="400" height="200" alt="Exoplanet transit diagram">
+                <br>
+                <small>
+                    Exoplanets detected by observing dips in the brightness of stars
+                    <br>
+                    Credit: NASA Ames Research Center
+                </small>
+            </div>
+
+            <p>
+                The brighter planets in our Solar System have been known since ancient times: Venus, Mars, Jupiter and Saturn among them.
+                In the early 1600s, Galileo Galilei used a telescope for the first time to study these planets, and discovered the larger
+                moons orbiting Jupiter, as well as evidence for Saturn’s rings. Studying planets outside our Solar System began in 1995
+                when Swiss astronomers Didier Queloz and Michel Mayor reported the discovery of the first exoplanet. This discovery was
+                made with a conventional ground-based telescope at the Haute-Provence Observatory in southern France, but since that time
+                NASA satellites have discovered the vast majority of exoplanets.
+            </p>
+
+            <p>
+                Although NASA’s Kepler exoplanet discovery mission has recently concluded, NASA’s Transiting Exoplanet Survey Satellite
+                (TESS) is still operational. Both Kepler and TESS look for repetitive small changes in the light from stars caused by
+                planets transiting across the stellar disk. To date, over 4000 exoplanets have been discovered. By studying large numbers
+                of planets in other stellar systems, we hope to someday find signs of life in the universe. Click the "Build a Light Curve"
+                link on the top left to continue to the JS9 activity.
+            </p>
+
+            <br>
+
+            <details>
+                <summary><u>Additional Resources</u></summary>
+                <br>
+                <ul>
+                    <li>
+                        Learn more about <a href="https://afh.sonoma.edu/exoplanets/">Exoplanets</a>!
+                    </li>
+                    <li>
+                        Play the <a href="https://afh.sonoma.edu/exoplanet-finder-game/">Exoplanet Finder Game!</a>
+                    </li>
+                </ul>
+            </details>
+        </div>
+
+        <div class="tab-pane fade" id="v-pills-build" role="tabpanel" aria-labelledby="v-pills-build-tab">
+            <p><br><br>
+                The goal of this procedure is to obtain the relative brightness of a target star with respect to two
+                (or possibly more) comparison stars. Below are two windows: the window on the left shows an image of
+                the target star and two comparison stars. You will use the window on the right to use JS9 to perform
+                the image analysis. First, you will select a region that includes the target star, and measure the
+                brightness in that region. Then you will select each of the two comparison stars and measure their
+                brightnesses. The comparison stars were chosen because they are known to have a constant brightness.
+                By comparing the brightness measurement of the target to the average brightness of the two comparison
+                stars, you will be able to tell if the target star has changed in brightness.
+            </p>
+
+            <p>
+                However, there is a limitation with this data analysis approach: it cannot measure the true brightness
+                of the target, only the relative brightness. Relative brightness is a number which can be close to 0.0
+                (zero, target is very faint), near 1.0 (one, target is near the average brightness of the comparison
+                stars), or greater than 1.0 (target is brighter than the average brightness of the comparison stars).
+                Measuring relative brightness for a series of images creates a plot called a light curve. Follow these
+                steps to use JS9 to create a light curve for the star as the exoplanet partially obscures its view.
+            </p>
+
+            <div class="row">
+                <div class="col-sm-7">
+                    <div class="card w-100 border-0">
+                        <p>1. Press the T1 (Time 1) button to load the first image.</p>
+                        <p>2. Press the LOG button to make it easier to see the stars. If you click and drag the mouse across the JS9 window you will be able to adjust the contrast of the image.</p>
+                        <p>3. On the finder chart below, your target star is in the small green circle closest to the bottom of the chart compared to the other circles.</p>
+                        <p>4. Open the Magnifier box by pressing the Magnifier button.</p>
+                        <p>5. Move the Magnifier box so it doesn’t block buttons or boxes.</p>
+                        <p>6. Press the Add Region button to load a circle that you will use to measure the brightness of the target star as well as the brightness of the different comparison stars. Once you have clicked on the circle, use the arrow keys on the keyboard to move the circle more precisely. If you end up with more than one circle, click the extra circle and press the Delete key on your keyboard.</p>
+                        <p>7. Drag the circle to your target star and click the Target button.</p>
+                        <p>8. Drag the circle to comparison star 1, as shown circled and labeled on the finder chart, and click the Comp 1 button.</p>
+                        <p>9. Drag the circle to comparison star 2, as shown circled and labeled on the finder chart, and click the Comp 2 button.</p>
+                        <p>10. Click the Plot button to plot the relative brightness, which is the regional pixel count of the target star divided by the average of the regional pixel counts of the comparison stars. The plot is drawn under the finder chart and JS9 window.</p>
+                        <p>11. Repeat these steps for each of the available images taken at different times, T1-T5.</p>
+
+                        <h5 class="card-title">Finder Chart</h5>
+                        <img class="card-img-top"
+                             src="https://afh.sonoma.edu/wp-content/uploads/2020/06/exoplanetfinderchart.png"
+                             width="454"
+                             height="461"
+                             alt="Finder chart">
+                        <div class="card-body"></div>
+                    </div>
+                </div>
+
+                <div class="col-sm-5">
+                    <div class="card border-0">
+                        <div class="card-body">
+                            <br>
+
+                            <button class="btn btn-primary" onclick="loadpic1()">T1</button>
+                            <button class="btn btn-primary" onclick="loadpic2()">T2</button>
+                            <button class="btn btn-primary" onclick="loadpic3()">T3</button>
+                            <button class="btn btn-primary" onclick="loadpic4()">T4</button>
+                            <button class="btn btn-primary" onclick="loadpic5()">T5</button>
+
+                            <br><br>
+
+                            <button class="btn btn-primary" onclick="JS9.SetScale('log')">LOG</button>
+
+                            <br><br><br><br><br>
+
+                            <button class="btn btn-primary" onclick="JS9.DisplayPlugin('magnifier')">Magnifier</button>
+                            <button class="btn btn-primary" onclick="JS9.AddRegions('circle', {radius: 10, resizable: false})">Add Region</button>
+
+                            <br><br><br><br><br>
+
+                            <button class="btn btn-primary" onclick="setBackgroundCount('target')">Target</button>
+                            <button class="btn btn-primary" onclick="setBackgroundCount('comp1')">Comp 1</button>
+                            <button class="btn btn-primary" onclick="setBackgroundCount('comp2')">Comp 2</button>
+
+                            <br><br>
+
+                            <p>Region Pixel Counts: <b id="demo"></b></p>
+
+                            <br><br>
+
+                            <button class="btn btn-primary" onclick="drawChart()">Plot</button>
+                            <button class="btn btn-primary" onclick="drawCompleteChart()" style="display: none;">Draw Completed Chart</button>
+                            <button class="btn btn-primary" onclick="promptForCompletedChart()">Complete Chart</button>
+
+                            <br><br><br><br><br><br><br>
+
+                            <div id="centerdiv">
+                                <center>
+                                    <font size="+1"><b>JS9</b></font>
+                                </center>
+
+                                <div class="JS9"></div>
+
+                                <div style="margin-top: 2px;">
+                                    <div class="JS9Colorbar"></div>
+                                </div>
+
+                                <br><br>
+
+                                <div id="chart_div" style="width: 900px; height: 500px; float: right;"></div>
+                            </div>
+
+                            <div onclick="closeModal()" class="modal_wrapper" id="modal_wrapper">
+                                <div class="modal_content">
+                                    <p>
+                                        If you think you understand the data analysis steps, you can have the rest of the points drawn
+                                        on the plot by clicking the Draw Complete Chart button below. If you want more practice, close
+                                        this box and continue selecting data. You can always click on Complete Chart above if you change
+                                        your mind. If you do not wish to have the chart auto-complete, click anywhere outside of the
+                                        textbox to close this prompt.
+                                    </p>
+                                    <br><br>
+                                    <button onclick="drawCompleteChart()">Draw Complete Chart</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="v-pills-extra" role="tabpanel" aria-labelledby="v-pills-extra-tab">
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
